@@ -1,7 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+import {View} from 'react-native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {useNavigation} from '@react-navigation/native';
 
 import ProfileScreen from '../screens/Profile/ProfileScreen';
 import PersonalDetailsScreen from '../screens/Profile/PersonalDetailsScreen';
@@ -15,15 +15,15 @@ const Stack = createStackNavigator();
 // Wrap ProfileScreen with FAB
 const ProfileScreenWithFAB = () => {
   const navigation = useNavigation();
-  
+
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       <ProfileScreen />
-      <FloatingActionButton 
+      {/* <FloatingActionButton 
         onPress={() => {
           navigation.navigate('Scanner');
         }}
-      />
+      /> */}
     </View>
   );
 };
@@ -44,37 +44,35 @@ const ProfileStack = () => {
           fontWeight: '600',
         },
         headerTintColor: '#333',
-      }}
-    >
-      <Stack.Screen 
-        name="ProfileMain" 
+      }}>
+      <Stack.Screen
+        name="ProfileMain"
         component={ProfileScreenWithFAB}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       />
-      <Stack.Screen 
-        name="PersonalDetails" 
+      <Stack.Screen
+        name="PersonalDetails"
         component={PersonalDetailsScreen}
-        options={{ title: 'Personal Details' }}
+        options={{title: 'Personal Details'}}
       />
-      <Stack.Screen 
-        name="SavedTreatments" 
+      <Stack.Screen
+        name="SavedTreatments"
         component={SavedTreatmentsScreen}
-        options={{ title: 'Saved Treatments' }}
+        options={{title: 'Saved Treatments'}}
       />
-      <Stack.Screen 
-        name="LoyalityRewards" 
+      <Stack.Screen
+        name="LoyalityRewards"
         component={LoyalityRewardsScreen}
-        options={{ title: 'Loyality & Rewards' }}
+        options={{title: 'Loyality & Rewards'}}
       />
-      <Stack.Screen 
-        name="MedicalHistory" 
+      <Stack.Screen
+        name="MedicalHistory"
         component={MedicalHistoryScreen}
-        options={{ title: 'Medical History' }}
+        options={{title: 'Medical History'}}
       />
     </Stack.Navigator>
   );
 };
 console.log('ProfileStack');
 
-
-export default ProfileStack; 
+export default ProfileStack;

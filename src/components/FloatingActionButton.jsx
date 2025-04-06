@@ -1,11 +1,13 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {TouchableOpacity, StyleSheet, Image} from 'react-native';
 
-const FloatingActionButton = ({ onPress }) => {
+const FloatingActionButton = ({onPress}) => {
   return (
     <TouchableOpacity style={styles.fab} onPress={onPress}>
-      <Icon name="camera" size={30} color="#FFF" />
+      <Image
+       source={require('../assets/images/faceScan.png')}
+        style={styles.logo}
+      />
     </TouchableOpacity>
   );
 };
@@ -27,10 +29,14 @@ const styles = StyleSheet.create({
       width: 0,
       height: 3,
     },
-    shadowOpacity: 0.30,
+    shadowOpacity: 0.3,
     shadowRadius: 4.65,
     zIndex: 999,
   },
+  logo: {
+    height: 36,
+    width: 36,
+  },
 });
 
-export default FloatingActionButton; 
+export default FloatingActionButton;

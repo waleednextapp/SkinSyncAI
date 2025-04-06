@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, Image, Animated } from 'react-native';
+import React, {useEffect} from 'react';
+import {View, Text, StyleSheet, Image, Animated} from 'react-native';
+import {Colors} from '../../utils/Colors';
 
-const SplashScreen = ({ onFinish }) => {
+const SplashScreen = ({navigation}) => {
   const fadeAnim = new Animated.Value(0);
   const scaleAnim = new Animated.Value(0.3);
 
@@ -22,7 +23,8 @@ const SplashScreen = ({ onFinish }) => {
 
     // Navigate to main app after splash screen
     const timer = setTimeout(() => {
-      onFinish();
+      // onFinish();
+      navigation.replace('GetStarted'); 
     }, 2000);
 
     return () => clearTimeout(timer);
@@ -35,10 +37,9 @@ const SplashScreen = ({ onFinish }) => {
           styles.content,
           {
             opacity: fadeAnim,
-            transform: [{ scale: scaleAnim }],
+            transform: [{scale: scaleAnim}],
           },
-        ]}
-      >
+        ]}>
         <Image
           source={require('../../assets/images/logo.png')}
           style={styles.logo}
@@ -54,7 +55,7 @@ const SplashScreen = ({ onFinish }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: Colors.white,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -78,4 +79,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SplashScreen; 
+export default SplashScreen;

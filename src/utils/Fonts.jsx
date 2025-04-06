@@ -1,0 +1,16 @@
+export const FontFamily = {
+  black: 'Degular-Black',
+  blackI: 'Degular-BlackItalic',
+  bold: 'Degular-Bold',
+  boldI: 'Degular-BoldItalic',
+  light: 'Degular-Light',
+  lightI: 'Degular-LightItalic',
+  medium: 'Degular-Medium',
+  mediumI: 'Defular-MediumItalic',
+  regular: 'Degular-Regular',
+  regularI: 'Degular-RegularItalic',
+  thin: 'Degular-Thin',
+  thinI: 'Degular-ThinItalic',
+  semiBold: 'Degular-Semibold',
+  semiBoldI: 'Degular-SemiboldItalic',
+};

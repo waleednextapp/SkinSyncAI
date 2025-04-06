@@ -1,0 +1,61 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/Degular-Black.otf",
+      "sha1": "ddc9208561cd99cd3d01a709041060974273484d"
+    },
+    {
+      "path": "src/assets/fonts/Degular-BlackItalic.otf",
+      "sha1": "ec136f98942461889bfe57b939ad3f94e1ecacfc"
+    },
+    {
+      "path": "src/assets/fonts/Degular-Bold.otf",
+      "sha1": "7179c57022d1d57d75d69f06362c1d1a62f960b7"
+    },
+    {
+      "path": "src/assets/fonts/Degular-BoldItalic.otf",
+      "sha1": "e9e32866f2d265ff2edaebc0a1eba20bad775741"
+    },
+    {
+      "path": "src/assets/fonts/Degular-Light.otf",
+      "sha1": "9fad351e972635979664061fed599219b5e92688"
+    },
+    {
+      "path": "src/assets/fonts/Degular-LightItalic.otf",
+      "sha1": "6192beb0850213b8fd69097319d9beefcab7ca0d"
+    },
+    {
+      "path": "src/assets/fonts/Degular-Medium.otf",
+      "sha1": "f8d6caded148de452863dacda2456272b52ae363"
+    },
+    {
+      "path": "src/assets/fonts/Degular-MediumItalic.otf",
+      "sha1": "05c5cd3a041010718df090136c1b7ebf2eca5d6d"
+    },
+    {
+      "path": "src/assets/fonts/Degular-Regular.otf",
+      "sha1": "43b08c7b98e4bd9a6090cb6226efe1e917cd2cce"
+    },
+    {
+      "path": "src/assets/fonts/Degular-RegularItalic.otf",
+      "sha1": "362a2887381ffa5e74286506ee1ccd4210e52e60"
+    },
+    {
+      "path": "src/assets/fonts/Degular-Semibold.otf",
+      "sha1": "0fe10ac295dbd1cd2c58f84efcba2116d2695bb3"
+    },
+    {
+      "path": "src/assets/fonts/Degular-SemiboldItalic.otf",
+      "sha1": "89b81bcfeb8b031fbc28b3d3233de33ae4056d44"
+    },
+    {
+      "path": "src/assets/fonts/Degular-Thin.otf",
+      "sha1": "ea6897b9c1f4b1a48cda67b020604ef9fc8cff52"
+    },
+    {
+      "path": "src/assets/fonts/Degular-ThinItalic.otf",
+      "sha1": "6ee7200fdc759ff117378dfca780080edc802efb"
+    }
+  ]
+}
