@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, StyleSheet, Image} from 'react-native';
+import {TouchableOpacity, StyleSheet, Image , Text} from 'react-native';
 
 const FloatingActionButton = ({onPress}) => {
   return (
@@ -8,17 +8,20 @@ const FloatingActionButton = ({onPress}) => {
        source={require('../assets/images/faceScan.png')}
         style={styles.logo}
       />
+      <Text style={{color:"#fff",marginLeft:10}}>Scan Your Face</Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   fab: {
+    flexDirection: 'row',
+    //justifyContent:"space-between",
     position: 'absolute',
     bottom: 20, // Position it above the tab bar
     right: 20,
-    width: 56,
-    height: 56,
+    width: 170,
+    height: 44,
     borderRadius: 28,
     backgroundColor: '#000',
     justifyContent: 'center',
@@ -34,8 +37,8 @@ const styles = StyleSheet.create({
     zIndex: 999,
   },
   logo: {
-    height: 36,
-    width: 36,
+    height: 24,
+    width: 24,
   },
 });
 

@@ -155,11 +155,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
-    borderBottomLeftRadius: 50,
-    borderBottomRightRadius: 50,
-    marginHorizontal: 10,
+   // borderBottomLeftRadius: 50,
+   // borderBottomRightRadius: 50,
+   // marginHorizontal: 10,
     paddingHorizontal: 26,
     paddingVertical: 38,
+    //marginBottom:10
   },
   modalTitle: {
     fontSize: 30,

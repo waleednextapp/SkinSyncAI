@@ -88,7 +88,7 @@ const TreatmentsScreen = () => {
               <Text style={styles.btnText}>Injectables & Fillers </Text>
             </TouchableOpacity>
           </ScrollView>
-          <View>
+          <View >
             <Text style={styles.title}>Recommended Treatments</Text>
             <View style={styles.carousalContainer}>
               <ScrollView
@@ -195,6 +195,7 @@ const styles = StyleSheet.create({
   },
   carousalContainer: {
     marginTop: 28,
+    marginLeft:-30
   },
   card: {
     width: CARD_WIDTH,
