@@ -64,11 +64,13 @@ const ProgressScreen = () => {
             title="Dermal Fillers - Lips"
             sessions="6"
             percent="40"
+            time="2 Days"
           />
           <ProgressCard
             image={require('../../assets/images/dermalFiller3.png')}
             title="Laser Treatment - Cheeks"
             percent="57"
+            time="4 Days"
           />
         </View>
       </SafeAreaView>

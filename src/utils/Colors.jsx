@@ -18,4 +18,5 @@ export const Colors = {
   glowSkin:'#5E5E5E',
   discountColor:'#FF2F82',
   newDim:'#232323',
+  lightTxtBackground:'#becad4',
 };

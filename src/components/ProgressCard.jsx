@@ -10,6 +10,7 @@ const ProgressCard = ({
   percent = '28',
   percentImage = require('../assets/images/blueProgress.png'),
   sessions = '8',
+  time = '4hrs',
   mainStyle,
 }) => {
   return (
@@ -19,6 +20,9 @@ const ProgressCard = ({
           source={image} // Replace with actual image URL
           style={styles.image}
         />
+        <View style={styles.txtMain}>
+          <Text style={styles.txtStyle}>Next Appointment In {time}</Text>
+        </View>
       </View>
       <View>
         <View style={styles.firstLine}>
@@ -42,7 +46,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 150,
+    height: 248,
     resizeMode: 'cover',
     borderRadius: 10,
   },
@@ -69,6 +73,24 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 3,
     marginTop: 8,
+  },
+  txtMain: {
+    position: 'absolute',
+    right: 12,
+    top: 20,
+    backgroundColor: Colors.lightTxtBackground,
+    height: 28,
+    width: 180,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 50,
+    paddingHorizontal: 8,
+    paddingVertical: 5,
+  },
+  txtStyle: {
+    color: Colors.white,
+    fontSize: 14,
+    fontFamily: FontFamily.semiBold,
   },
 });
 
