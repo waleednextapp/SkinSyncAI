@@ -4,22 +4,27 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {FontFamily} from '../utils/Fonts';
 import {Colors} from '../utils/Colors';
 
-const TreatmentCard = () => {
+const TreatmentCard = ({
+  title = 'Botox Treatment',
+  date = 'October 20, 3:00 PM',
+  location = 'Glow Skin Clinic',
+  image = require('../assets/images/dummyImg.png'),
+}) => {
   return (
     <View style={styles.card}>
       <Image
-        source={require('../assets/images/dummyImg.png')} // Replace with actual image URL
+        source={image} // Replace with actual image URL
         style={styles.image}
       />
       <View>
         <View style={styles.firstLine}>
-          <Text style={styles.title}>Botox Treatment</Text>
+          <Text style={styles.title}>{title}</Text>
           <View style={styles.locationContainer}>
             <Icon name="map-marker-alt" size={12} color="#D9534F" />
-            <Text style={styles.location}> Glow Skin Clinic</Text>
+            <Text style={styles.location}>{location}</Text>
           </View>
         </View>
-        <Text style={styles.date}>October 20, 3:00 PM</Text>
+        <Text style={styles.date}>{date}</Text>
       </View>
     </View>
   );

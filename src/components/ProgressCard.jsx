@@ -1,29 +1,35 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import {FontFamily} from '../utils/Fonts';
 import {Colors} from '../utils/Colors';
 
-const ProgressCard = () => {
+const ProgressCard = ({
+  image = require('../assets/images/dummyImg.png'),
+  title = 'Dermal Fillers - Cheeks',
+  location = 'Glow Skin Clinic',
+  percent = '28',
+  percentImage = require('../assets/images/blueProgress.png'),
+  sessions = '8',
+  mainStyle,
+}) => {
   return (
-    <View style={styles.card}>
-      <Image
-        source={require('../assets/images/dummyImg.png')} // Replace with actual image URL
-        style={styles.image}
-      />
+    <View style={[styles.card, mainStyle]}>
+      <View>
+        <Image
+          source={image} // Replace with actual image URL
+          style={styles.image}
+        />
+      </View>
       <View>
         <View style={styles.firstLine}>
-          <Text style={styles.title}>Dermal Fillers – Cheeks</Text>
+          <Text style={styles.title}>{title}</Text>
           <View style={styles.locationContainer}>
-            <Image
-              source={require('../assets/images/blueProgress.png')}
-              style={{width: 18, height: 18}}
-            />
-            <Text style={styles.location}> 28%</Text>
+            <Image source={percentImage} style={{width: 18, height: 18}} />
+            <Text style={styles.location}> {percent}%</Text>
           </View>
         </View>
-        <Text style={styles.date}>Glow Skin Clinic</Text>
-        <Text style={styles.date}>08 Sessions</Text>
+        <Text style={styles.date}>{location}</Text>
+        <Text style={styles.date}>0{sessions} Sessions</Text>
       </View>
     </View>
   );

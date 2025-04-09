@@ -3,23 +3,29 @@ import {View, Text, Image, StyleSheet} from 'react-native';
 import {Colors} from '../utils/Colors';
 import {FontFamily} from '../utils/Fonts';
 
-const DiscountCard = () => {
+const DiscountCard = ({
+  title = 'Botox Treatment',
+  location = 'Glow Skin Clinic', // Corrected default value assignment
+  validity = 'Valid Till 30 March',
+  discount = 'Flat 20% Off',
+  image = require('../assets/images/dummyImg.png'),
+}) => {
   return (
     <View style={styles.card}>
       {/* Left Section */}
       <View style={styles.leftContainer}>
-        <Text style={styles.title}>Botox Treatment</Text>
-        <Text style={styles.clinic}>Glow Skin Clinic</Text>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.clinic}>{location}</Text>
         <View style={styles.discountBox}>
-          <Text style={styles.discountText}>Flat 20% Off</Text>
+          <Text style={styles.discountText}>{discount}</Text>
         </View>
-        <Text style={styles.validity}>Valid Till 30 March</Text>
+        <Text style={styles.validity}>{validity}</Text>
       </View>
 
       {/* Right Section */}
       <View style={styles.rightContainer}>
         <Image
-          source={require('../assets/images/dummyImg.png')} // Replace with actual image URL
+          source={image} // Replace with actual image URL
           style={styles.image}
         />
         <View style={styles.badge}>

@@ -13,9 +13,8 @@ import {
 } from 'react-native';
 import {FontFamily} from '../../utils/Fonts';
 import {Colors} from '../../utils/Colors';
-import {Bell, CircleCheck, Forward} from '../../icons';
+import {Bell, Forward} from '../../icons';
 import CustomTextInput from '../../components/CustomTextInput';
-import ProgressCard from '../../components/ProgressCard';
 import TreatmentCard from '../../components/TreatmentCard';
 
 const {width} = Dimensions.get('window');
@@ -26,16 +25,20 @@ const TreatmentsScreen = () => {
 
   const data = [
     {
+      title: 'Botox Treatment',
+      image: require('../../assets/images/carousalImage1.png'),
+    },
+    {
       title: 'Laser Treatment',
-      image: require('../../assets/images/dummyImg.png'),
+      image: require('../../assets/images/caurosalImage2.png'),
     },
     {
-      title: 'Another Service',
-      image: require('../../assets/images/dummyImg.png'),
+      title: 'LEDLight Therapy',
+      image: require('../../assets/images/caurosalImage3.png'),
     },
     {
-      title: 'More Treatment',
-      image: require('../../assets/images/dummyImg.png'),
+      title: 'Botox Treatment',
+      image: require('../../assets/images/carousalImage1.png'),
     },
   ];
 
@@ -88,7 +91,7 @@ const TreatmentsScreen = () => {
               <Text style={styles.btnText}>Injectables & Fillers </Text>
             </TouchableOpacity>
           </ScrollView>
-          <View >
+          <View>
             <Text style={styles.title}>Recommended Treatments</Text>
             <View style={styles.carousalContainer}>
               <ScrollView
@@ -114,13 +117,119 @@ const TreatmentsScreen = () => {
             <View style={{paddingHorizontal: 30}}>
               <View style={styles.nextAppoinment}>
                 <Text style={styles.nextAppoinmentText}>
-                  Your Next Appointment
+                  Skincare & Facial Treatments
                 </Text>
                 <View style={styles.forwardBtn}>
                   <Forward size={18} />
                 </View>
               </View>
-              <TreatmentCard />
+              <ScrollView contentContainerStyle={{gap: 15}} horizontal>
+                <TreatmentCard
+                  image={require('../../assets/images/glasses.png')}
+                />
+                <TreatmentCard
+                  title="Glow Dermal Infusion"
+                  image={require('../../assets/images/glasses2.png')}
+                />
+                <TreatmentCard
+                  title="Aurora Laser Therapy"
+                  image={require('../../assets/images/mask.png')}
+                />
+              </ScrollView>
+            </View>
+            <View style={{paddingHorizontal: 30}}>
+              <View style={styles.nextAppoinment}>
+                <Text style={styles.nextAppoinmentText}>
+                  Injectables & Fillers Treatments
+                </Text>
+                <View style={styles.forwardBtn}>
+                  <Forward size={18} />
+                </View>
+              </View>
+              <ScrollView contentContainerStyle={{gap: 15}} horizontal>
+                <TreatmentCard
+                  title="Treatment Name"
+                  image={require('../../assets/images/injection1.png')}
+                />
+                <TreatmentCard
+                  title="Treatment Name"
+                  image={require('../../assets/images/Injection2.png')}
+                />
+                <TreatmentCard
+                  title="Treatment Name"
+                  image={require('../../assets/images/laser.png')}
+                />
+              </ScrollView>
+            </View>
+            <View style={{paddingHorizontal: 30}}>
+              <View style={styles.nextAppoinment}>
+                <Text style={styles.nextAppoinmentText}>Laser Treatments</Text>
+                <View style={styles.forwardBtn}>
+                  <Forward size={18} />
+                </View>
+              </View>
+              <ScrollView contentContainerStyle={{gap: 15}} horizontal>
+              <TreatmentCard
+                  title="Treatment Name"
+                  image={require('../../assets/images/light1.png')}
+                />
+                <TreatmentCard
+                  title="Treatment Name"
+                  image={require('../../assets/images/light2.png')}
+                />
+                <TreatmentCard
+                  title="Treatment Name"
+                  image={require('../../assets/images/light3.png')}
+                />
+              </ScrollView>
+            </View>
+            <View style={{paddingHorizontal: 30}}>
+              <View style={styles.nextAppoinment}>
+                <Text style={styles.nextAppoinmentText}>
+                  Sculpting & Contouring Treatments
+                </Text>
+                <View style={styles.forwardBtn}>
+                  <Forward size={18} />
+                </View>
+              </View>
+              <ScrollView contentContainerStyle={{gap: 15}} horizontal>
+              <TreatmentCard
+                  title="Treatment Name"
+                  image={require('../../assets/images/scan1.png')}
+                />
+                <TreatmentCard
+                  title="Treatment Name"
+                  image={require('../../assets/images/scan2.png')}
+                />
+                <TreatmentCard
+                  title="Treatment Name"
+                  image={require('../../assets/images/scan3.png')}
+                />
+              </ScrollView>
+            </View>
+            <View style={{paddingHorizontal: 30}}>
+              <View style={styles.nextAppoinment}>
+                <Text style={styles.nextAppoinmentText}>
+                  Rejuvenation Treatments
+                </Text>
+                <View style={styles.forwardBtn}>
+                  <Forward size={18} />
+                </View>
+              </View>
+              <ScrollView contentContainerStyle={{gap: 15}} horizontal>
+              <TreatmentCard
+                  title="Treatment Name"
+                  image={require('../../assets/images/message1.png')}
+                />
+                <TreatmentCard
+                  title="Treatment Name"
+                  image={require('../../assets/images/message2.png')}
+                />
+                <TreatmentCard
+                  title="Treatment Name"
+                  image={require('../../assets/images/message3.png')}
+                />
+              </ScrollView>
             </View>
           </View>
         </View>
@@ -166,7 +275,7 @@ const styles = StyleSheet.create({
   safeBack: {
     flex: 1,
     backgroundColor: Colors.white,
-    paddingBottom:30,
+    paddingBottom: 30,
   },
   bodyContainer: {
     // paddingHorizontal: 30,
@@ -195,7 +304,7 @@ const styles = StyleSheet.create({
   },
   carousalContainer: {
     marginTop: 28,
-    marginLeft:-30
+    marginLeft: -30,
   },
   card: {
     width: CARD_WIDTH,
@@ -235,7 +344,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontFamily: FontFamily.semiBold,
     textAlign: 'center',
   },
@@ -255,7 +364,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.arrowBack,
   },
   nextAppoinmentText: {
-    fontSize: 22,
+    fontSize: 18,
     fontFamily: FontFamily.semiBold,
   },
 });

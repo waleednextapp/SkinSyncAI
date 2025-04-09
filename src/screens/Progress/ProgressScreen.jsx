@@ -55,7 +55,21 @@ const ProgressScreen = () => {
               </Text>
             </TouchableOpacity>
           </View>
-          <ProgressCard />
+          <ProgressCard
+            image={require('../../assets/images/dermalFiller.png')}
+          />
+          <ProgressCard
+            image={require('../../assets/images/dermalFiller2.png')}
+            mainStyle={{marginVertical: 22}}
+            title="Dermal Fillers - Lips"
+            sessions="6"
+            percent="40"
+          />
+          <ProgressCard
+            image={require('../../assets/images/dermalFiller3.png')}
+            title="Laser Treatment - Cheeks"
+            percent="57"
+          />
         </View>
       </SafeAreaView>
     </ScrollView>

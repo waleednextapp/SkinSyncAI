@@ -74,7 +74,17 @@ const HomeScreen = () => {
                 <Forward size={18} />
               </View>
             </View>
-            <TreatmentCard />
+            <ScrollView horizontal contentContainerStyle={{gap: 15}}>
+              <TreatmentCard />
+              <TreatmentCard
+                title="Glow Dermal Infusion"
+                image={require('../../assets/images/glowingSkin.png')}
+              />
+              <TreatmentCard
+                title="Aurora Laser Therapy"
+                image={require('../../assets/images/aura.png')}
+              />
+            </ScrollView>
           </View>
           <View>
             <View style={styles.nextAppoinment}>
@@ -85,7 +95,13 @@ const HomeScreen = () => {
                 <Forward size={18} />
               </View>
             </View>
-            <DiscountCard />
+            <ScrollView horizontal contentContainerStyle={{gap: 15}}>
+              <DiscountCard />
+              <DiscountCard
+                title="Aurora Laser Therapy"
+                image={require('../../assets/images/discountAurora.png')}
+              />
+            </ScrollView>
           </View>
         </View>
       </SafeAreaView>

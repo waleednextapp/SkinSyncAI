@@ -56,7 +56,20 @@ const AppointmentsScreen = () => {
           </View>
           <View style={styles.appointCardMain}>
             <Text style={styles.scheduleTxt}>Today's schedule</Text>
-            <AppointmentCard />
+            <AppointmentCard
+              image={require('../../assets/images/botoxInjection.png')}
+            />
+            <AppointmentCard
+              mainStyle={{marginVertical: 20}}
+              title={'Aesthetic Clinic'}
+              treatment="Botox-Forehead"
+              date={'05:00 PM - 06:00 PM'}
+              image={require('../../assets/images/botoxInjection2.png')}
+            />
+            <AppointmentCard
+              date={'08:00 PM - 09:00 PM'}
+              image={require('../../assets/images/boxtoxInjection3.png')}
+            />
           </View>
         </View>
       </SafeAreaView>
