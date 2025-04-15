@@ -1,88 +1,166 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  SafeAreaView,
+  StatusBar,
+  Platform,
+} from 'react-native';
+import {Back, Forward} from '../../icons';
+import {FontFamily} from '../../utils/Fonts';
+import {Colors} from '../../utils/Colors';
+import AiModelCard from '../../components/AiModalCard';
+import TreatmentCard from '../../components/TreatmentCard';
+import ClinicCard from '../../components/ClinicCard';
 
-const treatments = [
-  {
-    id: 1,
-    name: 'Facial Treatment',
-    clinic: 'Beauty Clinic',
-    date: 'Last visited: 15 Mar 2024',
-    image: 'https://via.placeholder.com/100',
-  },
-  {
-    id: 2,
-    name: 'Skin Care Routine',
-    clinic: 'Derma Care Center',
-    date: 'Last visited: 10 Mar 2024',
-    image: 'https://via.placeholder.com/100',
-  },
-];
-
-const SavedTreatmentsScreen = () => {
+const SavedTreatmentsScreen = ({navigation}) => {
   return (
-    <ScrollView style={styles.container}>
-      {treatments.map(treatment => (
-        <TouchableOpacity key={treatment.id} style={styles.treatmentCard}>
-          <Image source={{ uri: treatment.image }} style={styles.treatmentImage} />
-          <View style={styles.treatmentInfo}>
-            <Text style={styles.treatmentName}>{treatment.name}</Text>
-            <Text style={styles.clinicName}>{treatment.clinic}</Text>
-            <Text style={styles.date}>{treatment.date}</Text>
-          </View>
-          <Icon name="chevron-right" size={24} color="#ccc" />
+    <SafeAreaView style={styles.container}>
+      <View style={styles.headerMainContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backContainer}>
+          <Back size={20} />
         </TouchableOpacity>
-      ))}
-    </ScrollView>
+        <Text style={styles.headerTxt}>Saved Treatments & Clinics</Text>
+      </View>
+      <ScrollView contentContainerStyle={styles.bodyContainer}>
+        <View style={styles.nextAppoinment}>
+          <Text style={styles.nextAppoinmentText}>Your Ai Treatment Model</Text>
+          <View style={styles.forwardBtn}>
+            <Forward size={18} />
+          </View>
+        </View>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.firstScroll}>
+          <AiModelCard />
+          <AiModelCard />
+          <AiModelCard />
+          <AiModelCard />
+        </ScrollView>
+        <View>
+          <View style={[styles.nextAppoinment, {marginTop: 30}]}>
+            <Text style={styles.nextAppoinmentText}>Saved Treatments</Text>
+            <View style={styles.forwardBtn}>
+              <Forward size={18} />
+            </View>
+          </View>
+          <ScrollView horizontal contentContainerStyle={{gap: 15}}>
+            <TreatmentCard check={true} title="Treatment Name" />
+            <TreatmentCard
+              title="Treatment Name"
+              image={require('../../assets/images/glowingSkin.png')}
+              check={true}
+            />
+            <TreatmentCard
+              title="Treatment Name"
+              image={require('../../assets/images/aura.png')}
+              check={true}
+            />
+          </ScrollView>
+        </View>
+        <View>
+          <View style={[styles.nextAppoinment, {marginTop: 30}]}>
+            <Text style={styles.nextAppoinmentText}>Saved Clinic</Text>
+            <View style={styles.forwardBtn}>
+              <Forward size={18} />
+            </View>
+          </View>
+          <ScrollView horizontal contentContainerStyle={{gap: 15}}>
+            <ClinicCard check={true} title="Treatment Name" checkFire={true} />
+            <ClinicCard
+              image={require('../../assets/images/clinicImage2.png')}
+              check={true}
+            />
+            <ClinicCard
+              image={require('../../assets/images/clinicImage3.png')}
+              check={true}
+              checkFire={true} 
+            />
+             <ClinicCard
+              image={require('../../assets/images/clinicImage4.png')}
+              check={true}
+            />
+             <ClinicCard
+              image={require('../../assets/images/clinicImage5.png')}
+              check={true}
+              checkFire={true} 
+            />
+          </ScrollView>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
-    padding: 20,
+    paddingHorizontal: 30,
+    backgroundColor: Colors.white,
   },
-  treatmentCard: {
+  headercontainer: {
+    flex: 1,
+    backgroundColor: Colors.white,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight + 10 : 0,
+  },
+  backContainer: {
+    height: 44,
+    width: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 50,
+    backgroundColor: Colors.arrowBack,
+  },
+  headerMainContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: 15,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
+    paddingHorizontal: 30,
+    paddingBottom: 27,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.lightBorderColor,
   },
-  treatmentImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    marginRight: 15,
+  headerTxt: {
+    fontSize: 24,
+    fontFamily: FontFamily.semiBold,
+    marginLeft: 20,
   },
-  treatmentInfo: {
-    flex: 1,
+  mainContainer: {
+    paddingHorizontal: 30,
   },
-  treatmentName: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 4,
+  bodyContainer: {
+    paddingHorizontal: 30,
   },
-  clinicName: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 4,
+  nextAppoinment: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 13,
   },
-  date: {
-    fontSize: 12,
-    color: '#999',
+  forwardBtn: {
+    height: 31,
+    width: 31,
+    borderRadius: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.arrowBack,
+  },
+  nextAppoinmentText: {
+    fontSize: 22,
+    fontFamily: FontFamily.semiBold,
+  },
+  firstScroll: {
+    paddingBottom: 30,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.lightBorderColor,
   },
 });
 
-export default SavedTreatmentsScreen; 
+export default SavedTreatmentsScreen;

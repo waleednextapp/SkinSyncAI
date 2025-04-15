@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {FontFamily} from '../utils/Fonts';
 import {Colors} from '../utils/Colors';
@@ -9,13 +9,27 @@ const TreatmentCard = ({
   date = 'October 20, 3:00 PM',
   location = 'Glow Skin Clinic',
   image = require('../assets/images/dummyImg.png'),
+  check = false,
+  onPress,
 }) => {
   return (
     <View style={styles.card}>
-      <Image
-        source={image} // Replace with actual image URL
-        style={styles.image}
-      />
+      <View>
+        <Image
+          source={image} // Replace with actual image URL
+          style={styles.image}
+        />
+        <View style={styles.heartMain}>
+          <Image
+            source={
+              check
+                ? require('../assets/images/heartFilled.png')
+                : require('../assets/images/heart.png')
+            }
+            style={styles.heartStyle}
+          />
+        </View>
+      </View>
       <View>
         <View style={styles.firstLine}>
           <Text style={styles.title}>{title}</Text>
@@ -32,7 +46,7 @@ const TreatmentCard = ({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
     borderRadius: 10,
     width: 280,
   },
@@ -66,6 +80,22 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 3,
     marginTop: 8,
+  },
+  heartStyle: {
+    height: 13,
+    width: 13,
+    resizeMode: 'contain',
+  },
+  heartMain: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderRadius: 50,
+    height: 26,
+    width: 26,
   },
 });
 

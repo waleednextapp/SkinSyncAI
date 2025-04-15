@@ -1,157 +1,134 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  SafeAreaView,
+  TouchableOpacity,
+  Platform,
+  StatusBar,
+} from 'react-native';
+import {Back, Star} from '../../icons';
+import {Colors} from '../../utils/Colors';
+import {FontFamily} from '../../utils/Fonts';
+import RewardCard from '../../components/RewardCard';
 
-const LoyalityRewardsScreen = () => {
+const rewardPointsData = [
+  {
+    id: 'refer',
+    title: 'Refer a Friend: 50 Points',
+    description: 'Earn 50 Points For Every Friend Referred.',
+  },
+  {
+    id: 'upload',
+    title: 'Earn 50 Points For Uploading',
+    description:
+      'Earn 50 Points For Uploading An After-Treatment Photo At Each Stage Of The Journey.',
+  },
+  {
+    id: 'signup',
+    title: 'Earn 50 Points By Signing Up',
+    description: 'Earn 50 Points By Signing Up For Texts/ Marketing Emails',
+  },
+];
+
+const LoyalityRewardsScreen = ({navigation}) => {
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.pointsCard}>
-        <Text style={styles.pointsLabel}>Total Points</Text>
-        <Text style={styles.pointsValue}>2,500</Text>
-        <Text style={styles.pointsSubtext}>Points expire on Dec 31, 2024</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.headerMainContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backContainer}>
+          <Back size={20} />
+        </TouchableOpacity>
+        <Text style={styles.headerTxt}>Loyalty & Rewards</Text>
       </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Available Rewards</Text>
-        <View style={styles.rewardCard}>
-          <Icon name="card-giftcard" size={24} color="#007AFF" />
-          <View style={styles.rewardInfo}>
-            <Text style={styles.rewardTitle}>$50 Treatment Voucher</Text>
-            <Text style={styles.rewardPoints}>2,000 points</Text>
-          </View>
-          <Icon name="chevron-right" size={24} color="#ccc" />
-        </View>
-        <View style={styles.rewardCard}>
-          <Icon name="local-offer" size={24} color="#007AFF" />
-          <View style={styles.rewardInfo}>
-            <Text style={styles.rewardTitle}>20% Off Next Visit</Text>
-            <Text style={styles.rewardPoints}>1,500 points</Text>
-          </View>
-          <Icon name="chevron-right" size={24} color="#ccc" />
-        </View>
-      </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>How to Earn Points</Text>
-        <View style={styles.infoCard}>
-          <View style={styles.infoRow}>
-            <Icon name="spa" size={20} color="#666" />
-            <View style={styles.infoText}>
-              <Text style={styles.infoTitle}>Treatment Visit</Text>
-              <Text style={styles.infoSubtext}>Earn 100 points per visit</Text>
+      <ScrollView contentContainerStyle={styles.bodyContainer}>
+        <Text style={styles.mainTxt}>Earn points for scans & uploads</Text>
+        <RewardCard />
+        <View style={{marginTop: 24}}>
+          <Text style={styles.heading}>Earn Rewards Points</Text>
+          {rewardPointsData.map(item => (
+            <View key={item.id} style={styles.rewardItem}>
+              <View style={styles.starNTxt}>
+                <Star size={19} />
+                <View style={{marginLeft: 21}}>
+                  <Text style={styles.title}>{item.title}</Text>
+                  <Text style={styles.description}>{item.description}</Text>
+                </View>
+              </View>
             </View>
-          </View>
-          <View style={styles.infoRow}>
-            <Icon name="shopping-bag" size={20} color="#666" />
-            <View style={styles.infoText}>
-              <Text style={styles.infoTitle}>Product Purchase</Text>
-              <Text style={styles.infoSubtext}>Earn 1 point per $1 spent</Text>
-            </View>
-          </View>
+          ))}
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    paddingHorizontal: 30,
+    backgroundColor: Colors.white,
   },
-  pointsCard: {
-    backgroundColor: '#007AFF',
-    padding: 20,
-    alignItems: 'center',
-  },
-  pointsLabel: {
-    fontSize: 16,
-    color: '#fff',
-    opacity: 0.9,
-  },
-  pointsValue: {
-    fontSize: 48,
-    fontWeight: 'bold',
-    color: '#fff',
-    marginVertical: 10,
-  },
-  pointsSubtext: {
-    fontSize: 14,
-    color: '#fff',
-    opacity: 0.8,
-  },
-  section: {
-    padding: 20,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 15,
-  },
-  rewardCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  rewardInfo: {
+  headercontainer: {
     flex: 1,
-    marginLeft: 15,
+    backgroundColor: Colors.white,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight + 10 : 0,
   },
-  rewardTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
+  backContainer: {
+    height: 44,
+    width: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 50,
+    backgroundColor: Colors.arrowBack,
   },
-  rewardPoints: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 4,
-  },
-  infoCard: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 15,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  infoRow: {
+  headerMainContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 10,
+    paddingHorizontal: 30,
+    paddingBottom: 27,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.lightBorderColor,
   },
-  infoText: {
-    marginLeft: 15,
+  headerTxt: {
+    fontSize: 24,
+    fontFamily: FontFamily.semiBold,
+    marginLeft: 20,
   },
-  infoTitle: {
+  mainTxt: {
     fontSize: 16,
-    fontWeight: '500',
-    color: '#333',
+    fontFamily: FontFamily.regular,
+    marginVertical: 24,
   },
-  infoSubtext: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 2,
+  bodyContainer: {
+    paddingHorizontal: 30,
+  },
+
+  //adasdasdasdad
+  starNTxt: {
+    flexDirection: 'row',
+    marginBottom: 8,
+  },
+  heading: {
+    fontSize: 22,
+    fontFamily: FontFamily.semiBold,
+    marginBottom: 29,
+  },
+  rewardItem: {
+    marginBottom: 28,
+  },
+  title: {
+    fontSize: 18,
+    fontFamily: FontFamily.semiBold,
+  },
+  description: {
+    fontSize: 16,
+    fontFamily: FontFamily.regular,
+    color: Colors.subTxt,
   },
 });
 
-export default LoyalityRewardsScreen; 
+export default LoyalityRewardsScreen;

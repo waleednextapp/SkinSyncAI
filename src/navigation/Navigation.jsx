@@ -3,7 +3,6 @@ import {Image, Platform, StyleSheet, View} from 'react-native';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import FloatingActionButton from '../components/FloatingActionButton';
 
 // Import screens
@@ -12,17 +11,31 @@ import TreatmentsScreen from '../screens/Treatments/TreatmentsScreen';
 import AppointmentsScreen from '../screens/Appointments/AppointmentsScreen';
 import ProgressScreen from '../screens/Progress/ProgressScreen';
 import ScannerScreen from '../screens/Scanner/ScannerScreen';
-
-// Import ProfileStack
-import ProfileStack from './ProfileStack';
+import NotificationScreen from '../screens/Notification/NotificationScreen';
+import EnableNotification from '../screens/Notification/EnableNotification';
 import ContunueWithEmailScreen from '../screens/Email/ContunueWithEmailScreen';
 import GetStartedScreen from '../screens/GetStarted/GetStartedScreen';
 import SplashScreen from '../screens/Splash/SplashScreen';
 import EnterCodeScreen from '../screens/Email/EnterCodeScreen';
 import OnbordingScreen from '../screens/Onboarding/OnbordingScreen';
+
+// Import ProfileStack
+import ProfileStack from './ProfileStack';
 import CreateProfileScreen from '../screens/Profile/CreateProfileScreen';
-import EnableNotification from '../screens/Notification/EnableNotification';
+
 import {Colors} from '../utils/Colors';
+import SettingScreen from '../screens/Profile/SettingScreen';
+import PasswordSecurityScreen from '../screens/Profile/PasswordSecurityScreen';
+import PaymentWalletScreen from '../screens/Profile/PaymentWalletScreen';
+import BiomatricScreen from '../screens/Profile/BiomatricScreen';
+import BookAppointmentScreen from '../screens/Treatments/BookAppointmentScreen';
+import ClinicDetailsScreen from '../screens/Treatments/ClinicDetailsScreen';
+import BioMatricScannerScreen from '../screens/Profile/BioMatricScannerScreen';
+import BookingDateScreen from '../screens/Treatments/BookingDateScreen';
+import ARModalFaceScreen from '../screens/Treatments/ARModalFaceScreen';
+import ReadyAppointmentScreen from '../screens/Treatments/ReadyAppointmentScreen';
+import AdditionalInformationScreen from '../screens/Treatments/AdditionalInformationScreen';
+import ScanYourFaceScreen from '../screens/Treatments/ScanYourFaceScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -43,8 +56,6 @@ const withFAB = (ScreenComponent, navigation) => {
 
 // Main stack navigator that includes both tab navigator and scanner screen
 const MainStack = () => {
-  const navigation = useNavigation();
-
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Splash" component={SplashScreen} />
@@ -54,6 +65,43 @@ const MainStack = () => {
       <Stack.Screen name="Onboarding" component={OnbordingScreen} />
       <Stack.Screen name="createProfile" component={CreateProfileScreen} />
       <Stack.Screen name="enableNotification" component={EnableNotification} />
+      <Stack.Screen name="notification" component={NotificationScreen} />
+      <Stack.Screen name="Setting" component={SettingScreen} />
+      <Stack.Screen
+        name="PasswordSecurity"
+        component={PasswordSecurityScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Wallet"
+        component={PaymentWalletScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Biometric"
+        component={BiomatricScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen name="BookAppointment" component={BookAppointmentScreen} />
+      <Stack.Screen name="ClinicDetails" component={ClinicDetailsScreen} />
+      <Stack.Screen
+        name="BioMatricScanner"
+        component={BioMatricScannerScreen}
+      />
+      <Stack.Screen name="BookingDate" component={BookingDateScreen} />
+      <Stack.Screen name="ARModalFace" component={ARModalFaceScreen} />
+      <Stack.Screen
+        name="ReadyAppointment"
+        component={ReadyAppointmentScreen}
+      />
+      <Stack.Screen
+        name="AdditionalInformation"
+        component={AdditionalInformationScreen}
+      />
+       <Stack.Screen
+        name="ScanYourFace"
+        component={ScanYourFaceScreen}
+      />
       <Stack.Screen name="TabNavigator" component={TabNavigator} />
       <Stack.Screen
         name="Scanner"
@@ -102,7 +150,7 @@ const AppointmentsStack = () => {
       <Stack.Screen
         name="AppointmentsScreen"
         component={withFAB(AppointmentsScreen, navigation)}
-        options={{title: 'Appointments',headerShown: false}}
+        options={{title: 'Appointments', headerShown: false}}
       />
     </Stack.Navigator>
   );
@@ -141,7 +189,7 @@ const getTabIcon = (routeName, focused) => {
     },
     Profile: {
       focused: require('../assets/images/profileFocused.png'),
-      unfocused: require('../assets/images/profileFocused.png'),
+      unfocused: require('../assets/images/profileIcon.png'),
     },
   };
 
@@ -162,12 +210,10 @@ const TabNavigator = () => {
         tabBarActiveTintColor: Colors.black,
         tabBarInactiveTintColor: 'gray',
         tabBarStyle: {
-          // paddingVertical: 5,
           paddingTop: 5,
           height: Platform.OS === 'ios' ? 70 : 60, // Increase height for iOS
         },
         tabBarLabelStyle: {
-          // paddingBottom: 5,
           fontSize: 9,
         },
       })}>

@@ -17,8 +17,10 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Circle} from 'react-native-progress';
 import TreatmentCard from '../../components/TreatmentCard';
 import DiscountCard from '../../components/DicountCard';
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
+  const navigation = useNavigation();
   const progress = 0.72; // Progress value (0 to 1)
   return (
     <ScrollView style={styles.container}>
@@ -30,7 +32,7 @@ const HomeScreen = () => {
               Your journey to radiant skin starts now.
             </Text>
           </View>
-          <TouchableOpacity style={styles.bellBack}>
+          <TouchableOpacity style={styles.bellBack} onPress={()=>navigation.navigate('notification')}>
             <Bell size={21} />
           </TouchableOpacity>
         </View>

@@ -21,6 +21,9 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 // @ts-ignore
 import Octicons from 'react-native-vector-icons/Octicons';
+// @ts-ignore
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+
 import {TextStyle} from 'react-native';
 
 // Define accepted icon types
@@ -35,7 +38,8 @@ type IconType =
   | 'Fontisto'
   | 'MaterialIcons'
   | 'MaterialCommunityIcons'
-  | 'Octicons';
+  | 'Octicons'
+  | 'SimpleLineIcons';
 
 // Define props type
 interface VectorIconProps {
@@ -177,6 +181,17 @@ export const VectorIcon: React.FC<VectorIconProps> = ({
           onPress={onPress}
         />
       );
+      case 'SimpleLineIcons':
+        return (
+          // @ts-ignore
+          <SimpleLineIcons
+            name={name}
+            color={color}
+            size={size}
+            style={style}
+            onPress={onPress}
+          />
+        );
     default:
       return <></>;
   }
@@ -365,6 +380,26 @@ export const CircleCheck: React.FC<IconProps> = ({color, size, style}) => (
     color={color}
     size={size}
     type="Ionicons"
+    style={style}
+  />
+);
+
+export const Location: React.FC<IconProps> = ({color, size, style}) => (
+  <VectorIcon
+    name="location-pin"
+    color={color}
+    size={size}
+    type="SimpleLineIcons"
+    style={style}
+  />
+);
+
+export const Clip: React.FC<IconProps> = ({color, size, style}) => (
+  <VectorIcon
+    name="paperclip"
+    color={color}
+    size={size}
+    type="Feather"
     style={style}
   />
 );

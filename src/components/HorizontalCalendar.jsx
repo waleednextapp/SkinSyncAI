@@ -6,7 +6,6 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-// import { Colors } from '../../utils/Colors'; // adjust path if needed
 import moment from 'moment';
 import {FontFamily} from '../utils/Fonts';
 import {Colors} from '../utils/Colors';

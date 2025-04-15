@@ -1,81 +1,236 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
+  Platform,
+  StatusBar,
+  Image,
+  ScrollView,
+} from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
+import {Back} from '../../icons';
+import {Colors} from '../../utils/Colors';
+import {FontFamily} from '../../utils/Fonts';
+import CustomTextInput from '../../components/CustomTextInput';
+import Button from '../../components/Button';
 
-const PersonalDetailsScreen = () => {
+const PersonalDetailsScreen = ({navigation}) => {
+  const [openSkinType, setOpenSkinType] = useState(false);
+  const [skinType, setSkinType] = useState(null);
+  const [skinTypeItems, setSkinTypeItems] = useState([
+    {label: 'Oily', value: 'oily'},
+    {label: 'Dry', value: 'dry'},
+    {label: 'Combination', value: 'combination'},
+  ]);
+
+  const [openSkinGoal, setOpenSkinGoal] = useState(false);
+  const [skinGoal, setSkinGoal] = useState(null);
+  const [skinGoalItems, setSkinGoalItems] = useState([
+    {label: 'Glow', value: 'glow'},
+    {label: 'Hydration', value: 'hydration'},
+    {label: 'Even Tone', value: 'even'},
+  ]);
+
+  const [openPrimaryConcern, setOpenPrimaryConcern] = useState(false);
+  const [primaryConcern, setPrimaryConcern] = useState(null);
+  const [primaryConcernItems, setPrimaryConcernItems] = useState([
+    {label: 'Acne', value: 'acne'},
+    {label: 'Aging', value: 'aging'},
+    {label: 'Sensitivity', value: 'sensitivity'},
+  ]);
+
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Personal Information</Text>
-        <View style={styles.card}>
-          <View style={styles.row}>
-            <Text style={styles.label}>Full Name</Text>
-            <Text style={styles.value}>John Doe</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Email</Text>
-            <Text style={styles.value}>john.doe@example.com</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Phone</Text>
-            <Text style={styles.value}>+1 234 567 8900</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Date of Birth</Text>
-            <Text style={styles.value}>01/01/1990</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Gender</Text>
-            <Text style={styles.value}>Male</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.headerMainContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backContainer}>
+          <Back size={20} />
+        </TouchableOpacity>
+        <Text style={styles.headerTxt}>Personal Details</Text>
+      </View>
+      <ScrollView contentContainerStyle={styles.bodyMain}>
+        <View style={styles.profileImg}>
+          <Image
+            source={require('../../assets/images/tempImg.jpeg')}
+            style={styles.profileImg}
+          />
+          <View style={styles.imgMain}>
+            <Image
+              source={require('../../assets/images/camera.png')}
+              style={styles.cameraStyle}
+            />
           </View>
         </View>
-      </View>
-    </ScrollView>
+        <View style={styles.txtContainer}>
+          <Text style={styles.mainTxt}>Your Profile</Text>
+          <Text style={styles.subTxt}>
+            Introduce yourself to others in your events.
+          </Text>
+        </View>
+        <View>
+          <CustomTextInput
+            placeholder="Your Name"
+            mainStyle={styles.inputStyle}
+          />
+          <CustomTextInput
+            placeholder="Phone Number"
+            keyboardType="phone-pad"
+            mainStyle={[styles.inputStyle, {marginVertical: 20}]}
+          />
+          <CustomTextInput
+            placeholder="Email Address"
+            keyboardType="email-address"
+            mainStyle={styles.inputStyle}
+          />
+          <CustomTextInput
+            placeholder="Location"
+            mainStyle={[styles.inputStyle, {marginVertical: 20}]}
+          />
+
+          {/* Dropdowns */}
+          <View style={[styles.dropdownRow, {zIndex: 3000}]}>
+            <DropDownPicker
+              open={openSkinType}
+              value={skinType}
+              items={skinTypeItems}
+              setOpen={setOpenSkinType}
+              setValue={setSkinType}
+              setItems={setSkinTypeItems}
+              placeholder="Skin Type +2"
+              style={styles.dropdown}
+              containerStyle={{flex: 1, marginRight: 10, zIndex: 3000}}
+              dropDownContainerStyle={{zIndex: 3000}}
+            />
+            <DropDownPicker
+              open={openSkinGoal}
+              value={skinGoal}
+              items={skinGoalItems}
+              setOpen={setOpenSkinGoal}
+              setValue={setSkinGoal}
+              setItems={setSkinGoalItems}
+              placeholder="Skin Goal +4"
+              style={styles.dropdown}
+              containerStyle={{flex: 1, zIndex: 2000}}
+              dropDownContainerStyle={{zIndex: 2000}}
+            />
+          </View>
+
+          <DropDownPicker
+            open={openPrimaryConcern}
+            value={primaryConcern}
+            items={primaryConcernItems}
+            setOpen={setOpenPrimaryConcern}
+            setValue={setPrimaryConcern}
+            setItems={setPrimaryConcernItems}
+            placeholder="Primary Concerns +3"
+            style={[styles.dropdown, {marginVertical: 20}]}
+            containerStyle={{zIndex: 1000}}
+            dropDownContainerStyle={{zIndex: 1000}}
+          />
+          <CustomTextInput
+            placeholder="Bio"
+            multiline
+            mainStyle={[styles.inputStyle, {height: 108, marginBottom: 30}]}
+            txtInputStyle={{height: 108, marginBottom: 0}}
+          />
+          <Button title={'Save'} />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    paddingHorizontal: 30,
+    backgroundColor: Colors.white,
   },
-  section: {
-    padding: 20,
+  headercontainer: {
+    flex: 1,
+    backgroundColor: Colors.white,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight + 10 : 0,
   },
-  sectionTitle: {
+  backContainer: {
+    height: 44,
+    width: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 50,
+    backgroundColor: Colors.arrowBack,
+  },
+  headerMainContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 30,
+    paddingBottom: 27,
+  },
+  headerTxt: {
+    fontSize: 24,
+    fontFamily: FontFamily.semiBold,
+    marginLeft: 20,
+  },
+  mainContainer: {
+    paddingHorizontal: 30,
+  },
+  profileImg: {
+    height: 91,
+    width: 91,
+    borderRadius: 50,
+  },
+  imgMain: {
+    height: 25,
+    width: 25,
+    borderRadius: 50,
+    backgroundColor: Colors.white,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+  },
+  cameraStyle: {
+    height: 13,
+    width: 16,
+    resizeMode: 'contain',
+  },
+  bodyMain: {
+    paddingHorizontal: 30,
+  },
+  mainTxt: {
+    fontFamily: FontFamily.semiBold,
+    fontSize: 30,
+    color: Colors.black,
+  },
+  subTxt: {
+    fontFamily: FontFamily.regular,
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 15,
+    color: Colors.lightColor,
   },
-  card: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 15,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
+  txtContainer: {
+    marginBottom: 22,
   },
-  row: {
+  dropdownRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    zIndex: 1000, // Required to manage dropdown overlap
   },
-  label: {
-    fontSize: 16,
-    color: '#666',
+  dropdown: {
+    height: 50,
+    borderColor: Colors.bordeColor,
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    backgroundColor: Colors.white,
   },
-  value: {
-    fontSize: 16,
-    color: '#333',
-    fontWeight: '500',
+  dropDownContainerStyle: {
+    borderColor: Colors.bordeColor,
+    zIndex: 999,
   },
 });
 
-export default PersonalDetailsScreen; 
+export default PersonalDetailsScreen;

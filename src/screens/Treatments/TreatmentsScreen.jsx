@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -13,15 +13,17 @@ import {
 } from 'react-native';
 import {FontFamily} from '../../utils/Fonts';
 import {Colors} from '../../utils/Colors';
-import {Bell, Forward} from '../../icons';
+import {Back, Bell, Forward, Location} from '../../icons';
 import CustomTextInput from '../../components/CustomTextInput';
 import TreatmentCard from '../../components/TreatmentCard';
+import SmallTreatmentCard from '../../components/SmallTreatmentCard';
 
 const {width} = Dimensions.get('window');
 const CARD_WIDTH = width * 0.7;
 const CARD_SPACING = 16;
-const TreatmentsScreen = () => {
+const TreatmentsScreen = ({navigation}) => {
   const scrollRef = useRef();
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const data = [
     {
@@ -42,15 +44,100 @@ const TreatmentsScreen = () => {
     },
   ];
 
+  const treatmentCards = [
+    {
+      id: 1,
+      title: 'Treatment Name',
+      name: 'Glow Skin Clinic',
+      discount: '$ 800',
+      price: '$ 650',
+      image: require('../../assets/images/injectFiller1.png'),
+      check: true,
+    },
+    {
+      id: 2,
+      title: 'Hydra Facial',
+      name: 'Glow Skin Clinic',
+      discount: '$ 700',
+      price: '$ 600',
+      image: require('../../assets/images/injectFiller2.png'),
+      check: false,
+    },
+    {
+      id: 3,
+      title: 'Laser Brightening',
+      name: 'Glow Skin Clinic',
+      discount: '$ 900',
+      price: '$ 720',
+      image: require('../../assets/images/injectFiller3.png'),
+      checkFire: false,
+      check: false,
+    },
+    {
+      id: 4,
+      title: 'Vitamin Infusion',
+      name: 'Glow Skin Clinic',
+      discount: '$ 650',
+      price: '$ 500',
+      image: require('../../assets/images/injectFiller4.png'),
+      checkFire: false,
+      check: true,
+    },
+    {
+      id: 5,
+      title: 'Peel Treatment',
+      name: 'Glow Skin Clinic',
+      discount: '$ 500',
+      price: '$ 400',
+      image: require('../../assets/images/injectFiller1.png'),
+      checkFire: true,
+      check: false,
+    },
+    {
+      id: 6,
+      title: 'LED Therapy',
+      name: 'Glow Skin Clinic',
+      discount: '$ 750',
+      price: '$ 630',
+      image: require('../../assets/images/injectFiller2.png'),
+      checkFire: false,
+      check: true,
+    },
+    {
+      id: 7,
+      title: 'Botox Glow',
+      name: 'Glow Skin Clinic',
+      discount: '$ 1000',
+      price: '$ 850',
+      image: require('../../assets/images/injectFiller3.png'),
+      checkFire: true,
+      check: false,
+    },
+    {
+      id: 8,
+      title: 'Anti-Aging Package',
+      name: 'Glow Skin Clinic',
+      discount: '$ 1200',
+      price: '$ 999',
+      image: require('../../assets/images/injectFiller4.png'),
+      checkFire: true,
+      check: false,
+    },
+  ];
+
   return (
     <ScrollView style={styles.container}>
       <SafeAreaView style={styles.safeBack}>
         <View style={styles.header}>
           <View>
-            <Text style={styles.welcomeText}>Hello, Burak!</Text>
-            <Text style={styles.subText}>
-              Your journey to radiant skin starts now.
-            </Text>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Image
+                source={require('../../assets/images/location.png')}
+                style={styles.locationStyle}
+              />
+              <Text style={styles.welcomeText}>New York</Text>
+            </View>
+            <Text style={styles.subText}>195 Karlie Brooks, Anderson</Text>
           </View>
           <TouchableOpacity style={styles.bellBack}>
             <Bell size={21} />
@@ -66,172 +153,252 @@ const TreatmentsScreen = () => {
               onSearchPress={() => console.log('Search pressed')}
             />
           </View>
-          <ScrollView
-            contentContainerStyle={styles.btnMain}
-            horizontal
-            showsHorizontalScrollIndicator={false}>
-            <TouchableOpacity
-              style={[styles.btnStyle, {backgroundColor: Colors.black}]}>
-              <Text style={[styles.btnText, {color: Colors.white}]}>
-                All Treatments
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.btnStyle, {marginHorizontal: 5}]}>
-              <Image
-                source={require('../../assets/images/skinCare.png')}
-                style={{width: 18, height: 18}}
-              />
-              <Text style={[styles.btnText]}>Skincare & Facial</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.btnStyle}>
-              <Image
-                source={require('../../assets/images/injection.png')}
-                style={{width: 18, height: 18}}
-              />
-              <Text style={styles.btnText}>Injectables & Fillers </Text>
-            </TouchableOpacity>
-          </ScrollView>
-          <View>
-            <Text style={styles.title}>Recommended Treatments</Text>
-            <View style={styles.carousalContainer}>
+          {selectedCategory ? (
+            <View style={{paddingHorizontal: 30}}>
+              {/* Back Button and Heading */}
+              <View style={styles.headerMainContainer}>
+                <TouchableOpacity
+                  onPress={() => setSelectedCategory(null)}
+                  style={styles.backContainer}>
+                  <Back size={20} />
+                </TouchableOpacity>
+                <Text style={styles.headerTxt}>Injectables & Fillers</Text>
+              </View>
+
+              {/* Filter Chips */}
               <ScrollView
-                ref={scrollRef}
+                contentContainerStyle={[styles.btnMain, {marginTop: 0}]}
                 horizontal
-                showsHorizontalScrollIndicator={false}
-                snapToInterval={CARD_WIDTH + CARD_SPACING}
-                decelerationRate="fast"
-                contentContainerStyle={{
-                  // paddingRight: 20,
-                  paddingHorizontal: (width - CARD_WIDTH) / 2,
-                }}>
-                {data.map((item, index) => (
-                  <View key={index} style={styles.card}>
-                    <Image source={item.image} style={styles.image} />
-                    <View style={styles.labelContainer}>
-                      <Text style={styles.label}>{item.title}</Text>
-                    </View>
+                showsHorizontalScrollIndicator={false}>
+                <TouchableOpacity
+                  style={[styles.btnStyle, {backgroundColor: Colors.black}]}>
+                  <Text style={[styles.btnText, {color: Colors.white}]}>
+                    All
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.btnStyle, {marginHorizontal: 5}]}>
+                  <Text style={[styles.btnText]}>Lip Augmentation</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.btnStyle, {marginHorizontal: 5}]}>
+                  <Text style={styles.btnText}>Cheek Fillers </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.btnStyle}>
+                  <Text style={styles.btnText}>Jawline Contouring </Text>
+                </TouchableOpacity>
+              </ScrollView>
+
+              {/* Treatment Cards */}
+              <View style={styles.gridContainer}>
+                {treatmentCards.map(item => (
+                  <View key={item.id} style={styles.cardWrapper}>
+                    <SmallTreatmentCard
+                      title={item.title}
+                      name={item.name}
+                      discount={item.discount}
+                      price={item.price}
+                      image={item.image}
+                      checkFire={item.checkFire}
+                      check={item.check}
+                      navigation={navigation}
+                    />
                   </View>
                 ))}
-              </ScrollView>
+              </View>
             </View>
-            <View style={{paddingHorizontal: 30}}>
-              <View style={styles.nextAppoinment}>
-                <Text style={styles.nextAppoinmentText}>
-                  Skincare & Facial Treatments
-                </Text>
-                <View style={styles.forwardBtn}>
-                  <Forward size={18} />
+          ) : (
+            // Original content goes here
+            <View>
+              <ScrollView
+                contentContainerStyle={styles.btnMain}
+                horizontal
+                showsHorizontalScrollIndicator={false}>
+                <TouchableOpacity
+                  style={[styles.btnStyle, {backgroundColor: Colors.black}]}>
+                  <Text style={[styles.btnText, {color: Colors.white}]}>
+                    All Treatments
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.btnStyle, {marginHorizontal: 5}]}>
+                  <Image
+                    source={require('../../assets/images/skinCare.png')}
+                    style={{width: 18, height: 18}}
+                  />
+                  <Text style={[styles.btnText]}>Skincare & Facial</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.btnStyle}>
+                  <Image
+                    source={require('../../assets/images/injection.png')}
+                    style={{width: 18, height: 18}}
+                  />
+                  <Text style={styles.btnText}>Injectables & Fillers </Text>
+                </TouchableOpacity>
+              </ScrollView>
+              <View>
+                <Text style={styles.title}>Recommended Treatments</Text>
+                <View style={styles.carousalContainer}>
+                  <ScrollView
+                    ref={scrollRef}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    snapToInterval={CARD_WIDTH + CARD_SPACING}
+                    decelerationRate="fast"
+                    contentContainerStyle={{
+                      // paddingRight: 20,
+                      paddingHorizontal: (width - CARD_WIDTH) / 2,
+                    }}>
+                    {data.map((item, index) => (
+                      <View key={index} style={styles.card}>
+                        <Image source={item.image} style={styles.image} />
+                        <View style={styles.labelContainer}>
+                          <Text style={styles.label}>{item.title}</Text>
+                        </View>
+                      </View>
+                    ))}
+                  </ScrollView>
+                </View>
+                <View style={{paddingHorizontal: 30}}>
+                  <View style={styles.nextAppoinment}>
+                    <Text style={styles.nextAppoinmentText}>
+                      Skincare & Facial Treatments
+                    </Text>
+                    <TouchableOpacity
+                      style={styles.forwardBtn}
+                      onPress={() =>
+                        setSelectedCategory('Skincare & Facial Treatments')
+                      }>
+                      <Forward size={18} />
+                    </TouchableOpacity>
+                  </View>
+                  <ScrollView contentContainerStyle={{gap: 15}} horizontal>
+                    <TreatmentCard
+                      image={require('../../assets/images/glasses2.png')}
+                    />
+                    <TreatmentCard
+                      title="Glow Dermal Infusion"
+                      image={require('../../assets/images/glasses2.png')}
+                    />
+                    <TreatmentCard
+                      title="Aurora Laser Therapy"
+                      image={require('../../assets/images/mask.png')}
+                    />
+                  </ScrollView>
+                </View>
+                <View style={{paddingHorizontal: 30}}>
+                  <View style={styles.nextAppoinment}>
+                    <Text style={styles.nextAppoinmentText}>
+                      Injectables & Fillers Treatments
+                    </Text>
+                    <TouchableOpacity
+                      style={styles.forwardBtn}
+                      onPress={() =>
+                        setSelectedCategory('Injectables & Fillers')
+                      }>
+                      <Forward size={18} />
+                    </TouchableOpacity>
+                  </View>
+                  <ScrollView contentContainerStyle={{gap: 15}} horizontal>
+                    <TreatmentCard
+                      title="Treatment Name"
+                      image={require('../../assets/images/injection1.png')}
+                    />
+                    <TreatmentCard
+                      title="Treatment Name"
+                      image={require('../../assets/images/Injection2.png')}
+                    />
+                    <TreatmentCard
+                      title="Treatment Name"
+                      image={require('../../assets/images/laser.png')}
+                    />
+                  </ScrollView>
+                </View>
+                <View style={{paddingHorizontal: 30}}>
+                  <View style={styles.nextAppoinment}>
+                    <Text style={styles.nextAppoinmentText}>
+                      Laser Treatments
+                    </Text>
+                    <TouchableOpacity
+                      style={styles.forwardBtn}
+                      onPress={() => setSelectedCategory('Laser Treatments')}>
+                      <Forward size={18} />
+                    </TouchableOpacity>
+                  </View>
+                  <ScrollView contentContainerStyle={{gap: 15}} horizontal>
+                    <TreatmentCard
+                      title="Treatment Name"
+                      image={require('../../assets/images/light1.png')}
+                    />
+                    <TreatmentCard
+                      title="Treatment Name"
+                      image={require('../../assets/images/light2.png')}
+                    />
+                    <TreatmentCard
+                      title="Treatment Name"
+                      image={require('../../assets/images/light3.png')}
+                    />
+                  </ScrollView>
+                </View>
+                <View style={{paddingHorizontal: 30}}>
+                  <View style={styles.nextAppoinment}>
+                    <Text style={styles.nextAppoinmentText}>
+                      Sculpting & Contouring Treatments
+                    </Text>
+                    <TouchableOpacity
+                      style={styles.forwardBtn}
+                      onPress={() =>
+                        setSelectedCategory('Sculpting & Contouring Treatments')
+                      }>
+                      <Forward size={18} />
+                    </TouchableOpacity>
+                  </View>
+                  <ScrollView contentContainerStyle={{gap: 15}} horizontal>
+                    <TreatmentCard
+                      title="Treatment Name"
+                      image={require('../../assets/images/scan1.png')}
+                    />
+                    <TreatmentCard
+                      title="Treatment Name"
+                      image={require('../../assets/images/scan2.png')}
+                    />
+                    <TreatmentCard
+                      title="Treatment Name"
+                      image={require('../../assets/images/scan3.png')}
+                    />
+                  </ScrollView>
+                </View>
+                <View style={{paddingHorizontal: 30}}>
+                  <View style={styles.nextAppoinment}>
+                    <Text style={styles.nextAppoinmentText}>
+                      Rejuvenation Treatments
+                    </Text>
+                    <TouchableOpacity
+                      style={styles.forwardBtn}
+                      onPress={() =>
+                        setSelectedCategory('Rejuvenation Treatments')
+                      }>
+                      <Forward size={18} />
+                    </TouchableOpacity>
+                  </View>
+                  <ScrollView contentContainerStyle={{gap: 15}} horizontal>
+                    <TreatmentCard
+                      title="Treatment Name"
+                      image={require('../../assets/images/message1.png')}
+                    />
+                    <TreatmentCard
+                      title="Treatment Name"
+                      image={require('../../assets/images/message2.png')}
+                    />
+                    <TreatmentCard
+                      title="Treatment Name"
+                      image={require('../../assets/images/message3.png')}
+                    />
+                  </ScrollView>
                 </View>
               </View>
-              <ScrollView contentContainerStyle={{gap: 15}} horizontal>
-                <TreatmentCard
-                  image={require('../../assets/images/glasses.png')}
-                />
-                <TreatmentCard
-                  title="Glow Dermal Infusion"
-                  image={require('../../assets/images/glasses2.png')}
-                />
-                <TreatmentCard
-                  title="Aurora Laser Therapy"
-                  image={require('../../assets/images/mask.png')}
-                />
-              </ScrollView>
             </View>
-            <View style={{paddingHorizontal: 30}}>
-              <View style={styles.nextAppoinment}>
-                <Text style={styles.nextAppoinmentText}>
-                  Injectables & Fillers Treatments
-                </Text>
-                <View style={styles.forwardBtn}>
-                  <Forward size={18} />
-                </View>
-              </View>
-              <ScrollView contentContainerStyle={{gap: 15}} horizontal>
-                <TreatmentCard
-                  title="Treatment Name"
-                  image={require('../../assets/images/injection1.png')}
-                />
-                <TreatmentCard
-                  title="Treatment Name"
-                  image={require('../../assets/images/Injection2.png')}
-                />
-                <TreatmentCard
-                  title="Treatment Name"
-                  image={require('../../assets/images/laser.png')}
-                />
-              </ScrollView>
-            </View>
-            <View style={{paddingHorizontal: 30}}>
-              <View style={styles.nextAppoinment}>
-                <Text style={styles.nextAppoinmentText}>Laser Treatments</Text>
-                <View style={styles.forwardBtn}>
-                  <Forward size={18} />
-                </View>
-              </View>
-              <ScrollView contentContainerStyle={{gap: 15}} horizontal>
-              <TreatmentCard
-                  title="Treatment Name"
-                  image={require('../../assets/images/light1.png')}
-                />
-                <TreatmentCard
-                  title="Treatment Name"
-                  image={require('../../assets/images/light2.png')}
-                />
-                <TreatmentCard
-                  title="Treatment Name"
-                  image={require('../../assets/images/light3.png')}
-                />
-              </ScrollView>
-            </View>
-            <View style={{paddingHorizontal: 30}}>
-              <View style={styles.nextAppoinment}>
-                <Text style={styles.nextAppoinmentText}>
-                  Sculpting & Contouring Treatments
-                </Text>
-                <View style={styles.forwardBtn}>
-                  <Forward size={18} />
-                </View>
-              </View>
-              <ScrollView contentContainerStyle={{gap: 15}} horizontal>
-              <TreatmentCard
-                  title="Treatment Name"
-                  image={require('../../assets/images/scan1.png')}
-                />
-                <TreatmentCard
-                  title="Treatment Name"
-                  image={require('../../assets/images/scan2.png')}
-                />
-                <TreatmentCard
-                  title="Treatment Name"
-                  image={require('../../assets/images/scan3.png')}
-                />
-              </ScrollView>
-            </View>
-            <View style={{paddingHorizontal: 30}}>
-              <View style={styles.nextAppoinment}>
-                <Text style={styles.nextAppoinmentText}>
-                  Rejuvenation Treatments
-                </Text>
-                <View style={styles.forwardBtn}>
-                  <Forward size={18} />
-                </View>
-              </View>
-              <ScrollView contentContainerStyle={{gap: 15}} horizontal>
-              <TreatmentCard
-                  title="Treatment Name"
-                  image={require('../../assets/images/message1.png')}
-                />
-                <TreatmentCard
-                  title="Treatment Name"
-                  image={require('../../assets/images/message2.png')}
-                />
-                <TreatmentCard
-                  title="Treatment Name"
-                  image={require('../../assets/images/message3.png')}
-                />
-              </ScrollView>
-            </View>
-          </View>
+          )}
         </View>
       </SafeAreaView>
     </ScrollView>
@@ -258,6 +425,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontFamily: FontFamily.semiBold,
     marginBottom: 4,
+    marginLeft: 8,
   },
   subText: {
     fontSize: 16,
@@ -366,6 +534,46 @@ const styles = StyleSheet.create({
   nextAppoinmentText: {
     fontSize: 18,
     fontFamily: FontFamily.semiBold,
+  },
+  locationStyle: {
+    width: 16,
+    height: 20,
+    resizeMode: 'contain',
+  },
+  headercontainer: {
+    flex: 1,
+    backgroundColor: Colors.white,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight + 10 : 0,
+  },
+  backContainer: {
+    height: 44,
+    width: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 50,
+    backgroundColor: Colors.arrowBack,
+  },
+  headerMainContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 27,
+  },
+  headerTxt: {
+    fontSize: 24,
+    fontFamily: FontFamily.semiBold,
+    marginLeft: 40,
+  },
+  mainContainer: {
+    paddingHorizontal: 30,
+  },
+  gridContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    rowGap: 20,
+  },
+  cardWrapper: {
+    width: '48%',
   },
 });
 

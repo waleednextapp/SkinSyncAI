@@ -8,7 +8,7 @@ import PersonalDetailsScreen from '../screens/Profile/PersonalDetailsScreen';
 import SavedTreatmentsScreen from '../screens/Profile/SavedTreatmentsScreen';
 import LoyalityRewardsScreen from '../screens/Profile/LoyalityRewardsScreen';
 import MedicalHistoryScreen from '../screens/Profile/MedicalHistoryScreen';
-import FloatingActionButton from '../components/FloatingActionButton';
+import TreatmentReceiptScreen from '../screens/Profile/TreatmentReceiptScreen';
 
 const Stack = createStackNavigator();
 
@@ -53,22 +53,27 @@ const ProfileStack = () => {
       <Stack.Screen
         name="PersonalDetails"
         component={PersonalDetailsScreen}
-        options={{title: 'Personal Details'}}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="SavedTreatments"
         component={SavedTreatmentsScreen}
-        options={{title: 'Saved Treatments'}}
+        options={{headerShown: false}}
       />
       <Stack.Screen
-        name="LoyalityRewards"
+        name="LoyaltyRewards"
         component={LoyalityRewardsScreen}
-        options={{title: 'Loyality & Rewards'}}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="MedicalHistory"
         component={MedicalHistoryScreen}
-        options={{title: 'Medical History'}}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="TreatmentReceipt"
+        component={TreatmentReceiptScreen}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );

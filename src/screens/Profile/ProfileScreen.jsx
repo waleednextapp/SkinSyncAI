@@ -49,7 +49,7 @@ const menuItems = [
   {
     title: 'Treatment Receipts',
     icon: <Reciept size={24} />,
-    screen: 'MedicalHistory',
+    screen: 'TreatmentReceipt',
   },
   {title: 'Logout', icon: <Logout size={24} />, screen: null},
 ];
@@ -86,7 +86,7 @@ const ProfileScreen = () => {
           <View style={styles.profileHeaderTop}>
             <Text style={styles.profileTitle}>My Profile</Text>
             <TouchableOpacity
-              onPress={() => console.log('Settings pressed')}
+              onPress={() => navigation.navigate('Setting')}
               style={styles.settingBack}>
               <Setting size={22} />
             </TouchableOpacity>

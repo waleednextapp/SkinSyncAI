@@ -1,157 +1,172 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  Platform,
+  StatusBar,
+  TouchableOpacity,
+} from 'react-native';
+import {FontFamily} from '../../utils/Fonts';
+import {Colors} from '../../utils/Colors';
+import {Back} from '../../icons';
+import DropDownPicker from 'react-native-dropdown-picker';
+import Button from '../../components/Button';
 
-const MedicalHistoryScreen = () => {
+const MedicalHistoryScreen = ({navigation}) => {
+  const [openAllergyConcern, setOpenAllergyConcern] = useState(false);
+  const [allergyConcern, setAllergyConcern] = useState(null);
+  const [allergyConcernItems, setAllergyConcernItems] = useState([
+    {label: 'Allergy Free', value: 'Allergy Free'},
+    {label: 'Aging', value: 'aging'},
+    {label: 'Sensitivity', value: 'sensitivity'},
+  ]);
+  const [openMedicationConcern, setOpenMedicationConcern] = useState(false);
+  const [medicationConcern, setMedicationConcern] = useState(null);
+  const [medicationConcernItems, setMedicationConcernItems] = useState([
+    {label: `Merformin, Lisinopril, etc`, value: `Merformin, Lisinopril, etc`},
+    {label: 'Aging', value: 'aging'},
+    {label: 'Sensitivity', value: 'sensitivity'},
+  ]);
+  const [openMedicalConcern, setOpenMedicalConcern] = useState(false);
+  const [medicalConcern, setMedicalConcern] = useState(null);
+  const [medicalConcernItems, setMedicalConcernItems] = useState([
+    {label: 'Diabetes', value: 'Diabetes'},
+    {label: 'Aging', value: 'aging'},
+    {label: 'Sensitivity', value: 'sensitivity'},
+  ]);
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Allergies</Text>
-        <View style={styles.card}>
-          <View style={styles.row}>
-            <Icon name="error-outline" size={20} color="#FF3B30" />
-            <Text style={styles.allergyText}>Penicillin</Text>
-          </View>
-          <View style={styles.row}>
-            <Icon name="error-outline" size={20} color="#FF3B30" />
-            <Text style={styles.allergyText}>Latex</Text>
-          </View>
-        </View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.headerMainContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backContainer}>
+          <Back size={20} />
+        </TouchableOpacity>
+        <Text style={styles.headerTxt}>Allergy & Medical History</Text>
       </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Treatment History</Text>
-        <View style={styles.historyCard}>
-          <View style={styles.historyItem}>
-            <View style={styles.dateContainer}>
-              <Text style={styles.date}>15 Mar 2024</Text>
-              <Text style={styles.time}>2:30 PM</Text>
-            </View>
-            <View style={styles.treatmentInfo}>
-              <Text style={styles.treatmentName}>Facial Treatment</Text>
-              <Text style={styles.clinicName}>Beauty Clinic</Text>
-              <Text style={styles.notes}>Notes: Regular maintenance treatment</Text>
-            </View>
-          </View>
-          <View style={styles.historyItem}>
-            <View style={styles.dateContainer}>
-              <Text style={styles.date}>10 Mar 2024</Text>
-              <Text style={styles.time}>3:00 PM</Text>
-            </View>
-            <View style={styles.treatmentInfo}>
-              <Text style={styles.treatmentName}>Skin Consultation</Text>
-              <Text style={styles.clinicName}>Derma Care Center</Text>
-              <Text style={styles.notes}>Notes: Initial consultation</Text>
-            </View>
-          </View>
-        </View>
+      <View style={styles.bodyContainer}>
+        <Text style={styles.mainTxt}>
+          Share any past or current medical conditions
+        </Text>
+        <Text style={styles.heading}>Allergy</Text>
+        <Text style={styles.subTxt}>
+          Please choose your allergy from the list below.
+        </Text>
+        <DropDownPicker
+          open={openAllergyConcern}
+          value={allergyConcern}
+          items={allergyConcernItems}
+          setOpen={setOpenAllergyConcern}
+          setValue={setAllergyConcern}
+          setItems={setAllergyConcernItems}
+          placeholder="Primary Concerns"
+          style={[styles.dropdown]}
+          containerStyle={{zIndex: 1000}}
+          dropDownContainerStyle={{zIndex: 1000}}
+        />
+        <Text style={[styles.heading, {marginTop: 23}]}>
+          Medical Conditions
+        </Text>
+        <Text style={styles.subTxt}>
+          Share any past or current medical conditions
+        </Text>
+        <DropDownPicker
+          open={openMedicalConcern}
+          value={medicalConcern}
+          items={medicalConcernItems}
+          setOpen={setOpenMedicalConcern}
+          setValue={setMedicalConcern}
+          setItems={setMedicalConcernItems}
+          placeholder="Primary Concerns"
+          style={[styles.dropdown]}
+          containerStyle={{zIndex: 500}}
+          dropDownContainerStyle={{zIndex: 500}}
+        />
+        <Text style={[styles.heading, {marginTop: 23}]}>
+          Current Medications
+        </Text>
+        <Text style={styles.subTxt}>
+          List any medications you are currently taking
+        </Text>
+        <DropDownPicker
+          open={openMedicationConcern}
+          value={medicationConcern}
+          items={medicationConcernItems}
+          setOpen={setOpenMedicationConcern}
+          setValue={setMedicationConcern}
+          setItems={setMedicationConcernItems}
+          placeholder="Primary Concerns"
+          style={[styles.dropdown]}
+          containerStyle={{zIndex: 100}}
+          dropDownContainerStyle={{zIndex: 100}}
+        />
+        <Button title={'Save'} style={{marginTop: 30, borderRadius: 10}} />
       </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Medical Conditions</Text>
-        <View style={styles.card}>
-          <Text style={styles.conditionText}>No known medical conditions</Text>
-        </View>
-      </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    paddingHorizontal: 30,
+    backgroundColor: Colors.white,
   },
-  section: {
-    padding: 20,
+  headercontainer: {
+    flex: 1,
+    backgroundColor: Colors.white,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight + 10 : 0,
   },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 15,
+  backContainer: {
+    height: 44,
+    width: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 50,
+    backgroundColor: Colors.arrowBack,
   },
-  card: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 15,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  row: {
+  headerMainContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 8,
-  },
-  allergyText: {
-    fontSize: 16,
-    color: '#333',
-    marginLeft: 10,
-  },
-  historyCard: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 15,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  historyItem: {
-    flexDirection: 'row',
-    paddingVertical: 15,
+    paddingHorizontal: 30,
+    paddingBottom: 27,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.lightBorderColor,
   },
-  dateContainer: {
-    width: 80,
-    marginRight: 15,
+  headerTxt: {
+    fontSize: 24,
+    fontFamily: FontFamily.semiBold,
+    marginLeft: 20,
   },
-  date: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#007AFF',
+  mainContainer: {
+    paddingHorizontal: 30,
   },
-  time: {
-    fontSize: 12,
-    color: '#666',
-    marginTop: 4,
+  bodyContainer: {
+    paddingHorizontal: 30,
   },
-  treatmentInfo: {
-    flex: 1,
-  },
-  treatmentName: {
+  mainTxt: {
+    marginVertical: 22,
     fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 4,
+    fontFamily: FontFamily.regular,
   },
-  clinicName: {
+  heading: {
+    fontSize: 18,
+    fontFamily: FontFamily.medium,
+  },
+  subTxt: {
+    marginVertical: 10,
     fontSize: 14,
-    color: '#666',
-    marginBottom: 4,
+    fontFamily: FontFamily.regular,
   },
-  notes: {
-    fontSize: 14,
-    color: '#666',
-    fontStyle: 'italic',
-  },
-  conditionText: {
-    fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
-    paddingVertical: 10,
+  dropdown: {
+    height: 55,
+    borderColor: Colors.bordeColor,
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: Colors.white,
   },
 });
 
-export default MedicalHistoryScreen; 
+export default MedicalHistoryScreen;
