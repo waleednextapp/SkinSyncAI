@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,8 @@ import {
   StatusBar,
   SafeAreaView,
   ScrollView,
+  Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import Slider from 'react-native-sliders';
 import {FontFamily} from '../../utils/Fonts';
@@ -16,8 +18,11 @@ import {Colors} from '../../utils/Colors';
 import {Back} from '../../icons';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Button from '../../components/Button';
+import {analyzeFace} from '../../services/faceApi';
+import ImgToBase64 from 'react-native-image-base64';
 
-const ARModalFaceScreen = ({navigation}) => {
+const ARModalFaceScreen = ({navigation, route}) => {
+  const {photoPath} = route.params;
   const [syringes, setSyringes] = useState(1);
   const [openMedicationConcern, setOpenMedicationConcern] = useState(false);
   const [medicationConcern, setMedicationConcern] = useState(null);
@@ -26,6 +31,40 @@ const ARModalFaceScreen = ({navigation}) => {
     {label: 'Aging', value: 'aging'},
     {label: 'Sensitivity', value: 'sensitivity'},
   ]);
+  const [faceData, setFaceData] = useState(null);
+  const [selectedTreatment, setSelectedTreatment] = useState('Botox');
+  const [isLoading, setIsLoading] = useState(true);
+  const [showAfter, setShowAfter] = useState(false);
+  const [accuracy, setAccuracy] = useState(0);
+
+  useEffect(() => {
+    analyzeFaceImage();
+  }, []);
+
+  const analyzeFaceImage = async () => {
+    try {
+      setIsLoading(true);
+      const formattedPath = photoPath.startsWith('file://')
+        ? photoPath
+        : `file://${photoPath}`;
+      const base64Image = await ImgToBase64.getBase64String(formattedPath);
+      const response = await analyzeFace(base64Image);
+      setFaceData(response);
+
+      const faceQuality =
+        response.faces[0]?.attributes?.facequality?.value || 0;
+      const blur = response.faces[0]?.attributes?.blur?.blurness?.value || 0;
+      const accuracyScore = Math.max(
+        0,
+        Math.min(100, (faceQuality - blur) * 20),
+      );
+      setAccuracy(accuracyScore);
+    } catch (error) {
+      console.error('Face analysis error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.safeContainer}>
@@ -38,18 +77,37 @@ const ARModalFaceScreen = ({navigation}) => {
         <Text style={styles.headerTxt}>AR Face Model Preview</Text>
       </View>
       <View style={styles.imageContainer}>
-        <View>
-          <Image
-            source={require('../../assets/images/modelView.png')}
-            style={styles.image}
-          />
-          <Text style={styles.afterTxt}>After</Text>
-          <View style={styles.maskBack}>
-            <Image
-              source={require('../../assets/images/maskIcon.png')}
-              style={styles.maskImg}
-            />
+        <View style={styles.imageWrapper}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              width: '100%',
+              padding: 10,
+            }}>
+            <Text style={styles.viewTxt}>{showAfter ? 'After' : 'Before'}</Text>
+            <TouchableOpacity
+              style={styles.maskBack}
+              onPress={() => setShowAfter(!showAfter)}>
+              <Image
+                source={require('../../assets/images/maskIcon.png')}
+                style={styles.maskImg}
+              />
+            </TouchableOpacity>
           </View>
+          {/* {isLoading ? (
+            <ActivityIndicator size="large" color={Colors.primary} />
+          ) : ( */}
+            <Image
+              source={{
+                uri: photoPath.startsWith('file://')
+                  ? photoPath
+                  : `file://${photoPath}`,
+              }}
+              style={[styles.image, showAfter && styles.arModel]}
+            />
+          {/* )} */}
         </View>
         <Text style={styles.overlayText}>
           See How {syringes} Syringe{syringes > 1 ? 's' : ''} Will Look On Your
@@ -63,7 +121,7 @@ const ARModalFaceScreen = ({navigation}) => {
             style={styles.progressImage}
           />
           <View>
-            <Text style={styles.accuracyText}>Accuracy Rate</Text>
+            <Text style={styles.accuracyText}>Accuracy Rate: {accuracy}%</Text>
             <Text style={styles.subTxt}>
               This score is based on your Face analysis
             </Text>
@@ -76,21 +134,53 @@ const ARModalFaceScreen = ({navigation}) => {
           contentContainerStyle={styles.btnMain}
           horizontal
           showsHorizontalScrollIndicator={false}>
-          <TouchableOpacity style={[styles.btnStyle, {marginHorizontal: 5}]}>
+          <TouchableOpacity
+            style={[
+              styles.btnStyle,
+              {
+                marginHorizontal: 5,
+                backgroundColor:
+                  selectedTreatment === 'Botox'
+                    ? Colors.primary
+                    : Colors.arrowBack,
+              },
+            ]}
+            onPress={() => setSelectedTreatment('Botox')}>
             <Image
               source={require('../../assets/images/skinCare.png')}
               style={{width: 18, height: 18}}
             />
             <Text style={[styles.btnText]}>Botox</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.btnStyle, {marginHorizontal: 5}]}>
+          <TouchableOpacity
+            style={[
+              styles.btnStyle,
+              {
+                marginHorizontal: 5,
+                backgroundColor:
+                  selectedTreatment === 'Dermal Filler'
+                    ? Colors.primary
+                    : Colors.arrowBack,
+              },
+            ]}
+            onPress={() => setSelectedTreatment('Dermal Filler')}>
             <Image
               source={require('../../assets/images/injection.png')}
               style={{width: 18, height: 18}}
             />
             <Text style={styles.btnText}>Dermal Filler </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnStyle}>
+          <TouchableOpacity
+            style={[
+              styles.btnStyle,
+              {
+                backgroundColor:
+                  selectedTreatment === 'Laser Treatment'
+                    ? Colors.primary
+                    : Colors.arrowBack,
+              },
+            ]}
+            onPress={() => setSelectedTreatment('Laser Treatment')}>
             <Image
               source={require('../../assets/images/laserImg.png')}
               style={{width: 18, height: 18}}
@@ -168,11 +258,18 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.anotherPink,
     borderRadius: 10,
     marginHorizontal: 20,
+    height: 260,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '90%',
   },
   image: {
-    width: 250,
-    height: 250,
+    width: 180,
+    height: 200,
     borderRadius: 10,
+    resizeMode: 'cover',
+    alignSelf: 'center',
+    bottom: 40,
   },
   overlayText: {
     position: 'absolute',
@@ -238,13 +335,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
-
-  //ok
-
   safeContainer: {
     flex: 1,
     backgroundColor: Colors.white,
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    width: '100%',
   },
   headercontainer: {
     flex: 1,
@@ -261,8 +356,9 @@ const styles = StyleSheet.create({
   headerMainContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 30,
+    // paddingHorizontal: 30,
     paddingBottom: 27,
+    paddingHorizontal: 20,
   },
   headerTxt: {
     fontSize: 24,
@@ -277,17 +373,17 @@ const styles = StyleSheet.create({
     width: 18,
     resizeMode: 'contain',
   },
-  afterTxt: {
-    position: 'absolute',
-    top: 22,
-    left: -40,
+  viewTxt: {
+    // position: 'absolute',
+    // top: 22,
+    // left: -40,
     fontSize: 20,
     fontFamily: FontFamily.semiBold,
   },
   maskBack: {
-    position: 'absolute',
-    top: 22,
-    right: -40,
+    // position: 'absolute',
+    // top: 22,
+    // right: -40,
     backgroundColor: Colors.white,
     justifyContent: 'center',
     alignItems: 'center',
@@ -357,5 +453,22 @@ const styles = StyleSheet.create({
   syringeTxt: {
     fontSize: 14,
     fontFamily: FontFamily.medium,
+  },
+  treatmentOverlay: {
+    position: 'absolute',
+    zIndex: 1,
+  },
+  arModel: {
+    transform: [{scale: 1.05}, {perspective: 1000}, {rotateY: '5deg'}],
+    borderWidth: 2,
+    borderColor: Colors.primary,
+    shadowColor: Colors.primary,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8,
   },
 });
