@@ -20,6 +20,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import Button from '../../components/Button';
 import {analyzeFace} from '../../services/faceApi';
 import ImgToBase64 from 'react-native-image-base64';
+import Svg, {Circle} from 'react-native-svg';
 
 const ARModalFaceScreen = ({navigation, route}) => {
   const {photoPath} = route.params;
@@ -66,6 +67,61 @@ const ARModalFaceScreen = ({navigation, route}) => {
     }
   };
 
+  const FaceOverlay = ({landmarks}) => {
+    if (!landmarks) return null;
+
+    // Get the face rectangle to calculate scaling
+    const faceRect = faceData?.faces[0]?.face_rectangle;
+    if (!faceRect) return null;
+
+    // Image dimensions
+    const imageWidth = 100;
+    const imageHeight = 100;
+
+    // Calculate scaling factors to fit the face in the image
+    const scaleX = imageWidth / faceRect.width;
+    const scaleY = imageHeight / faceRect.height;
+    
+    // Use the smaller scale to maintain aspect ratio
+    const scale = Math.min(scaleX, scaleY);
+
+    // Calculate the center of the face rectangle
+    const faceCenterX = faceRect.left + (faceRect.width / 2);
+    const faceCenterY = faceRect.top + (faceRect.height / 2);
+
+    // Calculate the center of the image
+    const imageCenterX = imageWidth / 2;
+    const imageCenterY = imageHeight / 2;
+
+    // Calculate the offset to center the face in the image
+    const offsetX = imageCenterX - (faceCenterX * scale);
+    const offsetY = imageCenterY - (faceCenterY * scale);
+
+    return (
+      <View style={styles.overlayContainer}>
+        <Svg height="100%" width="100%" style={styles.svgOverlay}>
+          {Object.entries(landmarks).map(([key, point]) => {
+            // Transform coordinates to center the face in the image
+            const x = (point.x * scale) + offsetX;
+            const y = (point.y * scale) + offsetY;
+            
+            return (
+              <Circle
+                key={key}
+                cx={x}
+                cy={y}
+                r="2"
+                fill={Colors.primary}
+                stroke={Colors.white}
+                strokeWidth="1"
+              />
+            );
+          })}
+        </Svg>
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       <View style={styles.headerMainContainer}>
@@ -96,9 +152,7 @@ const ARModalFaceScreen = ({navigation, route}) => {
               />
             </TouchableOpacity>
           </View>
-          {/* {isLoading ? (
-            <ActivityIndicator size="large" color={Colors.primary} />
-          ) : ( */}
+          <View style={styles.imageContainerInner}>
             <Image
               source={{
                 uri: photoPath.startsWith('file://')
@@ -107,7 +161,10 @@ const ARModalFaceScreen = ({navigation, route}) => {
               }}
               style={[styles.image, showAfter && styles.arModel]}
             />
-          {/* )} */}
+            {showAfter && faceData?.faces?.[0]?.landmark && (
+              <FaceOverlay landmarks={faceData.faces[0].landmark} />
+            )}
+          </View>
         </View>
         <Text style={styles.overlayText}>
           See How {syringes} Syringe{syringes > 1 ? 's' : ''} Will Look On Your
@@ -230,7 +287,7 @@ const ARModalFaceScreen = ({navigation, route}) => {
         </TouchableOpacity>
         <Button
           title={'Update'}
-          style={{width: 150}}
+          style={{width: 150, height: 44}}
           onPress={() => {
             navigation.navigate('ReadyAppointment');
           }}
@@ -258,18 +315,30 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.anotherPink,
     borderRadius: 10,
     marginHorizontal: 20,
-    height: 260,
+    height: 250,
     alignItems: 'center',
     justifyContent: 'center',
     width: '90%',
   },
+  imageWrapper: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 20,
+  },
+  imageContainerInner: {
+    position: 'relative',
+    width: 180,
+    height: 180,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   image: {
     width: 180,
-    height: 200,
+    height: 180,
     borderRadius: 10,
     resizeMode: 'cover',
     alignSelf: 'center',
-    bottom: 40,
   },
   overlayText: {
     position: 'absolute',
@@ -315,10 +384,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingVertical: 15,
+    paddingVertical: 10,
     borderTopWidth: 1,
     borderTopColor: Colors.lightBorderColor,
-    marginTop: 15,
+    // marginTop: 15,
   },
   resetText: {
     fontFamily: FontFamily.semiBold,
@@ -470,5 +539,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4.65,
     elevation: 8,
+  },
+  overlayContainer: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    top: 33,
+    left: 35,
+  },
+  svgOverlay: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
   },
 });
