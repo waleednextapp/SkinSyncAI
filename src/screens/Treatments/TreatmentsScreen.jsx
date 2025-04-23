@@ -139,7 +139,7 @@ const TreatmentsScreen = ({navigation}) => {
             </View>
             <Text style={styles.subText}>195 Karlie Brooks, Anderson</Text>
           </View>
-          <TouchableOpacity style={styles.bellBack}>
+          <TouchableOpacity style={styles.bellBack} onPress={() => {navigation.navigate('notification')}}>
             <Bell size={21} />
           </TouchableOpacity>
         </View>
@@ -408,11 +408,11 @@ const TreatmentsScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight + 10 : 0,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight + 20 : 0,
     backgroundColor: Colors.white,
   },
   header: {
-    paddingHorizontal: 30,
+    paddingHorizontal: 20,
     paddingBottom: 22,
     backgroundColor: Colors.white,
     borderBottomWidth: 1,
@@ -464,7 +464,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 22,
     flexGrow: 1,
-    paddingHorizontal: 30,
+    paddingHorizontal: 20,
   },
   btnText: {
     fontSize: 18,

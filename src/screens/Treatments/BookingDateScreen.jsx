@@ -77,7 +77,7 @@ const BookingDateScreen = ({navigation}) => {
           <Button
             title="Book Now"
             style={{width: 187}}
-            onPress={() => navigation.navigate('ARModalFace')}
+            onPress={() => navigation.navigate('ReadyAppointment')}
           />
         </View>
       </View>

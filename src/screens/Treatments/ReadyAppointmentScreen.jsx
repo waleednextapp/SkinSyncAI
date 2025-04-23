@@ -149,7 +149,8 @@ const ReadyAppointmentScreen = ({navigation}) => {
         {/* Confirm Booking Button */}
         <TouchableOpacity
           style={[styles.confirmButton, {backgroundColor: Colors.pink}]}
-          onPress={handleBooking}>
+          //onPress={handleBooking}
+          >
           <Text style={styles.confirmText}>Add New Method</Text>
         </TouchableOpacity>
         <View
@@ -183,7 +184,7 @@ const ReadyAppointmentScreen = ({navigation}) => {
           </View>
           <Text style={styles.treatmentText}>$ 550</Text>
         </View>
-        <Button title={'Confirm Now'} />
+        <Button onPress={handleBooking} title={'Confirm Now'} />
         {/* Modal */}
         <Modal
           animationType="fade"
@@ -220,7 +221,7 @@ const ReadyAppointmentScreen = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {paddingHorizontal: 30, backgroundColor: Colors.white},
+  container: {paddingHorizontal: 20, backgroundColor: Colors.white},
   backButton: {
     justifyContent: 'center',
     alignItems: 'center',

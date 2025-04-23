@@ -16,6 +16,8 @@ import {useFaceDetector} from 'react-native-vision-camera-face-detector';
 import {Worklets} from 'react-native-worklets-core';
 import {Colors} from '../../utils/Colors';
 import {useNavigation} from '@react-navigation/native';
+import {FontFamily} from '../../utils/Fonts';
+
 
 const FaceDetection = () => {
   const [faces, setFaces] = useState([]);
@@ -144,6 +146,7 @@ const FaceDetection = () => {
           {/* Darkened area outside the bounding box */}
           <View style={styles.darkOverlay}>
             {/* Top dark area */}
+            <Text style={{fontFamily:FontFamily.semiBold, marginLeft:'23%',marginTop:'10%',fontSize:17}}>Place your face inside circle</Text>
             <View style={[styles.overlay, {top: 0, height: boundingBox.y}]} />
             {/* Left dark area */}
             <View
@@ -212,7 +215,7 @@ const FaceDetection = () => {
               height: boundingBox.height,
               borderWidth: 2,
               borderRadius: 100,
-              borderColor: Colors.progressbarColor,
+              borderColor: Colors.black,
               zIndex: 1,
             }}
           />
@@ -233,13 +236,16 @@ const FaceDetection = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#000000',
     alignItems: 'center',
     justifyContent: 'center',
   },
   cameraContainer: {
     overflow: 'hidden',
     position: 'relative',
+    borderRadius: 15,
+    borderWidth: 2,
+    borderColor: Colors.lightPink,
   },
   overlay: {
     position: 'absolute',

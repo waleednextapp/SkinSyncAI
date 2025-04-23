@@ -153,7 +153,7 @@ const AdditionalInformationScreen = ({navigation}) => {
           </View>
           <View>
             <Text style={styles.lastQuestion}>
-              previous aesthetic treatments? Please specify (Botox, fillers,
+              Previous aesthetic treatments? Please specify (Botox, fillers,
               laser, microneedling)
             </Text>
             <View
@@ -298,9 +298,10 @@ const AdditionalInformationScreen = ({navigation}) => {
         <Button
           title={'Submit'}
           style={{marginVertical: 20, marginHorizontal: 30}}
-          onPress={() => navigation.navigate('ScanYourFace')}
+          onPress={() => navigation.pop(4)}
         />
         <Text
+          onPress={() => navigation.pop(4)}
           style={{
             textAlign: 'center',
             fontSize: 18,
@@ -318,7 +319,7 @@ export default AdditionalInformationScreen;
 
 const styles = StyleSheet.create({
   heading: {
-    fontSize: 30,
+    fontSize: 26,
     fontFamily: FontFamily.semiBold,
     paddingBottom: 28,
     borderBottomColor: Colors.lightBorderColor,

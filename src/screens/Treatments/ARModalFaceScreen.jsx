@@ -23,7 +23,7 @@ import ImgToBase64 from 'react-native-image-base64';
 import Svg, {Circle} from 'react-native-svg';
 
 const ARModalFaceScreen = ({navigation, route}) => {
-  const {photoPath} = route.params;
+  const {photoPath} = route.params ;
   const [syringes, setSyringes] = useState(1);
   const [openMedicationConcern, setOpenMedicationConcern] = useState(false);
   const [medicationConcern, setMedicationConcern] = useState(null);
