@@ -112,7 +112,7 @@ const FaceDetection = () => {
             qualityPrioritization: 'quality',
             flash: 'off',
           });
-          console.log('photo', photo);
+          //console.log('photo', photo);
           if (photo) {
             navigation.navigate('ARModalFace', {photoPath: photo.path});
           }

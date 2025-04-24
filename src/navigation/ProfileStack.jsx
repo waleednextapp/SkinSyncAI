@@ -78,6 +78,6 @@ const ProfileStack = () => {
     </Stack.Navigator>
   );
 };
-console.log('ProfileStack');
+//console.log('ProfileStack');
 
 export default ProfileStack;

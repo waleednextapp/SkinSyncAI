@@ -7,6 +7,7 @@ import FloatingActionButton from '../components/FloatingActionButton';
 
 // Import screens
 import HomeScreen from '../screens/Home/HomeScreen';
+import LoyalityRewardsScreen from '../screens/Profile/LoyalityRewardsScreen';
 import TreatmentsScreen from '../screens/Treatments/TreatmentsScreen';
 import AppointmentsScreen from '../screens/Appointments/AppointmentsScreen';
 import ProgressScreen from '../screens/Progress/ProgressScreen';
@@ -125,6 +126,11 @@ const HomeStack = () => {
         name="HomeScreen"
         component={withFAB(HomeScreen, navigation)}
         options={{title: 'Home', headerShown: false}}
+      />
+       <Stack.Screen
+        name="LoyaltyRewards"
+        component={LoyalityRewardsScreen}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );

@@ -63,7 +63,7 @@ const HomeScreen = () => {
               <Text style={[styles.subtitle, {width: '95%'}]}>
                 Earn up to $250/month!
               </Text>
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity style={styles.button} onPress={() => {navigation.navigate('LoyaltyRewards')}}>
                 <Star color={Colors.white} size={14} />
                 <Text style={styles.buttonText}>Redeem Points</Text>
               </TouchableOpacity>
