@@ -1,272 +1,269 @@
-import {
-  View,
-  StyleSheet,
-  Text,
-  useWindowDimensions,
-  Alert,
-  SafeAreaView,
-} from 'react-native';
-import React, {useEffect, useState, useRef} from 'react';
-import {
-  Camera,
-  useCameraDevice,
-  useFrameProcessor,
-} from 'react-native-vision-camera';
-import {useFaceDetector} from 'react-native-vision-camera-face-detector';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, StyleSheet, Image, PermissionsAndroid, Platform, Alert, TouchableOpacity } from 'react-native';
+import { Camera, useCameraDevice, useFrameProcessor, VisionCameraProxy } from 'react-native-vision-camera';
+import { 
+    Face,
+    runAsync,
+    useFaceDetector,
+    FaceDetectionOptions
+  } from 'react-native-vision-camera-face-detector';
+//import { runOnJS } from 'react-native-reanimated';
+import * as Animatable from 'react-native-animatable';
 import {Worklets} from 'react-native-worklets-core';
-import {Colors} from '../../utils/Colors';
-import {useNavigation} from '@react-navigation/native';
-import {FontFamily} from '../../utils/Fonts';
 
 
-const FaceDetection = () => {
-  const [faces, setFaces] = useState([]);
-  const [cameraPermission, setCameraPermission] = useState(null);
-  const [isPermissionGranted, setIsPermissionGranted] = useState(false);
-  const [alertShown, setAlertShown] = useState(false); // To prevent multiple alerts
-  const [isCapturing, setIsCapturing] = useState(false);
+export default function FaceAngleCapture() {
+  const cameraRef = useRef(null);
+  const [hasPermission, setHasPermission] = useState(false);
+  const [captured, setCaptured] = useState({ front: null, left: null, right: null });
+  const [countdown, setCountdown] = useState(null); // '3' → '2' → '1'
+  const [currentAngle, setCurrentAngle] = useState(null);
+  const [isCounting, setIsCounting] = useState(false);
   const device = useCameraDevice('front');
-  const camera = useRef(null);
-  const navigation = useNavigation();
-  const {detectFaces} = useFaceDetector();
-  const {width: screenWidth, height: screenHeight} = useWindowDimensions();
 
-  // Define fixed camera frame size
-  const cameraWidth = 360;
-  const cameraHeight = 480;
+const {detectFaces} = useFaceDetector();
+    
 
-  const actualCameraWidth = device?.format?.width || 720; // Get actual camera resolution
-  const actualCameraHeight = device?.format?.height || 1280;
-
-  // Define the bounding box size and position
-  const boundingBox = {
-    x: 80, // Left position of the bounding box
-    y: 100, // Top position of the bounding box
-    width: 200, // Width of the bounding box
-    height: 280, // Height of the bounding box
-  };
-
-  useEffect(() => {
-    const requestPermission = async () => {
-      try {
-        const status = await Camera.requestCameraPermission();
-        setCameraPermission(status);
-        if (status === 'granted') {
-          setIsPermissionGranted(true);
-        } else {
-          console.warn('Camera permission denied:', status);
-        }
-      } catch (error) {
-        console.error('Permission request error:', error);
-      }
-    };
-    requestPermission();
-  }, []);
-
-  const handleDetectFace = Worklets.createRunOnJS(faces => {
-    setFaces(faces);
-    // console.log('Detected faces:', faces);
-  });
-
-  const frameProcessor = useFrameProcessor(frame => {
-    'worklet';
-    try {
-      const detectedFaces = detectFaces(frame);
-      handleDetectFace(detectedFaces);
-    } catch (error) {
-      console.error('Face detection error:', error);
-    }
-  }, []);
-
-  const isFaceInBoundingBox = face => {
-    // Check if the face is within the bounding box
-    const scaleX = cameraWidth / actualCameraWidth;
-    const scaleY = cameraHeight / actualCameraHeight;
-
-    const x = face.bounds.x * scaleX;
-    const y = face.bounds.y * scaleY;
-    const width = face.bounds.width * scaleX;
-    const height = face.bounds.height * scaleY;
-
-    return (
-      x >= boundingBox.x &&
-      y >= boundingBox.y &&
-      x + width <= boundingBox.x + boundingBox.width &&
-      y + height <= boundingBox.y + boundingBox.height
-    );
-  };
-
-  // console.log('faces', faces);
-
-  const checkForAlert = async () => {
-    // console.log('faces', faces);
-    if (!alertShown) {
-      // console.log('Checking for alert');
-      setAlertShown(true);
-      Alert.alert('Face detected');
-      if (faces.length > 0 && !isCapturing) {
-        // console.log('Capturing photo');
-        setIsCapturing(true);
+   useEffect(() => {
+      const requestPermission = async () => {
         try {
-          const photo = await camera.current?.takePhoto({
-            qualityPrioritization: 'quality',
-            flash: 'off',
-          });
-          //console.log('photo', photo);
-          if (photo) {
-            navigation.navigate('ARModalFace', {photoPath: photo.path});
+          const status = await Camera.requestCameraPermission();
+          if (status === 'granted') {
+            setHasPermission(status);
+            //setIsPermissionGranted(true);
+          } else {
+            console.warn('Camera permission denied:', status);
           }
         } catch (error) {
-          console.error('Error capturing photo:', error);
-        } finally {
-          setIsCapturing(false);
+          console.error('Permission request error:', error);
         }
+      };
+      requestPermission();
+    }, []);
+
+
+    const runStartCountdownFront = Worklets.createRunOnJS(() => startCountdown('front'));
+    const runStartCountdownLeft = Worklets.createRunOnJS(() => startCountdown('left'));
+    const runStartCountdownRight = Worklets.createRunOnJS(() => startCountdown('right'));
+  
+    const startCountdown = (angle) => {
+        if (isCounting || captured[angle]) return;
+        
+        setIsCounting(true);
+        setCurrentAngle(angle);
+        let seconds = 3;
+    
+        const countdownInterval = setInterval(() => {
+          setCountdown(seconds.toString());
+          seconds--;
+    
+          if (seconds < 0) {
+            clearInterval(countdownInterval);
+            setCountdown(null);
+            capturePhoto(angle);
+            setIsCounting(false);
+          }
+        }, 800);
+      };
+    
+
+  const frameProcessor = useFrameProcessor((frame) => {
+    'worklet';
+    
+    const faces = detectFaces(frame);
+    if (faces.length === 0 || isCounting) return;
+
+    const face = faces[0];
+    const yaw = face.yawAngle;
+
+    if (!captured.front && yaw > -10 && yaw < 10) {
+        runStartCountdownFront();
+      } else if (!captured.left && yaw > 15) {
+        runStartCountdownLeft();
+      } else if (!captured.right && yaw < -15) {
+        runStartCountdownRight();
       }
+  }, [captured, isCounting]);
+
+   
+  
+
+  
+
+  const capturePhoto = async (angle) => {
+    if (!cameraRef.current || captured[angle]) return;
+
+    try {
+      const photo = await cameraRef.current.takePhoto();
+      setCaptured((prev) => ({ ...prev, [angle]: photo.path }));
+
+      if (angle === 'right') {
+        Alert.alert('Success!', 'All three face angles captured!');
+      }
+    } catch (err) {
+      console.warn('Capture error:', err);
     }
   };
 
+  const resetCapture = () => {
+    setCaptured({ front: null, left: null, right: null });
+    setCountdown(null);
+    setIsCounting(false);
+    setCurrentAngle(null);
+  };
+
+  if (!device || !hasPermission) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={styles.loadingText}>Loading Camera...</Text>
+      </View>
+    );
+  }
+
   return (
-    <SafeAreaView style={styles.container}>
-      {isPermissionGranted && device ? (
-        <View
-          style={[
-            styles.cameraContainer,
-            {width: cameraWidth, height: cameraHeight},
-          ]}>
-          {/* Camera Feed */}
-          <Camera
-            ref={camera}
-            style={{width: cameraWidth, height: cameraHeight}}
-            device={device}
-            isActive={true}
-            frameProcessor={frameProcessor}
-            photo={true}
-          />
+    <View style={styles.container}>
+      <Camera
+        ref={cameraRef}
+        style={styles.camera}
+        device={device}
+        isActive={true}
+        photo={true}
+        frameProcessor={frameProcessor}
+        pixelFormat="yuv"
+      />
 
-          {/* Darkened area outside the bounding box */}
-          <View style={styles.darkOverlay}>
-            {/* Top dark area */}
-            <Text style={{fontFamily:FontFamily.semiBold, marginLeft:'23%',marginTop:'10%',fontSize:17}}>Place your face inside circle</Text>
-            <View style={[styles.overlay, {top: 0, height: boundingBox.y}]} />
-            {/* Left dark area */}
-            <View
-              style={[
-                styles.overlay,
-                {top: boundingBox.y, left: 0, width: boundingBox.x},
-              ]}
+      <Animatable.View animation="fadeInDown" delay={200} style={styles.instructions}>
+        <Text style={styles.instructionText}>🧍 Look: Front → Left → Right</Text>
+        <Text style={styles.instructionText}>Face will auto-capture after countdown</Text>
+      </Animatable.View>
+
+      <View style={styles.progressContainer}>
+        {['front', 'left', 'right'].map((angle) => (
+          <Animatable.View
+            key={angle}
+            animation={captured[angle] ? 'pulse' : undefined}
+            iterationCount="infinite"
+            duration={captured[angle] ? 1000 : 0}
+            style={[
+              styles.progressDot,
+              { backgroundColor: captured[angle] ? '#4CAF50' : '#999' },
+            ]}
+          >
+            <Text style={styles.progressLabel}>{angle.charAt(0).toUpperCase()}</Text>
+          </Animatable.View>
+        ))}
+      </View>
+
+      <View style={styles.thumbnails}>
+        {['front', 'left', 'right'].map((angle) =>
+          captured[angle] ? (
+            <Animatable.Image
+              animation="fadeIn"
+              duration={600}
+              key={angle}
+              source={{ uri: `file://${captured[angle]}` }}
+              style={styles.thumbnail}
             />
-            {/* Right dark area */}
-            <View
-              style={[
-                styles.overlay,
-                {
-                  top: boundingBox.y,
-                  left: boundingBox.x + boundingBox.width,
-                  width: screenWidth - (boundingBox.x + boundingBox.width),
-                },
-              ]}
-            />
-            {/* Bottom dark area */}
-            <View
-              style={[
-                styles.overlay,
-                {
-                  top: boundingBox.y + boundingBox.height,
-                  height: screenHeight - (boundingBox.y + boundingBox.height),
-                },
-              ]}
-            />
-          </View>
+          ) : (
+            <View key={angle} style={[styles.thumbnail, styles.placeholder]}>
+              <Text style={styles.placeholderText}>{angle.toUpperCase()}</Text>
+            </View>
+          )
+        )}
+      </View>
 
-          {/* Overlay for detected faces */}
-          <View style={styles.overlay}>
-            {faces.map((face, index) => {
-              const scaleX = cameraWidth / actualCameraWidth;
-              const scaleY = cameraHeight / actualCameraHeight;
-
-              // Properly mirror X-coordinates for front camera
-              const mirroredX =
-                cameraWidth - (face.bounds.x + face.bounds.width) * scaleX;
-              const y = face.bounds.y * scaleY;
-              const width = face.bounds.width * scaleX;
-              const height = face.bounds.height * scaleY;
-
-              // Increase bounding box size by scaling the face area (e.g., 1.2 times)
-              const largerWidth = width * 1.2;
-              const largerHeight = height * 1.2;
-
-              // Check if the face is within the bounding box
-              if (isFaceInBoundingBox(face)) {
-                // console.log('Face in bounding box');
-                checkForAlert();
-              }
-
-              return <View key={index} />;
-            })}
-          </View>
-
-          {/* Bounding box visible on screen */}
-          <View
-            style={{
-              position: 'absolute',
-              left: boundingBox.x,
-              top: boundingBox.y,
-              width: boundingBox.width,
-              height: boundingBox.height,
-              borderWidth: 2,
-              borderRadius: 100,
-              borderColor: Colors.black,
-              zIndex: 1,
-            }}
-          />
-        </View>
-      ) : (
-        <View style={styles.centeredView}>
-          <Text style={styles.text}>
-            {cameraPermission === 'denied'
-              ? 'Camera permission denied. Please enable it in settings.'
-              : 'Requesting camera permission...'}
-          </Text>
-        </View>
+      {countdown && (
+        <Animatable.Text
+          key={countdown}
+          animation="zoomIn"
+          duration={600}
+          style={styles.countdownText}
+        >
+          {countdown}
+        </Animatable.Text>
       )}
-    </SafeAreaView>
+
+      <TouchableOpacity style={styles.resetButton} onPress={resetCapture}>
+        <Text style={styles.resetText}>🔄 Re-capture</Text>
+      </TouchableOpacity>
+    </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000000',
-    alignItems: 'center',
+  container: { flex: 1, backgroundColor: 'black' },
+  camera: { flex: 1 },
+  loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000' },
+  loadingText: { color: 'white', fontSize: 18 },
+  instructions: {
+    position: 'absolute',
+    top: 50,
+    alignSelf: 'center',
+    backgroundColor: '#00000088',
+    padding: 10,
+    borderRadius: 8,
+  },
+  instructionText: { color: 'white', fontSize: 16, textAlign: 'center' },
+  progressContainer: {
+    position: 'absolute',
+    top: 130,
+    flexDirection: 'row',
     justifyContent: 'center',
-  },
-  cameraContainer: {
-    overflow: 'hidden',
-    position: 'relative',
-    borderRadius: 15,
-    borderWidth: 2,
-    borderColor: Colors.lightPink,
-  },
-  overlay: {
-    position: 'absolute',
-    backgroundColor: 'rgba(0, 0, 0, 0.6)', // Dark color for overlay
-  },
-  darkOverlay: {
-    position: 'absolute',
     width: '100%',
-    height: '100%',
-    zIndex: 0, // Ensures it's behind the bounding box and faces
+    gap: 10,
   },
-  centeredView: {
-    flex: 1,
+  progressDot: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#000',
+    marginHorizontal: 5,
   },
-  text: {
+  progressLabel: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  thumbnails: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 15,
+    backgroundColor: '#111',
+  },
+  thumbnail: {
+    width: 100,
+    height: 100,
+    borderRadius: 8,
+  },
+  placeholder: {
+    backgroundColor: '#333',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  placeholderText: { color: 'white', fontWeight: 'bold' },
+  countdownText: {
+    position: 'absolute',
+    top: '40%',
+    alignSelf: 'center',
+    fontSize: 80,
+    color: 'white',
+    fontWeight: 'bold',
+    backgroundColor: '#000000aa',
+    paddingHorizontal: 30,
+    borderRadius: 10,
+  },
+  resetButton: {
+    backgroundColor: '#333',
+    alignSelf: 'center',
+    marginBottom: 20,
+    paddingHorizontal: 25,
+    paddingVertical: 10,
+    borderRadius: 10,
+  },
+  resetText: {
     color: '#fff',
     fontSize: 16,
+    fontWeight: '600',
   },
 });
-
-export default FaceDetection;
