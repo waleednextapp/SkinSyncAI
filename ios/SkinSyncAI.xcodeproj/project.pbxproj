@@ -30,29 +30,29 @@
 
 /* Begin PBXFileReference section */
 		04AD9E3D19B9078C4C12B656 /* libPods-SkinSyncAI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SkinSyncAI.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		06663C8085D54FC0A4721BF4 /* Degular-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-BoldItalic.otf"; path = "../src/assets/fonts/Degular-BoldItalic.otf"; sourceTree = "<group>"; };
+		06663C8085D54FC0A4721BF4 /* Degular-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-BoldItalic.otf"; path = "../src/assets/fonts/Degular-BoldItalic.otf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* SkinSyncAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SkinSyncAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SkinSyncAI/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SkinSyncAI/Info.plist; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = SkinSyncAI/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		261E054AF4234972B684504F /* Degular-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-Bold.otf"; path = "../src/assets/fonts/Degular-Bold.otf"; sourceTree = "<group>"; };
-		2CF5386874DA4EF9B57E6B3C /* Degular-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-Regular.otf"; path = "../src/assets/fonts/Degular-Regular.otf"; sourceTree = "<group>"; };
-		2E31F6B46B584F878CF950DA /* Degular-ThinItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-ThinItalic.otf"; path = "../src/assets/fonts/Degular-ThinItalic.otf"; sourceTree = "<group>"; };
+		261E054AF4234972B684504F /* Degular-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-Bold.otf"; path = "../src/assets/fonts/Degular-Bold.otf"; sourceTree = "<group>"; };
+		2CF5386874DA4EF9B57E6B3C /* Degular-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-Regular.otf"; path = "../src/assets/fonts/Degular-Regular.otf"; sourceTree = "<group>"; };
+		2E31F6B46B584F878CF950DA /* Degular-ThinItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-ThinItalic.otf"; path = "../src/assets/fonts/Degular-ThinItalic.otf"; sourceTree = "<group>"; };
 		373FA269E48D1A5992BA73DD /* Pods-SkinSyncAI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkinSyncAI.release.xcconfig"; path = "Target Support Files/Pods-SkinSyncAI/Pods-SkinSyncAI.release.xcconfig"; sourceTree = "<group>"; };
-		3F8DDC9ACE8448D794E0CAA6 /* Degular-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-Medium.otf"; path = "../src/assets/fonts/Degular-Medium.otf"; sourceTree = "<group>"; };
-		4F64FE399F414F7E9ACBD6DE /* Degular-BlackItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-BlackItalic.otf"; path = "../src/assets/fonts/Degular-BlackItalic.otf"; sourceTree = "<group>"; };
-		616E98A7C0924166B018C6E8 /* Degular-Semibold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-Semibold.otf"; path = "../src/assets/fonts/Degular-Semibold.otf"; sourceTree = "<group>"; };
+		3F8DDC9ACE8448D794E0CAA6 /* Degular-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-Medium.otf"; path = "../src/assets/fonts/Degular-Medium.otf"; sourceTree = "<group>"; };
+		4F64FE399F414F7E9ACBD6DE /* Degular-BlackItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-BlackItalic.otf"; path = "../src/assets/fonts/Degular-BlackItalic.otf"; sourceTree = "<group>"; };
+		616E98A7C0924166B018C6E8 /* Degular-Semibold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-Semibold.otf"; path = "../src/assets/fonts/Degular-Semibold.otf"; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = SkinSyncAI/AppDelegate.swift; sourceTree = "<group>"; };
-		817D11490F3241EBBCF0AB5A /* Degular-SemiboldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-SemiboldItalic.otf"; path = "../src/assets/fonts/Degular-SemiboldItalic.otf"; sourceTree = "<group>"; };
+		817D11490F3241EBBCF0AB5A /* Degular-SemiboldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-SemiboldItalic.otf"; path = "../src/assets/fonts/Degular-SemiboldItalic.otf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SkinSyncAI/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8E4A5F27D2874D79B52985E3 /* Degular-RegularItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-RegularItalic.otf"; path = "../src/assets/fonts/Degular-RegularItalic.otf"; sourceTree = "<group>"; };
-		AF4A07DED71B4DC6AA4E7C6C /* Degular-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-Light.otf"; path = "../src/assets/fonts/Degular-Light.otf"; sourceTree = "<group>"; };
+		8E4A5F27D2874D79B52985E3 /* Degular-RegularItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-RegularItalic.otf"; path = "../src/assets/fonts/Degular-RegularItalic.otf"; sourceTree = "<group>"; };
+		AF4A07DED71B4DC6AA4E7C6C /* Degular-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-Light.otf"; path = "../src/assets/fonts/Degular-Light.otf"; sourceTree = "<group>"; };
 		B2E53D5D4F1E1EFAA19997B2 /* Pods-SkinSyncAI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkinSyncAI.debug.xcconfig"; path = "Target Support Files/Pods-SkinSyncAI/Pods-SkinSyncAI.debug.xcconfig"; sourceTree = "<group>"; };
-		BD411B66F6F3417F9350BB20 /* Degular-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-Black.otf"; path = "../src/assets/fonts/Degular-Black.otf"; sourceTree = "<group>"; };
-		CCF5838DB0464DD9AD719A46 /* Degular-MediumItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-MediumItalic.otf"; path = "../src/assets/fonts/Degular-MediumItalic.otf"; sourceTree = "<group>"; };
+		BD411B66F6F3417F9350BB20 /* Degular-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-Black.otf"; path = "../src/assets/fonts/Degular-Black.otf"; sourceTree = "<group>"; };
+		CCF5838DB0464DD9AD719A46 /* Degular-MediumItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-MediumItalic.otf"; path = "../src/assets/fonts/Degular-MediumItalic.otf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F7CBDB0878744628A0BBDEC1 /* Degular-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-Thin.otf"; path = "../src/assets/fonts/Degular-Thin.otf"; sourceTree = "<group>"; };
-		FCBD1EA10BBB4B749A171CB4 /* Degular-LightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-LightItalic.otf"; path = "../src/assets/fonts/Degular-LightItalic.otf"; sourceTree = "<group>"; };
+		F7CBDB0878744628A0BBDEC1 /* Degular-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-Thin.otf"; path = "../src/assets/fonts/Degular-Thin.otf"; sourceTree = "<group>"; };
+		FCBD1EA10BBB4B749A171CB4 /* Degular-LightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-LightItalic.otf"; path = "../src/assets/fonts/Degular-LightItalic.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +107,6 @@
 				2E31F6B46B584F878CF950DA /* Degular-ThinItalic.otf */,
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -325,8 +324,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 83FFSXJ53H;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = SkinSyncAI/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Skinsync AI";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.medical";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -338,10 +340,15 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nextapp.skinsyncai;
 				PRODUCT_NAME = SkinSyncAI;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -353,7 +360,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 83FFSXJ53H;
 				INFOPLIST_FILE = SkinSyncAI/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Skinsync AI";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.medical";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -365,9 +375,14 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nextapp.skinsyncai;
 				PRODUCT_NAME = SkinSyncAI;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
