@@ -21,7 +21,7 @@ export const analyzeFace = async (imageBase64) => {
 
     return response.data;
   } catch (error) {
-    console.error('Face++ API Error:', error);
+    console.log('Face++ API Error:', error);
     throw error;
   }
 };

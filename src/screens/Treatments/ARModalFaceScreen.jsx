@@ -10,7 +10,6 @@ import {
   SafeAreaView,
   ScrollView,
   Dimensions,
-  ActivityIndicator,
 } from 'react-native';
 import Slider from 'react-native-sliders';
 import {FontFamily} from '../../utils/Fonts';
@@ -18,12 +17,14 @@ import {Colors} from '../../utils/Colors';
 import {Back} from '../../icons';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Button from '../../components/Button';
-import {analyzeFace} from '../../services/faceApi';
-import ImgToBase64 from 'react-native-image-base64';
 import Svg, {Circle} from 'react-native-svg';
 
 const ARModalFaceScreen = ({navigation, route}) => {
-  const {photoPath} = route.params ;
+  const {
+    photoPath,
+    // landmarks,
+    contours
+  } = route?.params || {};
   const [syringes, setSyringes] = useState(1);
   const [openMedicationConcern, setOpenMedicationConcern] = useState(false);
   const [medicationConcern, setMedicationConcern] = useState(null);
@@ -32,95 +33,26 @@ const ARModalFaceScreen = ({navigation, route}) => {
     {label: 'Aging', value: 'aging'},
     {label: 'Sensitivity', value: 'sensitivity'},
   ]);
+
   const [faceData, setFaceData] = useState(null);
   const [selectedTreatment, setSelectedTreatment] = useState('Botox');
   const [isLoading, setIsLoading] = useState(true);
   const [showAfter, setShowAfter] = useState(false);
   const [accuracy, setAccuracy] = useState(0);
 
-  useEffect(() => {
-    analyzeFaceImage();
-  }, []);
+  const screenWidth = Dimensions.get('window').width;
+  const imageWidth = screenWidth * 0.9; // '90%' width of screen
+  const imageHeight = 250;
 
-  const analyzeFaceImage = async () => {
-    try {
-      setIsLoading(true);
-      const formattedPath = photoPath.startsWith('file://')
-        ? photoPath
-        : `file://${photoPath}`;
-      const base64Image = await ImgToBase64.getBase64String(formattedPath);
-      const response = await analyzeFace(base64Image);
-      setFaceData(response);
+  // Assuming contours are based on an original resolution
+  const originalImageWidth = 1440; // or whatever the original image width is
+  const originalImageHeight = 1080; // set it to actual original height
 
-      const faceQuality =
-        response.faces[0]?.attributes?.facequality?.value || 0;
-      const blur = response.faces[0]?.attributes?.blur?.blurness?.value || 0;
-      const accuracyScore = Math.max(
-        0,
-        Math.min(100, (faceQuality - blur) * 20),
-      );
-      setAccuracy(accuracyScore);
-    } catch (error) {
-      console.error('Face analysis error:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const scaleX = imageWidth / originalImageWidth;
+  const scaleY = imageHeight / originalImageHeight;
 
-  const FaceOverlay = ({landmarks}) => {
-    if (!landmarks) return null;
-
-    // Get the face rectangle to calculate scaling
-    const faceRect = faceData?.faces[0]?.face_rectangle;
-    if (!faceRect) return null;
-
-    // Image dimensions
-    const imageWidth = 100;
-    const imageHeight = 100;
-
-    // Calculate scaling factors to fit the face in the image
-    const scaleX = imageWidth / faceRect.width;
-    const scaleY = imageHeight / faceRect.height;
-    
-    // Use the smaller scale to maintain aspect ratio
-    const scale = Math.min(scaleX, scaleY);
-
-    // Calculate the center of the face rectangle
-    const faceCenterX = faceRect.left + (faceRect.width / 2);
-    const faceCenterY = faceRect.top + (faceRect.height / 2);
-
-    // Calculate the center of the image
-    const imageCenterX = imageWidth / 2;
-    const imageCenterY = imageHeight / 2;
-
-    // Calculate the offset to center the face in the image
-    const offsetX = imageCenterX - (faceCenterX * scale);
-    const offsetY = imageCenterY - (faceCenterY * scale);
-
-    return (
-      <View style={styles.overlayContainer}>
-        <Svg height="100%" width="100%" style={styles.svgOverlay}>
-          {Object.entries(landmarks).map(([key, point]) => {
-            // Transform coordinates to center the face in the image
-            const x = (point.x * scale) + offsetX;
-            const y = (point.y * scale) + offsetY;
-            
-            return (
-              <Circle
-                key={key}
-                cx={x}
-                cy={y}
-                r="2"
-                fill={Colors.primary}
-                stroke={Colors.white}
-                strokeWidth="1"
-              />
-            );
-          })}
-        </Svg>
-      </View>
-    );
-  };
+  // Remove landmarks console.log and replace with contours
+  console.log('Contours data:', contours);
 
   return (
     <SafeAreaView style={styles.safeContainer}>
@@ -133,38 +65,54 @@ const ARModalFaceScreen = ({navigation, route}) => {
         <Text style={styles.headerTxt}>AR Face Model Preview</Text>
       </View>
       <View style={styles.imageContainer}>
-        <View style={styles.imageWrapper}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              width: '100%',
-              padding: 10,
-            }}>
-            <Text style={styles.viewTxt}>{showAfter ? 'After' : 'Before'}</Text>
-            <TouchableOpacity
-              style={styles.maskBack}
-              onPress={() => setShowAfter(!showAfter)}>
-              <Image
-                source={require('../../assets/images/maskIcon.png')}
-                style={styles.maskImg}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.imageContainerInner}>
+        <Image
+          source={{
+            uri: photoPath.startsWith('file://')
+              ? photoPath
+              : `file://${photoPath}`,
+          }}
+          style={[styles.image]}
+        />
+        <View style={[styles.svgContainer]}>
+          <Svg
+            style={[
+              styles.svgOverlay,
+              {
+                transform: [{rotate: '90deg'}],
+              },
+            ]}>
+            {contours && Object.keys(contours).map((feature) => (
+              contours[feature].map((point, index) => (
+                <Circle
+                  key={`${feature}-${index}`}
+                  cx={point.x * scaleX}
+                  cy={point.y * scaleY}
+                  r="1.5"
+                  fill={showAfter ? Colors.pink : 'transparent'}
+                />
+              ))
+            ))}
+          </Svg>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '100%',
+            padding: 10,
+            position: 'absolute',
+            top: 0,
+          }}>
+          <Text style={styles.viewTxt}>{showAfter ? 'After' : 'Before'}</Text>
+          <TouchableOpacity
+            style={styles.maskBack}
+            onPress={() => setShowAfter(!showAfter)}>
             <Image
-              source={{
-                uri: photoPath.startsWith('file://')
-                  ? photoPath
-                  : `file://${photoPath}`,
-              }}
-              style={[styles.image, showAfter && styles.arModel]}
+              source={require('../../assets/images/maskIcon.png')}
+              style={styles.maskImg}
             />
-            {showAfter && faceData?.faces?.[0]?.landmark && (
-              <FaceOverlay landmarks={faceData.faces[0].landmark} />
-            )}
-          </View>
+          </TouchableOpacity>
         </View>
         <Text style={styles.overlayText}>
           See How {syringes} Syringe{syringes > 1 ? 's' : ''} Will Look On Your
@@ -314,30 +262,37 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Colors.anotherPink,
     borderRadius: 10,
-    marginHorizontal: 20,
+    // marginHorizontal: 20,
     height: 250,
-    alignItems: 'center',
     justifyContent: 'center',
     width: '90%',
+    alignSelf: 'center',
+    marginTop: 10,
   },
   imageWrapper: {
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 20,
+    position: 'absolute',
+    top: -190,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   imageContainerInner: {
-    position: 'relative',
-    width: 180,
-    height: 180,
+    // position: 'relative',
+    width: '100%',
+    height: 250,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'red',
   },
   image: {
-    width: 180,
-    height: 180,
+    width: '100%',
+    height: 250,
     borderRadius: 10,
-    resizeMode: 'cover',
+    resizeMode: 'center',
     alignSelf: 'center',
   },
   overlayText: {
@@ -416,7 +371,7 @@ const styles = StyleSheet.create({
   },
   backContainer: {
     height: 44,
-    width: 44,
+    width: '12%',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 50,
@@ -425,14 +380,17 @@ const styles = StyleSheet.create({
   headerMainContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    width: '100%',
     // paddingHorizontal: 30,
-    paddingBottom: 27,
+    // paddingBottom: 27,
     paddingHorizontal: 20,
   },
   headerTxt: {
     fontSize: 24,
     fontFamily: FontFamily.semiBold,
-    marginLeft: 20,
+    // marginLeft: 20,
+    width: '76%',
+    textAlign: 'center',
   },
   mainContainer: {
     paddingHorizontal: 30,
@@ -544,11 +502,22 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     height: '100%',
-    top: 33,
-    left: 35,
+    // top: 33,
+    // left: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  svgContainer: {
+    position: 'absolute',
+    top: -75,
+    left: 10,
+    right: 0,
+    bottom: 0,
+    width: '100%',
+    height: '100%',
   },
   svgOverlay: {
-    position: 'absolute',
     width: '100%',
     height: '100%',
   },

@@ -1,9 +1,16 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet, Image , Text} from 'react-native';
-
+import { useNavigation } from '@react-navigation/native';
 const FloatingActionButton = ({onPress}) => {
+  const navigation = useNavigation();
   return (
-    <TouchableOpacity style={styles.fab} onPress={onPress}>
+    <TouchableOpacity style={styles.fab} onPress={
+      () => {
+        // console.log('Floating Action Button pressed');
+        navigation.navigate('Scanner');
+        // onPress();
+      }
+    }>
       <Image
        source={require('../assets/images/faceScan.png')}
         style={styles.logo}

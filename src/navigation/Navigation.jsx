@@ -99,10 +99,7 @@ const MainStack = () => {
         name="AdditionalInformation"
         component={AdditionalInformationScreen}
       />
-       <Stack.Screen
-        name="ScanYourFace"
-        component={ScanYourFaceScreen}
-      />
+      <Stack.Screen name="ScanYourFace" component={ScanYourFaceScreen} />
       <Stack.Screen name="TabNavigator" component={TabNavigator} />
       <Stack.Screen
         name="Scanner"
@@ -110,7 +107,6 @@ const MainStack = () => {
         options={{
           headerShown: false,
           headerTitle: 'Face Scanner',
-          presentation: 'fullScreenModal',
         }}
       />
     </Stack.Navigator>
@@ -127,7 +123,7 @@ const HomeStack = () => {
         component={withFAB(HomeScreen, navigation)}
         options={{title: 'Home', headerShown: false}}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="LoyaltyRewards"
         component={LoyalityRewardsScreen}
         options={{headerShown: false}}
