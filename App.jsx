@@ -3,7 +3,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {StyleSheet, Platform, StatusBar, View} from 'react-native';
 import Navigation from './src/navigation/Navigation';
 import { Colors } from './src/utils/Colors';
-
+//deployed to git
 const App = () => {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
