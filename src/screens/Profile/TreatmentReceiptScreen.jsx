@@ -331,7 +331,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   mainContainer: {
-    paddingHorizontal: 30,
+    paddingHorizontal: 20,
   },
   bodyContainer: {
     paddingHorizontal: 30,
