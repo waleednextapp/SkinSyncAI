@@ -19,7 +19,7 @@ import Button from '../../components/Button';
 const BookingDateScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <View style={{paddingHorizontal: 30}}>
+      <View style={{paddingHorizontal: 20}}>
         <TouchableOpacity
           style={styles.backStyle}
           onPress={() => {

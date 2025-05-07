@@ -144,7 +144,7 @@ const TreatmentsScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <View style={styles.bodyContainer}>
-          <View style={{paddingHorizontal: 30}}>
+          <View style={{paddingHorizontal: 20}}>
             <CustomTextInput
               placeholder="Search Here"
               showSearchIcon={true}
@@ -154,7 +154,7 @@ const TreatmentsScreen = ({navigation}) => {
             />
           </View>
           {selectedCategory ? (
-            <View style={{paddingHorizontal: 30}}>
+            <View style={{paddingHorizontal: 20}}>
               {/* Back Button and Heading */}
               <View style={styles.headerMainContainer}>
                 <TouchableOpacity
@@ -259,7 +259,7 @@ const TreatmentsScreen = ({navigation}) => {
                     ))}
                   </ScrollView>
                 </View>
-                <View style={{paddingHorizontal: 30}}>
+                <View style={{paddingHorizontal: 20}}>
                   <View style={styles.nextAppoinment}>
                     <Text style={styles.nextAppoinmentText}>
                       Skincare & Facial Treatments
@@ -286,7 +286,7 @@ const TreatmentsScreen = ({navigation}) => {
                     />
                   </ScrollView>
                 </View>
-                <View style={{paddingHorizontal: 30}}>
+                <View style={{paddingHorizontal: 20}}>
                   <View style={styles.nextAppoinment}>
                     <Text style={styles.nextAppoinmentText}>
                       Injectables & Fillers Treatments
@@ -314,7 +314,7 @@ const TreatmentsScreen = ({navigation}) => {
                     />
                   </ScrollView>
                 </View>
-                <View style={{paddingHorizontal: 30}}>
+                <View style={{paddingHorizontal: 20}}>
                   <View style={styles.nextAppoinment}>
                     <Text style={styles.nextAppoinmentText}>
                       All Treatments
@@ -340,7 +340,7 @@ const TreatmentsScreen = ({navigation}) => {
                     />
                   </ScrollView>
                 </View>
-                <View style={{paddingHorizontal: 30}}>
+                <View style={{paddingHorizontal: 20}}>
                   <View style={styles.nextAppoinment}>
                     <Text style={styles.nextAppoinmentText}>
                       Sculpting & Contouring Treatments
@@ -368,7 +368,7 @@ const TreatmentsScreen = ({navigation}) => {
                     />
                   </ScrollView>
                 </View>
-                <View style={{paddingHorizontal: 30}}>
+                <View style={{paddingHorizontal: 20}}>
                   <View style={styles.nextAppoinment}>
                     <Text style={styles.nextAppoinmentText}>
                       Rejuvenation Treatments
@@ -464,7 +464,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 22,
     flexGrow: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: 0,
   },
   btnText: {
     fontSize: 18,

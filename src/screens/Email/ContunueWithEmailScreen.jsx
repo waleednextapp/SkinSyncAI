@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   mainContainer: {
-    paddingHorizontal: 30,
+    paddingHorizontal: 20,
     backgroundColor: Colors.white,
   },
   content: {
