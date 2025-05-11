@@ -77,9 +77,11 @@ export default function FaceAngleCapture() {
     };
   }, []);
 
-  const runStartCountdown = Worklets.createRunOnJS((step) => startCountdown(step));
+  const runStartCountdown = Worklets.createRunOnJS(step =>
+    startCountdown(step),
+  );
 
-  const startCountdown = (step) => {
+  const startCountdown = step => {
     if (isCounting || captured[step]) return;
 
     setIsCounting(true);
@@ -146,7 +148,8 @@ export default function FaceAngleCapture() {
 
       const normalizedX = (faceCenterX - ovalCenterX) / (ovalWidth / 2);
       const normalizedY = (faceCenterY - ovalCenterY) / (ovalHeight / 2);
-      const isInOval = normalizedX * normalizedX + normalizedY * normalizedY <= 1;
+      const isInOval =
+        normalizedX * normalizedX + normalizedY * normalizedY <= 1;
 
       setFacePositionWorklet({
         x: faceCenterX,
@@ -160,17 +163,29 @@ export default function FaceAngleCapture() {
         const faceBottom = faceCenterY + faceHeight / 2;
         const frameHeight = frame.height;
 
-        if (!captured.upper && faceTop > frameHeight * 0.2 && faceTop < frameHeight * 0.4) {
+        if (
+          !captured.upper &&
+          faceTop > frameHeight * 0.2 &&
+          faceTop < frameHeight * 0.4
+        ) {
           setLandmarksWorklet(face.landmarks);
           setContourWorklet(face.contours);
           setFrameProcessingEnabledWorklet(false);
           runStartCountdown('upper');
-        } else if (!captured.mid && faceCenterY > frameHeight * 0.4 && faceCenterY < frameHeight * 0.6) {
+        } else if (
+          !captured.mid &&
+          faceCenterY > frameHeight * 0.4 &&
+          faceCenterY < frameHeight * 0.6
+        ) {
           setLandmarksWorklet(face.landmarks);
           setContourWorklet(face.contours);
           setFrameProcessingEnabledWorklet(false);
           runStartCountdown('mid');
-        } else if (!captured.lower && faceBottom > frameHeight * 0.6 && faceBottom < frameHeight * 0.8) {
+        } else if (
+          !captured.lower &&
+          faceBottom > frameHeight * 0.6 &&
+          faceBottom < frameHeight * 0.8
+        ) {
           setLandmarksWorklet(face.landmarks);
           setContourWorklet(face.contours);
           setFrameProcessingEnabledWorklet(false);
@@ -181,7 +196,7 @@ export default function FaceAngleCapture() {
     [captured, isCounting, frameProcessingEnabled],
   );
 
-  const capturePhoto = async (step) => {
+  const capturePhoto = async step => {
     if (!cameraRef.current || captured[step]) return;
     try {
       const photo = await cameraRef.current.takePhoto({
@@ -233,10 +248,7 @@ export default function FaceAngleCapture() {
       <Animatable.View
         animation="fadeInDown"
         delay={1000}
-        style={[
-          styles.instructions,
-          currentStep && styles.activeInstructions,
-        ]}>
+        style={[styles.instructions, currentStep && styles.activeInstructions]}>
         <Text style={[styles.instructionText, styles.instructionTitle]}>
           {currentStep === 'upper' && 'Step 1: Capture Forehead'}
           {currentStep === 'mid' && 'Step 2: Capture Mid-Face'}
@@ -244,9 +256,12 @@ export default function FaceAngleCapture() {
           {!currentStep && 'Position your face within the oval'}
         </Text>
         <Text style={styles.instructionText}>
-          {currentStep === 'upper' && 'Position your forehead in the highlighted area'}
-          {currentStep === 'mid' && 'Position your mid-face in the highlighted area'}
-          {currentStep === 'lower' && 'Position your lower face in the highlighted area'}
+          {currentStep === 'upper' &&
+            'Position your forehead in the highlighted area'}
+          {currentStep === 'mid' &&
+            'Position your mid-face in the highlighted area'}
+          {currentStep === 'lower' &&
+            'Position your lower face in the highlighted area'}
           {!currentStep && 'Detected face will auto-capture after countdown.'}
         </Text>
       </Animatable.View>
@@ -263,10 +278,11 @@ export default function FaceAngleCapture() {
               {backgroundColor: captured[step] ? '#4CAF50' : '#999'},
               currentStep === step && styles.activeProgressDot,
             ]}>
-            <Text style={[
-              styles.progressLabel,
-              currentStep === step && styles.activeProgressLabel
-            ]}>
+            <Text
+              style={[
+                styles.progressLabel,
+                currentStep === step && styles.activeProgressLabel,
+              ]}>
               {captured[step] ? `${step} Captured` : `Capture ${step}`}
             </Text>
           </Animatable.View>
@@ -283,9 +299,8 @@ export default function FaceAngleCapture() {
                 source={{uri: `file://${captured[step]}`}}
                 style={styles.thumbnail}
               />
-              {contour && (
+              {/* {contour && (
                 <View style={styles.contourOverlay}>
-                  {/* Face outline dots */}
                   {contour.FACE?.map((point, index) => (
                     <View
                       key={`face-${index}`}
@@ -298,8 +313,7 @@ export default function FaceAngleCapture() {
                       ]}
                     />
                   ))}
-                  
-                  {/* Eyebrows */}
+
                   {contour.LEFT_EYEBROW_TOP?.map((point, index) => (
                     <View
                       key={`left-eyebrow-${index}`}
@@ -327,7 +341,6 @@ export default function FaceAngleCapture() {
                     />
                   ))}
 
-                  {/* Eyes */}
                   {contour.LEFT_EYE?.map((point, index) => (
                     <View
                       key={`left-eye-${index}`}
@@ -355,7 +368,6 @@ export default function FaceAngleCapture() {
                     />
                   ))}
 
-                  {/* Nose */}
                   {contour.NOSE_BRIDGE?.map((point, index) => (
                     <View
                       key={`nose-${index}`}
@@ -369,8 +381,6 @@ export default function FaceAngleCapture() {
                       ]}
                     />
                   ))}
-
-                  {/* Lips */}
                   {contour.UPPER_LIP_TOP?.map((point, index) => (
                     <View
                       key={`upper-lip-${index}`}
@@ -398,14 +408,13 @@ export default function FaceAngleCapture() {
                     />
                   ))}
                 </View>
-              )}
-              <TouchableOpacity 
+              )} */}
+              <TouchableOpacity
                 style={styles.recaptureButton}
                 onPress={() => {
                   setCaptured(prev => ({...prev, [step]: null}));
                   setFrameProcessingEnabled(true);
-                }}
-              >
+                }}>
                 <Text style={styles.recaptureText}>Re-capture</Text>
               </TouchableOpacity>
             </View>
