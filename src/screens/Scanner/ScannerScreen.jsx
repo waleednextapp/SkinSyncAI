@@ -276,14 +276,15 @@ export default function FaceAngleCapture() {
             style={[
               styles.progressDot,
               {backgroundColor: captured[step] ? '#4CAF50' : '#000000'},
-              currentStep === step && styles.activeProgressDot,
+              currentStep === step && !captured[step] && styles.activeProgressDot,
             ]}>
             <Text
               style={[
                 styles.progressLabel,
                 currentStep === step && styles.activeProgressLabel,
+                captured[step] && { color: '#fff' },
               ]}>
-              {captured[step] ? `${step} Captured` : `Capture ${step}`}
+              {captured[step] ? `${step} captured` : `Capture ${step}`}
             </Text>
           </Animatable.View>
         ))}
