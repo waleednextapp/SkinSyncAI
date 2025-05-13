@@ -275,7 +275,7 @@ export default function FaceAngleCapture() {
             duration={captured[step] ? 700 : 0}
             style={[
               styles.progressDot,
-              {backgroundColor: captured[step] ? '#4CAF50' : '#999'},
+              {backgroundColor: captured[step] ? '#4CAF50' : '#000000'},
               currentStep === step && styles.activeProgressDot,
             ]}>
             <Text
@@ -446,7 +446,7 @@ export default function FaceAngleCapture() {
           <Text style={styles.resetText}>Exit</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.resetButton} onPress={resetCapture}>
-          <Text style={styles.resetText}>🔄 Re-Capture</Text>
+          <Text style={styles.resetText}>🔄 Reset</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.resetButton]}
@@ -547,7 +547,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   resetButton: {
-    backgroundColor: '#333',
+    backgroundColor: Colors.headinglight,
     paddingHorizontal: 25,
     paddingVertical: 10,
     borderRadius: 10,
@@ -568,10 +568,10 @@ const styles = StyleSheet.create({
   },
   scanGif: {
     position: 'absolute',
-    width: 350,
-    height: 450,
-    borderRadius: 100,
-    bottom: 320,
+    width: 320,
+    //height: 420,
+   // borderRadius: 100,
+    bottom: 280,
   },
   highlightOverlay: {
     position: 'absolute',
@@ -649,7 +649,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 5,
     alignSelf: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: '#000000',
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 5,

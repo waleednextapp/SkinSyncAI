@@ -12,7 +12,6 @@
 		3C6734B102684F44913788C8 /* Degular-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 06663C8085D54FC0A4721BF4 /* Degular-BoldItalic.otf */; };
 		45531875B2B2467EBDD03D64 /* Degular-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3F8DDC9ACE8448D794E0CAA6 /* Degular-Medium.otf */; };
 		4FBD9D5ADB0946618BCE04A4 /* Degular-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4F64FE399F414F7E9ACBD6DE /* Degular-BlackItalic.otf */; };
-		51700511BB9239420ACA4094 /* libPods-SkinSyncAI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04AD9E3D19B9078C4C12B656 /* libPods-SkinSyncAI.a */; };
 		65A9D0EF18654004849D60E8 /* Degular-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2CF5386874DA4EF9B57E6B3C /* Degular-Regular.otf */; };
 		70E7E55F4EB8436DAB8E99E5 /* Degular-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 616E98A7C0924166B018C6E8 /* Degular-Semibold.otf */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
@@ -25,11 +24,11 @@
 		CE5C71762F20B31F76775CB0 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 		CE7CED38A0B74EB0BD5139C2 /* Degular-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CCF5838DB0464DD9AD719A46 /* Degular-MediumItalic.otf */; };
 		E01187DAB9154450B09565B6 /* Degular-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = AF4A07DED71B4DC6AA4E7C6C /* Degular-Light.otf */; };
+		E43D9352ED56CDD961F1BDE0 /* libPods-SkinSyncAI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81802F6587E0877486DAE07D /* libPods-SkinSyncAI.a */; };
 		ED7A1AB491E348A7B2EC7F20 /* Degular-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8E4A5F27D2874D79B52985E3 /* Degular-RegularItalic.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		04AD9E3D19B9078C4C12B656 /* libPods-SkinSyncAI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SkinSyncAI.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		06663C8085D54FC0A4721BF4 /* Degular-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-BoldItalic.otf"; path = "../src/assets/fonts/Degular-BoldItalic.otf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* SkinSyncAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SkinSyncAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SkinSyncAI/Images.xcassets; sourceTree = "<group>"; };
@@ -38,18 +37,19 @@
 		261E054AF4234972B684504F /* Degular-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-Bold.otf"; path = "../src/assets/fonts/Degular-Bold.otf"; sourceTree = "<group>"; };
 		2CF5386874DA4EF9B57E6B3C /* Degular-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-Regular.otf"; path = "../src/assets/fonts/Degular-Regular.otf"; sourceTree = "<group>"; };
 		2E31F6B46B584F878CF950DA /* Degular-ThinItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-ThinItalic.otf"; path = "../src/assets/fonts/Degular-ThinItalic.otf"; sourceTree = "<group>"; };
-		373FA269E48D1A5992BA73DD /* Pods-SkinSyncAI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkinSyncAI.release.xcconfig"; path = "Target Support Files/Pods-SkinSyncAI/Pods-SkinSyncAI.release.xcconfig"; sourceTree = "<group>"; };
+		31027713AAC3EAAEF5C4AF15 /* Pods-SkinSyncAI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkinSyncAI.debug.xcconfig"; path = "Target Support Files/Pods-SkinSyncAI/Pods-SkinSyncAI.debug.xcconfig"; sourceTree = "<group>"; };
 		3F8DDC9ACE8448D794E0CAA6 /* Degular-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-Medium.otf"; path = "../src/assets/fonts/Degular-Medium.otf"; sourceTree = "<group>"; };
 		4F64FE399F414F7E9ACBD6DE /* Degular-BlackItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-BlackItalic.otf"; path = "../src/assets/fonts/Degular-BlackItalic.otf"; sourceTree = "<group>"; };
 		616E98A7C0924166B018C6E8 /* Degular-Semibold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-Semibold.otf"; path = "../src/assets/fonts/Degular-Semibold.otf"; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = SkinSyncAI/AppDelegate.swift; sourceTree = "<group>"; };
 		817D11490F3241EBBCF0AB5A /* Degular-SemiboldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-SemiboldItalic.otf"; path = "../src/assets/fonts/Degular-SemiboldItalic.otf"; sourceTree = "<group>"; };
+		81802F6587E0877486DAE07D /* libPods-SkinSyncAI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SkinSyncAI.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SkinSyncAI/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8E4A5F27D2874D79B52985E3 /* Degular-RegularItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-RegularItalic.otf"; path = "../src/assets/fonts/Degular-RegularItalic.otf"; sourceTree = "<group>"; };
 		AF4A07DED71B4DC6AA4E7C6C /* Degular-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-Light.otf"; path = "../src/assets/fonts/Degular-Light.otf"; sourceTree = "<group>"; };
-		B2E53D5D4F1E1EFAA19997B2 /* Pods-SkinSyncAI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkinSyncAI.debug.xcconfig"; path = "Target Support Files/Pods-SkinSyncAI/Pods-SkinSyncAI.debug.xcconfig"; sourceTree = "<group>"; };
 		BD411B66F6F3417F9350BB20 /* Degular-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-Black.otf"; path = "../src/assets/fonts/Degular-Black.otf"; sourceTree = "<group>"; };
 		CCF5838DB0464DD9AD719A46 /* Degular-MediumItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-MediumItalic.otf"; path = "../src/assets/fonts/Degular-MediumItalic.otf"; sourceTree = "<group>"; };
+		DCBD96283D35BA887379CE71 /* Pods-SkinSyncAI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkinSyncAI.release.xcconfig"; path = "Target Support Files/Pods-SkinSyncAI/Pods-SkinSyncAI.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F7CBDB0878744628A0BBDEC1 /* Degular-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-Thin.otf"; path = "../src/assets/fonts/Degular-Thin.otf"; sourceTree = "<group>"; };
 		FCBD1EA10BBB4B749A171CB4 /* Degular-LightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Degular-LightItalic.otf"; path = "../src/assets/fonts/Degular-LightItalic.otf"; sourceTree = "<group>"; };
@@ -60,7 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				51700511BB9239420ACA4094 /* libPods-SkinSyncAI.a in Frameworks */,
+				E43D9352ED56CDD961F1BDE0 /* libPods-SkinSyncAI.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,7 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				04AD9E3D19B9078C4C12B656 /* libPods-SkinSyncAI.a */,
+				81802F6587E0877486DAE07D /* libPods-SkinSyncAI.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -142,8 +142,8 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B2E53D5D4F1E1EFAA19997B2 /* Pods-SkinSyncAI.debug.xcconfig */,
-				373FA269E48D1A5992BA73DD /* Pods-SkinSyncAI.release.xcconfig */,
+				31027713AAC3EAAEF5C4AF15 /* Pods-SkinSyncAI.debug.xcconfig */,
+				DCBD96283D35BA887379CE71 /* Pods-SkinSyncAI.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -155,13 +155,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "SkinSyncAI" */;
 			buildPhases = (
-				D24F22758A7D70FF5A460E40 /* [CP] Check Pods Manifest.lock */,
+				A5AC306C38F9A1162DF5F13C /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				1C4F969CD08930A8FCDD74B7 /* [CP] Embed Pods Frameworks */,
-				F6A54D36769ED573F35399A5 /* [CP] Copy Pods Resources */,
+				C9D7042648CC483E30EDC26F /* [CP] Embed Pods Frameworks */,
+				F1DE3F0F47C88E5B36EE6422 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -247,24 +247,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		1C4F969CD08930A8FCDD74B7 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SkinSyncAI/Pods-SkinSyncAI-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SkinSyncAI/Pods-SkinSyncAI-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SkinSyncAI/Pods-SkinSyncAI-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D24F22758A7D70FF5A460E40 /* [CP] Check Pods Manifest.lock */ = {
+		A5AC306C38F9A1162DF5F13C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -286,7 +269,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F6A54D36769ED573F35399A5 /* [CP] Copy Pods Resources */ = {
+		C9D7042648CC483E30EDC26F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SkinSyncAI/Pods-SkinSyncAI-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SkinSyncAI/Pods-SkinSyncAI-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SkinSyncAI/Pods-SkinSyncAI-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F1DE3F0F47C88E5B36EE6422 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -319,7 +319,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B2E53D5D4F1E1EFAA19997B2 /* Pods-SkinSyncAI.debug.xcconfig */;
+			baseConfigurationReference = 31027713AAC3EAAEF5C4AF15 /* Pods-SkinSyncAI.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -355,7 +355,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 373FA269E48D1A5992BA73DD /* Pods-SkinSyncAI.release.xcconfig */;
+			baseConfigurationReference = DCBD96283D35BA887379CE71 /* Pods-SkinSyncAI.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
