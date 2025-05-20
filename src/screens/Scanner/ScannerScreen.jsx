@@ -276,13 +276,15 @@ export default function FaceAngleCapture() {
             style={[
               styles.progressDot,
               {backgroundColor: captured[step] ? '#4CAF50' : '#000000'},
-              currentStep === step && !captured[step] && styles.activeProgressDot,
+              currentStep === step &&
+                !captured[step] &&
+                styles.activeProgressDot,
             ]}>
             <Text
               style={[
                 styles.progressLabel,
                 currentStep === step && styles.activeProgressLabel,
-                captured[step] && { color: '#fff' },
+                captured[step] && {color: '#fff'},
               ]}>
               {captured[step] ? `${step} captured` : `Capture ${step}`}
             </Text>
@@ -452,16 +454,16 @@ export default function FaceAngleCapture() {
         <TouchableOpacity
           style={[styles.resetButton]}
           onPress={() => {
-            console.log('Next button pressed', contour);
-            // if (captured.upper && captured.mid && captured.lower) {
-            //   navigation.navigate('ARModalFace', {
-            //     photos: captured,
-            //     landmarks: landmarks,
-            //     contours: contour,
-            //   });
-            // } else {
-            //   Alert.alert('Incomplete', 'Please capture all face parts first');
-            // }
+            console.log('Next button pressed', captured);
+            if (captured.upper && captured.mid && captured.lower) {
+              navigation.navigate('ViewFace', {
+                upper: captured.upper,
+                mid: captured.mid,
+                lower: captured.lower,
+              });
+            } else {
+              Alert.alert('Incomplete', 'Please capture all face parts first');
+            }
           }}>
           <Text style={styles.resetText}>Next</Text>
         </TouchableOpacity>
@@ -571,7 +573,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 320,
     //height: 420,
-   // borderRadius: 100,
+    // borderRadius: 100,
     bottom: 280,
   },
   highlightOverlay: {

@@ -37,7 +37,7 @@ import ARModalFaceScreen from '../screens/Treatments/ARModalFaceScreen';
 import ReadyAppointmentScreen from '../screens/Treatments/ReadyAppointmentScreen';
 import AdditionalInformationScreen from '../screens/Treatments/AdditionalInformationScreen';
 import ScanYourFaceScreen from '../screens/Treatments/ScanYourFaceScreen';
-
+import ViewFaceScreen from '../screens/Scanner/ViewFaceScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -108,6 +108,11 @@ const MainStack = () => {
           headerShown: false,
           headerTitle: 'Face Scanner',
         }}
+      />
+      <Stack.Screen
+        name="ViewFace"
+        component={ViewFaceScreen}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );
