@@ -19,12 +19,17 @@ const ViewFaceScreen = ({route}) => {
   const [selectedArea, setSelectedArea] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedInfo, setSelectedInfo] = useState(null);
-  const [activeDots, setActiveDots] = useState({
-    upper: false,
-    mid: false,
-    lower: false,
+  const [dotPositions, setDotPositions] = useState({
+    upper: [],
+    mid: [],
+    lower: [],
   });
   const [selectedBotoxAreas, setSelectedBotoxAreas] = useState([]);
+  const [currentDotIndex, setCurrentDotIndex] = useState({
+    upper: 0,
+    mid: 0,
+    lower: 0,
+  });
 
   const dermalFillersInfo = {
     upper: {
@@ -172,19 +177,29 @@ const ViewFaceScreen = ({route}) => {
     },
   };
 
-  const handleImagePress = (section) => {
-    if (activeButton === 'botox') {
-      setActiveDots(prev => ({
-        upper: section === 'upper' ? !prev.upper : false,
-        mid: section === 'mid' ? !prev.mid : false,
-        lower: section === 'lower' ? !prev.lower : false,
-      }));
-    } else {
-      setActiveDots(prev => ({
-        upper: section === 'upper' ? !prev.upper : false,
-        mid: section === 'mid' ? !prev.mid : false,
-        lower: section === 'lower' ? !prev.lower : false,
-      }));
+  const handleImagePress = (section, event) => {
+    const { locationX, locationY } = event.nativeEvent;
+    const currentIndex = currentDotIndex[section];
+    const areas = activeButton === 'botox' ? botoxInfo[section].areas : dermalFillersInfo[section].areas;
+    
+    // Check if we've reached the maximum number of dots for this section
+    if (currentIndex >= areas.length) return;
+
+    setDotPositions(prev => ({
+      ...prev,
+      [section]: [...prev[section], { x: locationX, y: locationY }]
+    }));
+
+    setCurrentDotIndex(prev => ({
+      ...prev,
+      [section]: prev[section] + 1
+    }));
+
+    // If it's dermal fillers, show the modal with area info
+    if (activeButton === 'dermal') {
+      setSelectedArea(section);
+      setSelectedInfo(areas[currentIndex]);
+      setModalVisible(true);
     }
   };
 
@@ -206,22 +221,24 @@ const ViewFaceScreen = ({route}) => {
   };
 
   const renderDots = (section) => {
-    if (!activeDots[section]) return null;
-    
+    const positions = dotPositions[section];
+    if (!positions || positions.length === 0) return null;
+
     const areas = activeButton === 'botox' ? botoxInfo[section].areas : dermalFillersInfo[section].areas;
     
-    return areas.map((area, index) => {
+    return positions.map((position, index) => {
+      const area = areas[index];
       const isSelected = activeButton === 'botox' && 
         selectedBotoxAreas.includes(`${section}-${area.name}`);
-      
+
       return (
         <TouchableOpacity
           key={index}
           style={[
             styles.dot,
             {
-              left: `${area.coordinates.x * 100}%`,
-              top: `${area.coordinates.y * 100}%`,
+              left: position.x - 9,
+              top: position.y - 9,
             },
             isSelected && styles.selectedDot,
           ]}
@@ -230,6 +247,31 @@ const ViewFaceScreen = ({route}) => {
         </TouchableOpacity>
       );
     });
+  };
+
+  const resetDots = (section) => {
+    setDotPositions(prev => ({
+      ...prev,
+      [section]: []
+    }));
+    setCurrentDotIndex(prev => ({
+      ...prev,
+      [section]: 0
+    }));
+  };
+
+  // Add reset buttons to each section
+  const renderResetButton = (section) => {
+    const positions = dotPositions[section];
+    if (!positions || positions.length === 0) return null;
+
+    return (
+      <TouchableOpacity
+        style={styles.resetButton}
+        onPress={() => resetDots(section)}>
+        <Text style={styles.resetButtonText}>Reset Dots</Text>
+      </TouchableOpacity>
+    );
   };
 
   return (
@@ -311,17 +353,19 @@ const ViewFaceScreen = ({route}) => {
               <Text style={styles.imageSubLabel}>
                 {activeButton === 'dermal' ? 'Temples area' : 'Forehead and eye area'}
               </Text>
+              {renderResetButton('upper')}
             </View>
-            <TouchableOpacity
+            <View
               style={styles.imageContainer}
-              onPress={() => handleImagePress('upper')}>
+              onStartShouldSetResponder={() => true}
+              onResponderRelease={(event) => handleImagePress('upper', event)}>
               <Image
                 source={{uri: upper}}
                 style={styles.image}
                 resizeMode="contain"
               />
               {renderDots('upper')}
-            </TouchableOpacity>
+            </View>
           </View>
 
           <View style={styles.imageWrapper}>
@@ -330,17 +374,19 @@ const ViewFaceScreen = ({route}) => {
               <Text style={styles.imageSubLabel}>
                 {activeButton === 'dermal' ? 'Cheeks and surrounding areas' : 'Nose and mid-face area'}
               </Text>
+              {renderResetButton('mid')}
             </View>
-            <TouchableOpacity
+            <View
               style={styles.imageContainer}
-              onPress={() => handleImagePress('mid')}>
+              onStartShouldSetResponder={() => true}
+              onResponderRelease={(event) => handleImagePress('mid', event)}>
               <Image
                 source={{uri: mid}}
                 style={styles.image}
                 resizeMode="contain"
               />
               {renderDots('mid')}
-            </TouchableOpacity>
+            </View>
           </View>
 
           <View style={styles.imageWrapper}>
@@ -349,17 +395,19 @@ const ViewFaceScreen = ({route}) => {
               <Text style={styles.imageSubLabel}>
                 {activeButton === 'dermal' ? 'Jawline and chin area' : 'Mouth and chin area'}
               </Text>
+              {renderResetButton('lower')}
             </View>
-            <TouchableOpacity
+            <View
               style={styles.imageContainer}
-              onPress={() => handleImagePress('lower')}>
+              onStartShouldSetResponder={() => true}
+              onResponderRelease={(event) => handleImagePress('lower', event)}>
               <Image
                 source={{uri: lower}}
                 style={styles.image}
                 resizeMode="contain"
               />
               {renderDots('lower')}
-            </TouchableOpacity>
+            </View>
           </View>
         </View>
 
@@ -588,5 +636,19 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.regular,
     color: Colors.lightColor,
     marginBottom: 8,
+  },
+  resetButton: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    backgroundColor: Colors.pink,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 8,
+  },
+  resetButtonText: {
+    color: Colors.white,
+    fontSize: 12,
+    fontFamily: FontFamily.medium,
   },
 });
