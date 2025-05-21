@@ -280,14 +280,10 @@ const ViewFaceScreen = ({route}) => {
         style={[styles.container, {backgroundColor: Colors.white}]}
         showsVerticalScrollIndicator={false}>
         <View style={styles.headerContainer}>
-          <Text style={[styles.headerText, {color: Colors.headinglight}]}>
+          {/* <Text style={[styles.headerText, {color: Colors.headinglight}]}>
             Choose One
-          </Text>
-          <Text style={styles.subHeaderText}>
-            {activeButton === 'dermal' 
-              ? 'Select the area you want to treat'
-              : 'Select multiple areas for Botox treatment'}
-          </Text>
+          </Text> */}
+          
         </View>
 
         <View style={styles.buttonContainer}>
@@ -344,12 +340,19 @@ const ViewFaceScreen = ({route}) => {
               Botox
             </Text>
           </TouchableOpacity>
+
+          
         </View>
 
         <View style={styles.imagesContainer}>
+        <Text style={styles.subHeaderText}>
+            {activeButton === 'dermal' 
+              ? 'Tap on pictures below at spots you want to treat with Dermal Fillers'
+              : 'Tap on pictures below at spots you want to treat with Botox'}
+          </Text>
           <View style={styles.imageWrapper}>
             <View style={styles.imageLabelContainer}>
-              <Text style={styles.imageLabel}>Upper Face</Text>
+              <Text style={styles.imageLabel}>Upper Face Marking</Text>
               <Text style={styles.imageSubLabel}>
                 {activeButton === 'dermal' ? 'Temples area' : 'Forehead and eye area'}
               </Text>
@@ -362,7 +365,7 @@ const ViewFaceScreen = ({route}) => {
               <Image
                 source={{uri: upper}}
                 style={styles.image}
-                resizeMode="contain"
+                resizeMode="cover"
               />
               {renderDots('upper')}
             </View>
@@ -370,7 +373,7 @@ const ViewFaceScreen = ({route}) => {
 
           <View style={styles.imageWrapper}>
             <View style={styles.imageLabelContainer}>
-              <Text style={styles.imageLabel}>Mid Face</Text>
+              <Text style={styles.imageLabel}>Mid Face Marking</Text>
               <Text style={styles.imageSubLabel}>
                 {activeButton === 'dermal' ? 'Cheeks and surrounding areas' : 'Nose and mid-face area'}
               </Text>
@@ -383,7 +386,7 @@ const ViewFaceScreen = ({route}) => {
               <Image
                 source={{uri: mid}}
                 style={styles.image}
-                resizeMode="contain"
+                resizeMode="cover"
               />
               {renderDots('mid')}
             </View>
@@ -391,7 +394,7 @@ const ViewFaceScreen = ({route}) => {
 
           <View style={styles.imageWrapper}>
             <View style={styles.imageLabelContainer}>
-              <Text style={styles.imageLabel}>Lower Face</Text>
+              <Text style={styles.imageLabel}>Lower Face Marking</Text>
               <Text style={styles.imageSubLabel}>
                 {activeButton === 'dermal' ? 'Jawline and chin area' : 'Mouth and chin area'}
               </Text>
@@ -404,7 +407,7 @@ const ViewFaceScreen = ({route}) => {
               <Image
                 source={{uri: lower}}
                 style={styles.image}
-                resizeMode="contain"
+                resizeMode="cover"
               />
               {renderDots('lower')}
             </View>
@@ -525,15 +528,15 @@ const styles = StyleSheet.create({
     position: 'relative',
     width: '100%',
     aspectRatio: 1,
-    borderRadius: 20,
+    borderRadius: 10,
     overflow: 'hidden',
     backgroundColor: Colors.lightestPink,
     shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 5,
     },
-    shadowOpacity: 0.1,
+    shadowOpacity: 1,
     shadowRadius: 12,
     elevation: 8,
   },
@@ -543,9 +546,9 @@ const styles = StyleSheet.create({
   },
   dot: {
     position: 'absolute',
-    width: 18,
-    height: 18,
-    borderRadius: 9,
+    width: 16,
+    height: 16,
+    borderRadius: 8,
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
     justifyContent: 'center',
     alignItems: 'center',
