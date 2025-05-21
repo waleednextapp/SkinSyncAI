@@ -12,8 +12,9 @@ import {
 import React, {useState} from 'react';
 import {Colors} from '../../utils/Colors';
 import {FontFamily, Fonts} from '../../utils/Fonts';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const ViewFaceScreen = ({route}) => {
+const ViewFaceScreen = ({route,navigation}) => {
   const {upper, mid, lower} = route.params;
   const [activeButton, setActiveButton] = useState('dermal');
   const [selectedArea, setSelectedArea] = useState(null);
@@ -280,9 +281,9 @@ const ViewFaceScreen = ({route}) => {
         style={[styles.container, {backgroundColor: Colors.white}]}
         showsVerticalScrollIndicator={false}>
         <View style={styles.headerContainer}>
-          {/* <Text style={[styles.headerText, {color: Colors.headinglight}]}>
-            Choose One
-          </Text> */}
+          <TouchableOpacity style={[styles.headerText]} onPress={() => {navigation.goBack()}}>
+           <Icon name="arrow-left" size={24} color={Colors.black} />
+          </TouchableOpacity>
           
         </View>
 
@@ -468,7 +469,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   headerText: {
-    fontSize: 32,
+   /// fontSize: 32,
     fontFamily: FontFamily.semiBold,
     marginBottom: 8,
   },
