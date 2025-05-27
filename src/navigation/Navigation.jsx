@@ -38,6 +38,7 @@ import ReadyAppointmentScreen from '../screens/Treatments/ReadyAppointmentScreen
 import AdditionalInformationScreen from '../screens/Treatments/AdditionalInformationScreen';
 import ScanYourFaceScreen from '../screens/Treatments/ScanYourFaceScreen';
 import ViewFaceScreen from '../screens/Scanner/ViewFaceScreen';
+import ImageView from '../screens/Scanner/ImageView';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -58,7 +59,9 @@ const withFAB = (ScreenComponent, navigation) => {
 // Main stack navigator that includes both tab navigator and scanner screen
 const MainStack = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator
+      initialRouteName="Scanner"
+      screenOptions={{headerShown: false}}>
       <Stack.Screen name="Splash" component={SplashScreen} />
       <Stack.Screen name="GetStarted" component={GetStartedScreen} />
       <Stack.Screen name="Email" component={ContunueWithEmailScreen} />
@@ -114,6 +117,7 @@ const MainStack = () => {
         component={ViewFaceScreen}
         options={{headerShown: false}}
       />
+      <Stack.Screen name="ImageView" component={ImageView} />
     </Stack.Navigator>
   );
 };
