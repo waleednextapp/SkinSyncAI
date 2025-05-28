@@ -200,14 +200,14 @@ const ImageView = ({route, navigation}) => {
                 min={0}
                 max={5}
               />
-              <View style={styles.infoBox}>
+              {/* <View style={styles.infoBox}>
                 <Text style={styles.infoText}>
                   Toggle disappears for this as we are using a general number of
                   units. Area: Patient clicks on an area under a drop down menu
                   of problem areas with the ability to select many areas at
                   once.
                 </Text>
-              </View>
+              </View> */}
             </>
           )}
           <Button
@@ -306,6 +306,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: Colors.white,
     marginBottom: 18,
+    marginTop:10
   },
   sliderSection: {
     width: '100%',
