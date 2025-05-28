@@ -82,7 +82,7 @@ const ImageView = ({route, navigation}) => {
   const getSyringeOptions = (partKey) => {
     const max = facePartSyringeLimits[partKey] || 1;
     return Array.from({ length: max }, (_, i) => ({
-      label: `Syringe ${i + 1}`,
+      label: `${i + 1} Syringe`,
       value: i + 1,
     }));
   };
@@ -141,7 +141,7 @@ const ImageView = ({route, navigation}) => {
                     }}
                     activeOpacity={0.8}>
                     <Image
-                      source={require('../../assets/images/dummyImg.png')}
+                      source={require('../../assets/images/appLogo.png')}
                       style={[
                         styles.facePartIcon,
                         selectedFacePart === part.key &&
