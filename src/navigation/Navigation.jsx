@@ -60,7 +60,7 @@ const withFAB = (ScreenComponent, navigation) => {
 const MainStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Scanner"
+      initialRouteName="Splash"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Splash" component={SplashScreen} />
       <Stack.Screen name="GetStarted" component={GetStartedScreen} />
