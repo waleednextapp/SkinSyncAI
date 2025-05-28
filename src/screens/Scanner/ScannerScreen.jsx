@@ -39,6 +39,10 @@ export default function FaceAngleCapture() {
     contourMode: 'all',
   });
 
+  const runSetFaceData = Worklets.createRunOnJS((data) => {
+    setFaceData(data);
+  });
+
   useEffect(() => {
     const requestPermission = async () => {
       try {
@@ -102,7 +106,7 @@ export default function FaceAngleCapture() {
 
       const yaw = face.yawAngle;
       const contour = face.contours;
-      setFaceData(face);
+      runSetFaceData(face);
       console.log('contour', contour);
 
       // Get face bounds from landmarks
