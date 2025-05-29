@@ -15,6 +15,9 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import Button from '../../components/Button';
 import {Colors} from '../../utils/Colors';
 import Slider from 'react-native-sliders';
+import FaceDetector from '@infinitered/react-native-mlkit-face-detection';
+import {Svg} from 'react-native-svg';
+
 
 const fillerAreas = [
   {label: 'Temples', value: 'temples'},
@@ -73,10 +76,29 @@ const ImageView = ({route, navigation}) => {
   const [selectedFacePart, setSelectedFacePart] = useState('');
   const [openSyringe, setOpenSyringe] = useState(false);
   const [selectedSyringe, setSelectedSyringe] = useState(null);
+  const [landmarks, setLandmarks] = useState([]);
+  const screen = Dimensions.get('window');
+
 
   React.useEffect(() => {
     setDropdownItems(treatmentType === 'fillers' ? fillerAreas : botoxAreas);
     setSelectedArea(null);
+    console.log(image);
+    const detectFaces = async () => {
+      try {
+        const results = await FaceDetector.detectFromUri(image);
+        console.log('Detected faces:', results);
+        if (results.length > 0) {
+          const { landmarks } = results[0];
+          setLandmarks(landmarks); // includes leftEye, rightEye, noseBase, etc.
+        }
+      } catch (err) {
+        console.warn('Face detection failed', err);
+      }
+    };
+  
+    detectFaces();
+   // detectFaces();
   }, [treatmentType]);
 
   const getSyringeOptions = (partKey) => {
@@ -87,12 +109,49 @@ const ImageView = ({route, navigation}) => {
     }));
   };
 
+  const detectFaces = async () => {
+    try {
+      const results = await MLKitFaceDetection.detectFromUri(route.params.image);
+      console.log('Detected faces:', results);
+      if (results.length > 0) {
+        const { landmarks } = results[0];
+        setLandmarks(landmarks); // includes leftEye, rightEye, noseBase, etc.
+      }
+    } catch (err) {
+      console.warn('Face detection failed', err);
+    }
+  };
+
+  const scalePoint = (point) => {
+    // Optional: Scale based on actual image dimensions vs screen dimensions
+    return {
+      cx: point.x,
+      cy: point.y,
+    };
+  };
+
   return (
     <View style={styles.container}>
       <ImageBackground
         source={{uri: image}}
         style={styles.imageBackground}
         resizeMode="cover">
+           {/* {faces.map((face) => (
+            <View key={face.trackingId}>
+              <Text>{JSON.stringify(face)}</Text>
+            </View>
+          ))} */}
+          {/* <Svg style={StyleSheet.absoluteFill}>
+            {landmarks.leftEye && (
+              <Circle {...scalePoint(landmarks.leftEye)} r="5" fill="blue" />
+            )}
+            {landmarks.rightEye && (
+              <Circle {...scalePoint(landmarks.rightEye)} r="5" fill="blue" />
+            )}
+            {landmarks.noseBase && (
+              <Circle {...scalePoint(landmarks.noseBase)} r="5" fill="red" />
+            )}
+          </Svg> */}
         <View style={styles.topButtonsAbsolute}>
           <Button
             title="FILLERS"
@@ -119,6 +178,7 @@ const ImageView = ({route, navigation}) => {
             onPress={() => setTreatmentType('botox')}
           />
         </View>
+       
         <View style={[styles.bottomSheet, {overflow: 'visible', zIndex: 3000}]}>
           {treatmentType === 'fillers' ? (
             <>
