@@ -185,11 +185,13 @@ export default function FaceAngleCapture() {
       />
 
       <View style={styles.ovalOverlay}>
+        {!captured? (
         <Image
           source={require('../../assets/gif/face-scan-pink.gif')}
           style={styles.scanGif}
           resizeMode="contain"
         />
+        ) : (<View></View>)}
       </View>
 
       <Animatable.View
@@ -206,20 +208,23 @@ export default function FaceAngleCapture() {
         </Text>
       </Animatable.View>
 
-      <View style={styles.thumbnailContainer}>
+     
         {captured ? (
+           <View style={styles.thumbnailContainer}>
           <Animatable.Image
             animation="fadeIn"
             duration={600}
             source={{uri: `file://${captured}`}}
             style={styles.thumbnail}
           />
+           </View>
         ) : (
-          <View style={[styles.thumbnail, styles.placeholder]}>
-            <Text style={styles.placeholderText}>No Image Captured</Text>
-          </View>
+          <></>
+          // <View style={[styles.thumbnail, styles.placeholder]}>
+          //   <Text style={styles.placeholderText}>No Image Captured</Text>
+          // </View>
         )}
-      </View>
+     
 
       {countdown && (
         <Animatable.Text
@@ -285,17 +290,19 @@ const styles = StyleSheet.create({
   },
   thumbnailContainer: {
     position: 'absolute',
-    bottom: 100,
-    left: 0,
+    bottom: 70,
+    left: '33%',
     right: 0,
-    height: 200,
-    padding: 15,
+    height: 150,
+    //padding: 15,
+    width:150,
     backgroundColor: '#111',
+    borderRadius:20
   },
   thumbnail: {
     width: '100%',
     height: '100%',
-    borderRadius: 8,
+    //borderRadius: 8,
     resizeMode: 'contain',
   },
   placeholder: {

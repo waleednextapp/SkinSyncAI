@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
   },
   topButtonsAbsolute: {
     position: 'absolute',
-    top: 100,
+    top: 50,
     left: 0,
     right: 0,
     flexDirection: 'row',
