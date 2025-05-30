@@ -7,7 +7,7 @@ import { Colors } from './src/utils/Colors';
 const App = () => {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
-      <View style={styles.container}>{<Navigation />}</View>
+        <View style={styles.container}>{<Navigation />}</View>
     </GestureHandlerRootView>
   );
 };

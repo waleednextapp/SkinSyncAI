@@ -15,6 +15,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import Button from '../../components/Button';
 import {Colors} from '../../utils/Colors';
 import Slider from 'react-native-sliders';
+import Svg, {Path, Circle, G} from 'react-native-svg';
 
 const fillerAreas = [
   {label: 'Temples', value: 'temples'},
@@ -48,9 +49,9 @@ const fillerFaceParts = [
 ];
 
 const syringeOptions = [
-  { label: 'Syringe 1', value: 1 },
-  { label: 'Syringe 2', value: 2 },
-  { label: 'Syringe 3', value: 3 },
+  {label: 'Syringe 1', value: 1},
+  {label: 'Syringe 2', value: 2},
+  {label: 'Syringe 3', value: 3},
 ];
 
 const facePartSyringeLimits = {
@@ -61,6 +62,139 @@ const facePartSyringeLimits = {
   forehead: 1,
   eyebrows: 1,
   jawline: 3,
+};
+
+const ContourPoints = ({points, color = Colors.pink}) => {
+  return points.map((point, index) => (
+    <Circle
+      key={index}
+      cx={point.x}
+      cy={point.y}
+      r="3"
+      fill={color}
+      stroke={Colors.white}
+      strokeWidth="1"
+    />
+  ));
+};
+
+const FacialFeature = ({points, color = Colors.pink}) => {
+  if (!points || points.length === 0) return null;
+
+  const pathData =
+    points.reduce((acc, point, index) => {
+      const command = index === 0 ? 'M' : 'L';
+      return `${acc} ${command} ${point.x} ${point.y}`;
+    }, '') + ' Z';
+
+  return (
+    <>
+      <Path
+        d={pathData}
+        stroke={color}
+        strokeWidth="2"
+        fill="none"
+        opacity={0.8}
+      />
+      <ContourPoints points={points} color={color} />
+    </>
+  );
+};
+
+const FaceOutline = ({faceData}) => {
+  if (!faceData?.contours) return null;
+
+  const {
+    FACE,
+    LEFT_EYE,
+    RIGHT_EYE,
+    LEFT_EYEBROW_TOP,
+    LEFT_EYEBROW_BOTTOM,
+    RIGHT_EYEBROW_TOP,
+    RIGHT_EYEBROW_BOTTOM,
+    UPPER_LIP_TOP,
+    UPPER_LIP_BOTTOM,
+    LOWER_LIP_TOP,
+    LOWER_LIP_BOTTOM,
+    NOSE_BRIDGE,
+    NOSE_BOTTOM,
+  } = faceData.contours;
+
+  const facePoints = FACE;
+  const pathData =
+    facePoints.reduce((acc, point, index) => {
+      const command = index === 0 ? 'M' : 'L';
+      return `${acc} ${command} ${point.x} ${point.y}`;
+    }, '') + ' Z';
+
+  // Calculate center point for rotation
+  const centerX = faceData.bounds.x + faceData.bounds.width / 2;
+  const centerY = faceData.bounds.y + faceData.bounds.height / 2;
+
+  // Calculate the center of the face bounds
+  const faceCenterX = faceData.bounds.x + faceData.bounds.width / 2;
+  const faceCenterY = faceData.bounds.y + faceData.bounds.height / 2;
+
+  // Calculate the offset to center the face
+  const offsetX =
+    -faceData.bounds.x +
+    (Dimensions.get('window').width - faceData.bounds.width) / 2;
+  const offsetY =
+    -faceData.bounds.y +
+    (Dimensions.get('window').height - faceData.bounds.height) / 2;
+
+  return (
+    <Svg
+      // style={StyleSheet.absoluteFill}
+      width="70%"
+      height="70%"
+      style={{
+        position: 'absolute',
+        top: '40%',
+        left: '50%',
+        transform: [
+          {translateX: -faceData.bounds.width / 4},
+          {translateY: -faceData.bounds.height / 4},
+        ],
+      }}
+      viewBox={`${faceData.bounds.x} ${faceData.bounds.y} ${faceData.bounds.width} ${faceData.bounds.height}`}>
+      <G transform={`rotate(90, ${centerX}, ${centerY})`}>
+        {/* Face outline */}
+        <Path
+          d={pathData}
+          stroke={Colors.pink}
+          strokeWidth="2"
+          fill="none"
+          // opacity={0.8}
+        />
+        <ContourPoints points={facePoints} />
+
+        {/* Left Eye */}
+        <FacialFeature points={LEFT_EYE} color={Colors.blue} />
+
+        {/* Right Eye */}
+        <FacialFeature points={RIGHT_EYE} color={Colors.blue} />
+
+        {/* Left Eyebrow */}
+        <FacialFeature points={LEFT_EYEBROW_TOP} color={Colors.green} />
+        <FacialFeature points={LEFT_EYEBROW_BOTTOM} color={Colors.green} />
+
+        {/* Right Eyebrow */}
+        <FacialFeature points={RIGHT_EYEBROW_TOP} color={Colors.green} />
+        <FacialFeature points={RIGHT_EYEBROW_BOTTOM} color={Colors.green} />
+
+        {/* Lips */}
+        <FacialFeature points={UPPER_LIP_TOP} color={Colors.red} />
+        <FacialFeature points={UPPER_LIP_BOTTOM} color={Colors.red} />
+        <FacialFeature points={LOWER_LIP_TOP} color={Colors.red} />
+        <FacialFeature points={LOWER_LIP_BOTTOM} color={Colors.red} />
+
+        {/* Nose */}
+        <FacialFeature points={NOSE_BRIDGE} color={Colors.purple} />
+        <FacialFeature points={NOSE_BOTTOM} color={Colors.purple} />
+      </G>
+    </Svg>
+  );
 };
 
 const ImageView = ({route, navigation}) => {
@@ -77,11 +211,11 @@ const ImageView = ({route, navigation}) => {
   React.useEffect(() => {
     setDropdownItems(treatmentType === 'fillers' ? fillerAreas : botoxAreas);
     setSelectedArea(null);
-  }, [treatmentType]);
+  }, [treatmentType, image]);
 
-  const getSyringeOptions = (partKey) => {
+  const getSyringeOptions = partKey => {
     const max = facePartSyringeLimits[partKey] || 1;
-    return Array.from({ length: max }, (_, i) => ({
+    return Array.from({length: max}, (_, i) => ({
       label: `${i + 1} Syringe`,
       value: i + 1,
     }));
@@ -93,6 +227,17 @@ const ImageView = ({route, navigation}) => {
         source={{uri: image}}
         style={styles.imageBackground}
         resizeMode="cover">
+        <View
+          style={{
+            position: 'absolute',
+            top: 100,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 1000,
+          }}>
+          <FaceOutline faceData={faceData} />
+        </View>
         <View style={styles.topButtonsAbsolute}>
           <Button
             title="FILLERS"
@@ -176,8 +321,16 @@ const ImageView = ({route, navigation}) => {
                     dropDownDirection="TOP"
                   />
                   {selectedSyringe && (
-                    <Text style={{fontSize: 16, color: Colors.black, marginBottom: 10, fontWeight: '600', alignSelf: 'center'}}>
-                      Selected: {selectedSyringe} syringe{selectedSyringe > 1 ? 's' : ''}
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        color: Colors.black,
+                        marginBottom: 10,
+                        fontWeight: '600',
+                        alignSelf: 'center',
+                      }}>
+                      Selected: {selectedSyringe} syringe
+                      {selectedSyringe > 1 ? 's' : ''}
                     </Text>
                   )}
                 </>
@@ -306,7 +459,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: Colors.white,
     marginBottom: 18,
-    marginTop:10
+    marginTop: 10,
   },
   sliderSection: {
     width: '100%',
