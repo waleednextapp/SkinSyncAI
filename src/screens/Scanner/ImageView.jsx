@@ -80,12 +80,11 @@ const ContourPoints = ({points, color = Colors.pink}) => {
 
 const FacialFeature = ({points, color = Colors.pink}) => {
   if (!points || points.length === 0) return null;
-
-  const pathData =
-    points.reduce((acc, point, index) => {
-      const command = index === 0 ? 'M' : 'L';
-      return `${acc} ${command} ${point.x} ${point.y}`;
-    }, '') + ' Z';
+  
+  const pathData = points.reduce((acc, point, index) => {
+    const command = index === 0 ? 'M' : 'L';
+    return `${acc} ${command} ${point.x} ${point.y}`;
+  }, '') + ' Z';
 
   return (
     <>
@@ -94,14 +93,13 @@ const FacialFeature = ({points, color = Colors.pink}) => {
         stroke={color}
         strokeWidth="2"
         fill="none"
-        opacity={0.8}
       />
       <ContourPoints points={points} color={color} />
     </>
   );
 };
 
-const FaceOutline = ({faceData}) => {
+const FaceOutline = ({faceData, selectedFaceParts}) => {
   if (!faceData?.contours) return null;
 
   const {
@@ -121,31 +119,67 @@ const FaceOutline = ({faceData}) => {
   } = faceData.contours;
 
   const facePoints = FACE;
-  const pathData =
-    facePoints.reduce((acc, point, index) => {
-      const command = index === 0 ? 'M' : 'L';
-      return `${acc} ${command} ${point.x} ${point.y}`;
-    }, '') + ' Z';
+  const pathData = facePoints.reduce((acc, point, index) => {
+    const command = index === 0 ? 'M' : 'L';
+    return `${acc} ${command} ${point.x} ${point.y}`;
+  }, '') + ' Z';
 
   // Calculate center point for rotation
   const centerX = faceData.bounds.x + faceData.bounds.width / 2;
   const centerY = faceData.bounds.y + faceData.bounds.height / 2;
 
-  // Calculate the center of the face bounds
-  const faceCenterX = faceData.bounds.x + faceData.bounds.width / 2;
-  const faceCenterY = faceData.bounds.y + faceData.bounds.height / 2;
-
-  // Calculate the offset to center the face
-  const offsetX =
-    -faceData.bounds.x +
-    (Dimensions.get('window').width - faceData.bounds.width) / 2;
-  const offsetY =
-    -faceData.bounds.y +
-    (Dimensions.get('window').height - faceData.bounds.height) / 2;
+  const renderSelectedFeatures = () => {
+    return selectedFaceParts.map(part => {
+      switch (part) {
+        case 'undereyes':
+          return (
+            <React.Fragment key="undereyes">
+              <FacialFeature points={LEFT_EYE} color={Colors.blue} />
+              <FacialFeature points={RIGHT_EYE} color={Colors.blue} />
+            </React.Fragment>
+          );
+        case 'lips':
+          return (
+            <React.Fragment key="lips">
+              <FacialFeature points={UPPER_LIP_TOP} color={Colors.red} />
+              <FacialFeature points={UPPER_LIP_BOTTOM} color={Colors.red} />
+              <FacialFeature points={LOWER_LIP_TOP} color={Colors.red} />
+              <FacialFeature points={LOWER_LIP_BOTTOM} color={Colors.red} />
+            </React.Fragment>
+          );
+        case 'cheeks':
+          return (
+            <React.Fragment key="cheeks">
+              <FacialFeature points={LEFT_EYE} color={Colors.blue} />
+              <FacialFeature points={RIGHT_EYE} color={Colors.blue} />
+            </React.Fragment>
+          );
+        case 'forehead':
+          return (
+            <React.Fragment key="forehead">
+              <FacialFeature points={LEFT_EYEBROW_TOP} color={Colors.green} />
+              <FacialFeature points={LEFT_EYEBROW_BOTTOM} color={Colors.green} />
+              <FacialFeature points={RIGHT_EYEBROW_TOP} color={Colors.green} />
+              <FacialFeature points={RIGHT_EYEBROW_BOTTOM} color={Colors.green} />
+            </React.Fragment>
+          );
+        case 'eyebrows':
+          return (
+            <React.Fragment key="eyebrows">
+              <FacialFeature points={LEFT_EYEBROW_TOP} color={Colors.green} />
+              <FacialFeature points={LEFT_EYEBROW_BOTTOM} color={Colors.green} />
+              <FacialFeature points={RIGHT_EYEBROW_TOP} color={Colors.green} />
+              <FacialFeature points={RIGHT_EYEBROW_BOTTOM} color={Colors.green} />
+            </React.Fragment>
+          );
+        default:
+          return null;
+      }
+    });
+  };
 
   return (
     <Svg
-      // style={StyleSheet.absoluteFill}
       width="70%"
       height="70%"
       style={{
@@ -165,33 +199,9 @@ const FaceOutline = ({faceData}) => {
           stroke={Colors.pink}
           strokeWidth="2"
           fill="none"
-          // opacity={0.8}
         />
         <ContourPoints points={facePoints} />
-
-        {/* Left Eye */}
-        <FacialFeature points={LEFT_EYE} color={Colors.blue} />
-
-        {/* Right Eye */}
-        <FacialFeature points={RIGHT_EYE} color={Colors.blue} />
-
-        {/* Left Eyebrow */}
-        <FacialFeature points={LEFT_EYEBROW_TOP} color={Colors.green} />
-        <FacialFeature points={LEFT_EYEBROW_BOTTOM} color={Colors.green} />
-
-        {/* Right Eyebrow */}
-        <FacialFeature points={RIGHT_EYEBROW_TOP} color={Colors.green} />
-        <FacialFeature points={RIGHT_EYEBROW_BOTTOM} color={Colors.green} />
-
-        {/* Lips */}
-        <FacialFeature points={UPPER_LIP_TOP} color={Colors.red} />
-        <FacialFeature points={UPPER_LIP_BOTTOM} color={Colors.red} />
-        <FacialFeature points={LOWER_LIP_TOP} color={Colors.red} />
-        <FacialFeature points={LOWER_LIP_BOTTOM} color={Colors.red} />
-
-        {/* Nose */}
-        <FacialFeature points={NOSE_BRIDGE} color={Colors.purple} />
-        <FacialFeature points={NOSE_BOTTOM} color={Colors.purple} />
+        {renderSelectedFeatures()}
       </G>
     </Svg>
   );
@@ -204,7 +214,7 @@ const ImageView = ({route, navigation}) => {
   const [selectedArea, setSelectedArea] = useState(null);
   const [fillerSyringes, setFillerSyringes] = useState(1);
   const [dropdownItems, setDropdownItems] = useState(fillerAreas);
-  const [selectedFacePart, setSelectedFacePart] = useState('');
+  const [selectedFaceParts, setSelectedFaceParts] = useState([]);
   const [openSyringe, setOpenSyringe] = useState(false);
   const [selectedSyringe, setSelectedSyringe] = useState(null);
 
@@ -219,6 +229,16 @@ const ImageView = ({route, navigation}) => {
       label: `${i + 1} Syringe`,
       value: i + 1,
     }));
+  };
+
+  const handleFacePartSelection = (partKey) => {
+    setSelectedFaceParts(prev => {
+      if (prev.includes(partKey)) {
+        return prev.filter(p => p !== partKey);
+      } else {
+        return [...prev, partKey];
+      }
+    });
   };
 
   return (
@@ -236,7 +256,7 @@ const ImageView = ({route, navigation}) => {
             bottom: 0,
             zIndex: 1000,
           }}>
-          <FaceOutline faceData={faceData} />
+          <FaceOutline faceData={faceData} selectedFaceParts={selectedFaceParts} />
         </View>
         <View style={styles.topButtonsAbsolute}>
           <Button
@@ -277,26 +297,23 @@ const ImageView = ({route, navigation}) => {
                     key={part.key}
                     style={[
                       styles.facePartItem,
-                      selectedFacePart === part.key &&
+                      selectedFaceParts.includes(part.key) &&
                         styles.facePartItemSelected,
                     ]}
-                    onPress={() => {
-                      setSelectedFacePart(part.key);
-                      setSelectedSyringe(null); // Reset syringe selection on new part
-                    }}
+                    onPress={() => handleFacePartSelection(part.key)}
                     activeOpacity={0.8}>
                     <Image
                       source={require('../../assets/images/appLogo.png')}
                       style={[
                         styles.facePartIcon,
-                        selectedFacePart === part.key &&
+                        selectedFaceParts.includes(part.key) &&
                           styles.facePartIconSelected,
                       ]}
                     />
                     <Text
                       style={[
                         styles.facePartLabel,
-                        selectedFacePart === part.key &&
+                        selectedFaceParts.includes(part.key) &&
                           styles.facePartLabelSelected,
                       ]}>
                       {part.label}
@@ -304,12 +321,12 @@ const ImageView = ({route, navigation}) => {
                   </TouchableOpacity>
                 ))}
               </ScrollView>
-              {selectedFacePart ? (
+              {selectedFaceParts.length > 0 && (
                 <>
                   <DropDownPicker
                     open={openSyringe}
                     value={selectedSyringe}
-                    items={getSyringeOptions(selectedFacePart)}
+                    items={getSyringeOptions(selectedFaceParts[0])}
                     setOpen={setOpenSyringe}
                     setValue={setSelectedSyringe}
                     setItems={() => {}}
@@ -334,7 +351,7 @@ const ImageView = ({route, navigation}) => {
                     </Text>
                   )}
                 </>
-              ) : null}
+              )}
             </>
           ) : (
             <>
