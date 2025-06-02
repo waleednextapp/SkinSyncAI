@@ -43,6 +43,7 @@ export default function FaceAngleCapture() {
     setFaceData(data);
   });
 
+
   useEffect(() => {
     const requestPermission = async () => {
       try {
@@ -159,6 +160,7 @@ export default function FaceAngleCapture() {
   };
 
   const resetCapture = () => {
+    setIsActive(true);
     setFrameProcessingEnabled(true);
     setCaptured(null);
     setCountdown(null);

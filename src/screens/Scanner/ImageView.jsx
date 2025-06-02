@@ -16,6 +16,7 @@ import Button from '../../components/Button';
 import {Colors} from '../../utils/Colors';
 import Slider from 'react-native-sliders';
 import Svg, {Path, Circle, G} from 'react-native-svg';
+import Icon from 'react-native-vector-icons/Ionicons'; // Add this import for the back icon
 
 const fillerAreas = [
   {label: 'Temples', value: 'temples'},
@@ -247,10 +248,16 @@ const ImageView = ({route, navigation}) => {
         source={{uri: image}}
         style={styles.imageBackground}
         resizeMode="cover">
+        {/* Back Button */}
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}>
+          <Icon name="arrow-back" size={24} color={Colors.white} />
+        </TouchableOpacity>
         <View
           style={{
             position: 'absolute',
-            top: 100,
+            top: 90,
             left: 0,
             right: 0,
             bottom: 0,
@@ -565,5 +572,14 @@ const styles = StyleSheet.create({
   facePartLabelSelected: {
     color: Colors.white,
     fontWeight: 'bold',
+  },
+  backButton: {
+    position: 'absolute',
+    top: Platform.OS === 'android' ? (StatusBar.currentHeight || 40) + 10 : 50,
+    left: 20,
+    zIndex: 50,
+    backgroundColor: Colors.black,
+    padding: 10,
+    borderRadius: 20,
   },
 });
