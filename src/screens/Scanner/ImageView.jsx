@@ -3,7 +3,6 @@ import {
   Text,
   View,
   ImageBackground,
-  Dimensions,
   Platform,
   StatusBar,
   Image,
@@ -11,10 +10,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {useState} from 'react';
-import DropDownPicker from 'react-native-dropdown-picker';
+import {Dropdown} from 'react-native-element-dropdown';
 import Button from '../../components/Button';
 import {Colors} from '../../utils/Colors';
-import Slider from 'react-native-sliders';
 import Svg, {Path, Circle, G} from 'react-native-svg';
 import Icon from 'react-native-vector-icons/Ionicons'; // Add this import for the back icon
 
@@ -81,20 +79,16 @@ const ContourPoints = ({points, color = Colors.pink}) => {
 
 const FacialFeature = ({points, color = Colors.pink}) => {
   if (!points || points.length === 0) return null;
-  
-  const pathData = points.reduce((acc, point, index) => {
-    const command = index === 0 ? 'M' : 'L';
-    return `${acc} ${command} ${point.x} ${point.y}`;
-  }, '') + ' Z';
+
+  const pathData =
+    points.reduce((acc, point, index) => {
+      const command = index === 0 ? 'M' : 'L';
+      return `${acc} ${command} ${point.x} ${point.y}`;
+    }, '') + ' Z';
 
   return (
     <>
-      <Path
-        d={pathData}
-        stroke={color}
-        strokeWidth="2"
-        fill="none"
-      />
+      <Path d={pathData} stroke={color} strokeWidth="2" fill="none" />
       <ContourPoints points={points} color={color} />
     </>
   );
@@ -120,10 +114,11 @@ const FaceOutline = ({faceData, selectedFaceParts}) => {
   } = faceData.contours;
 
   const facePoints = FACE;
-  const pathData = facePoints.reduce((acc, point, index) => {
-    const command = index === 0 ? 'M' : 'L';
-    return `${acc} ${command} ${point.x} ${point.y}`;
-  }, '') + ' Z';
+  const pathData =
+    facePoints.reduce((acc, point, index) => {
+      const command = index === 0 ? 'M' : 'L';
+      return `${acc} ${command} ${point.x} ${point.y}`;
+    }, '') + ' Z';
 
   // Calculate center point for rotation
   const centerX = faceData.bounds.x + faceData.bounds.width / 2;
@@ -159,18 +154,30 @@ const FaceOutline = ({faceData, selectedFaceParts}) => {
           return (
             <React.Fragment key="forehead">
               <FacialFeature points={LEFT_EYEBROW_TOP} color={Colors.green} />
-              <FacialFeature points={LEFT_EYEBROW_BOTTOM} color={Colors.green} />
+              <FacialFeature
+                points={LEFT_EYEBROW_BOTTOM}
+                color={Colors.green}
+              />
               <FacialFeature points={RIGHT_EYEBROW_TOP} color={Colors.green} />
-              <FacialFeature points={RIGHT_EYEBROW_BOTTOM} color={Colors.green} />
+              <FacialFeature
+                points={RIGHT_EYEBROW_BOTTOM}
+                color={Colors.green}
+              />
             </React.Fragment>
           );
         case 'eyebrows':
           return (
             <React.Fragment key="eyebrows">
               <FacialFeature points={LEFT_EYEBROW_TOP} color={Colors.green} />
-              <FacialFeature points={LEFT_EYEBROW_BOTTOM} color={Colors.green} />
+              <FacialFeature
+                points={LEFT_EYEBROW_BOTTOM}
+                color={Colors.green}
+              />
               <FacialFeature points={RIGHT_EYEBROW_TOP} color={Colors.green} />
-              <FacialFeature points={RIGHT_EYEBROW_BOTTOM} color={Colors.green} />
+              <FacialFeature
+                points={RIGHT_EYEBROW_BOTTOM}
+                color={Colors.green}
+              />
             </React.Fragment>
           );
         default:
@@ -195,12 +202,7 @@ const FaceOutline = ({faceData, selectedFaceParts}) => {
       viewBox={`${faceData.bounds.x} ${faceData.bounds.y} ${faceData.bounds.width} ${faceData.bounds.height}`}>
       <G transform={`rotate(90, ${centerX}, ${centerY})`}>
         {/* Face outline */}
-        <Path
-          d={pathData}
-          stroke={Colors.pink}
-          strokeWidth="2"
-          fill="none"
-        />
+        <Path d={pathData} stroke={Colors.pink} strokeWidth="2" fill="none" />
         <ContourPoints points={facePoints} />
         {renderSelectedFeatures()}
       </G>
@@ -211,13 +213,26 @@ const FaceOutline = ({faceData, selectedFaceParts}) => {
 const ImageView = ({route, navigation}) => {
   const {image, faceData} = route.params;
   const [treatmentType, setTreatmentType] = useState('fillers');
-  const [open, setOpen] = useState(false);
   const [selectedArea, setSelectedArea] = useState(null);
   const [fillerSyringes, setFillerSyringes] = useState(1);
   const [dropdownItems, setDropdownItems] = useState(fillerAreas);
   const [selectedFaceParts, setSelectedFaceParts] = useState([]);
-  const [openSyringe, setOpenSyringe] = useState(false);
   const [selectedSyringe, setSelectedSyringe] = useState(null);
+  const [facePartSyringes, setFacePartSyringes] = useState({});
+  const [currentFacePart, setCurrentFacePart] = useState(null);
+  const [selectedMidfaceSubArea, setSelectedMidfaceSubArea] = useState(null);
+
+  const midfaceSubAreas = [
+    {label: 'Tear Trough', value: 'tear_trough'},
+    {label: 'Cheeks', value: 'cheeks'},
+    {label: 'Nasolabial Folds', value: 'nasolabial_folds'},
+    {label: 'Prearicular Area', value: 'prearicular'},
+  ];
+
+  const totalSyringes = Object.values(facePartSyringes).reduce(
+    (sum, count) => sum + count,
+    0,
+  );
 
   React.useEffect(() => {
     setDropdownItems(treatmentType === 'fillers' ? fillerAreas : botoxAreas);
@@ -232,14 +247,38 @@ const ImageView = ({route, navigation}) => {
     }));
   };
 
-  const handleFacePartSelection = (partKey) => {
+  const handleFacePartSelection = partKey => {
     setSelectedFaceParts(prev => {
       if (prev.includes(partKey)) {
+        setFacePartSyringes(prev => {
+          const newState = {...prev};
+          delete newState[partKey];
+          return newState;
+        });
+        if (currentFacePart === partKey) {
+          setCurrentFacePart(null);
+          setSelectedSyringe(null);
+        }
         return prev.filter(p => p !== partKey);
       } else {
+        setFacePartSyringes(prev => ({
+          ...prev,
+          [partKey]: 1,
+        }));
+        setCurrentFacePart(partKey);
+        setSelectedSyringe(1);
         return [...prev, partKey];
       }
     });
+  };
+
+  const handleSyringeChange = value => {
+    if (currentFacePart) {
+      setFacePartSyringes(prev => ({
+        ...prev,
+        [currentFacePart]: value,
+      }));
+    }
   };
 
   return (
@@ -263,7 +302,10 @@ const ImageView = ({route, navigation}) => {
             bottom: 0,
             zIndex: 1000,
           }}>
-          <FaceOutline faceData={faceData} selectedFaceParts={selectedFaceParts} />
+          <FaceOutline
+            faceData={faceData}
+            selectedFaceParts={selectedFaceParts}
+          />
         </View>
         <View style={styles.topButtonsAbsolute}>
           <Button
@@ -330,33 +372,73 @@ const ImageView = ({route, navigation}) => {
               </ScrollView>
               {selectedFaceParts.length > 0 && (
                 <>
-                  <DropDownPicker
-                    open={openSyringe}
-                    value={selectedSyringe}
-                    items={getSyringeOptions(selectedFaceParts[0])}
-                    setOpen={setOpenSyringe}
-                    setValue={setSelectedSyringe}
-                    setItems={() => {}}
-                    placeholder="Select Syringe Count"
-                    style={[styles.dropdown, {zIndex: 3000}]}
-                    containerStyle={{zIndex: 3000, marginBottom: 10}}
-                    dropDownContainerStyle={{zIndex: 3000}}
-                    listMode="SCROLLVIEW"
-                    dropDownDirection="TOP"
-                  />
-                  {selectedSyringe && (
+                  <View style={{width: '100%', marginBottom: 10}}>
                     <Text
                       style={{
                         fontSize: 16,
                         color: Colors.black,
-                        marginBottom: 10,
+                        marginBottom: 5,
                         fontWeight: '600',
-                        alignSelf: 'center',
                       }}>
-                      Selected: {selectedSyringe} syringe
-                      {selectedSyringe > 1 ? 's' : ''}
+                      {currentFacePart
+                        ? fillerFaceParts.find(p => p.key === currentFacePart)
+                            ?.label
+                        : 'Select Face Part'}
                     </Text>
-                  )}
+                    <Dropdown
+                      style={[styles.dropdown]}
+                      placeholderStyle={styles.placeholderStyle}
+                      selectedTextStyle={styles.selectedTextStyle}
+                      inputSearchStyle={styles.inputSearchStyle}
+                      iconStyle={styles.iconStyle}
+                      data={
+                        currentFacePart
+                          ? getSyringeOptions(currentFacePart)
+                          : []
+                      }
+                      maxHeight={300}
+                      labelField="label"
+                      valueField="value"
+                      placeholder="Select Syringe Count"
+                      searchPlaceholder="Search..."
+                      value={selectedSyringe}
+                      dropdownPosition="top"
+                      onChange={item => {
+                        setSelectedSyringe(item.value);
+                        handleSyringeChange(item.value);
+                      }}
+                    />
+                    {currentFacePart === 'midface' && (
+                      <Dropdown
+                        style={[styles.dropdown]}
+                        placeholderStyle={styles.placeholderStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
+                        inputSearchStyle={styles.inputSearchStyle}
+                        iconStyle={styles.iconStyle}
+                        data={midfaceSubAreas}
+                        maxHeight={300}
+                        labelField="label"
+                        valueField="value"
+                        placeholder="Select Midface Area"
+                        searchPlaceholder="Search..."
+                        value={selectedMidfaceSubArea}
+                        dropdownPosition="top"
+                        onChange={item => {
+                          setSelectedMidfaceSubArea(item.value);
+                        }}
+                      />
+                    )}
+                  </View>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      color: Colors.black,
+                      marginBottom: 10,
+                      fontWeight: 'bold',
+                      alignSelf: 'center',
+                    }}>
+                    Total Syringes: {totalSyringes}
+                  </Text>
                 </>
               )}
             </>
@@ -476,7 +558,6 @@ const styles = StyleSheet.create({
     zIndex: 100,
   },
   dropdown: {
-    width: '100%',
     height: 55,
     borderColor: Colors.bordeColor,
     borderWidth: 1,
@@ -484,6 +565,23 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     marginBottom: 18,
     marginTop: 10,
+    paddingHorizontal: 8,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+    color: Colors.black,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+    color: Colors.black,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
   },
   sliderSection: {
     width: '100%',
@@ -575,7 +673,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: Platform.OS === 'android' ? (StatusBar.currentHeight || 40) + 10 : 50,
+    top: Platform.OS === 'android' ? (StatusBar.currentHeight || 40) + 10 : 57,
     left: 20,
     zIndex: 50,
     backgroundColor: Colors.black,
