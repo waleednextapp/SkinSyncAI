@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {useState} from 'react';
-import {Dropdown} from 'react-native-element-dropdown';
+import {Dropdown, MultiSelect} from 'react-native-element-dropdown';
 import Button from '../../components/Button';
 import {Colors} from '../../utils/Colors';
 import Svg, {Path, Circle, G} from 'react-native-svg';
@@ -40,6 +40,8 @@ const botoxAreas = [
 
 const fillerFaceParts = [
   {key: 'midface', label: 'Midface'},
+  {key: 'lowerface', label: 'Lowerface'},
+  {key: 'jawline_neck', label: 'Jawline and Neck'},
   {key: 'undereyes', label: 'Undereyes'},
   {key: 'lips', label: 'Lips'},
   {key: 'cheeks', label: 'Cheeks'},
@@ -61,6 +63,7 @@ const facePartSyringeLimits = {
   forehead: 1,
   eyebrows: 1,
   jawline: 3,
+  lowerface: 1,
 };
 
 const ContourPoints = ({points, color = Colors.pink}) => {
@@ -134,7 +137,7 @@ const FaceOutline = ({faceData, selectedFaceParts}) => {
               <FacialFeature points={RIGHT_EYE} color={Colors.blue} />
             </React.Fragment>
           );
-        case 'lips':
+        case 'lips' || 'lowerface' || 'jawline_neck':
           return (
             <React.Fragment key="lips">
               <FacialFeature points={UPPER_LIP_TOP} color={Colors.red} />
@@ -213,20 +216,33 @@ const FaceOutline = ({faceData, selectedFaceParts}) => {
 const ImageView = ({route, navigation}) => {
   const {image, faceData} = route.params;
   const [treatmentType, setTreatmentType] = useState('fillers');
-  const [selectedArea, setSelectedArea] = useState(null);
+  const [selectedArea, setSelectedArea] = useState([]);
   const [fillerSyringes, setFillerSyringes] = useState(1);
   const [dropdownItems, setDropdownItems] = useState(fillerAreas);
   const [selectedFaceParts, setSelectedFaceParts] = useState([]);
   const [selectedSyringe, setSelectedSyringe] = useState(null);
   const [facePartSyringes, setFacePartSyringes] = useState({});
   const [currentFacePart, setCurrentFacePart] = useState(null);
-  const [selectedMidfaceSubArea, setSelectedMidfaceSubArea] = useState(null);
-
+  const [selectedMidfaceSubArea, setSelectedMidfaceSubArea] = useState([]);
+  const [selectedLowerfaceSubArea, setSelectedLowerfaceSubArea] = useState([]);
+  const [selectedNeckSubArea, setSelectedNeckSubArea] = useState([]);
   const midfaceSubAreas = [
     {label: 'Tear Trough', value: 'tear_trough'},
     {label: 'Cheeks', value: 'cheeks'},
     {label: 'Nasolabial Folds', value: 'nasolabial_folds'},
     {label: 'Prearicular Area', value: 'prearicular'},
+  ];
+
+  const lowerfaceSubAreas = [
+    {label: 'Lips', value: 'lips'},
+    {label: 'Marionette Lines', value: 'marionette_lines'},
+    {label: 'Chin Shadow Area', value: 'chin_shadow_area'},
+    {label: 'Neck', value: 'neck'},
+  ];
+  const neckSubAreas = [
+    {label: 'Jawline', value: 'jawline'},
+    {label: 'Pre-Jowl Sulcus', value: 'pre_jowl_sulcus'},
+    {label: 'Neck Lines', value: 'neck_lines'},
   ];
 
   const totalSyringes = Object.values(facePartSyringes).reduce(
@@ -236,7 +252,7 @@ const ImageView = ({route, navigation}) => {
 
   React.useEffect(() => {
     setDropdownItems(treatmentType === 'fillers' ? fillerAreas : botoxAreas);
-    setSelectedArea(null);
+    setSelectedArea([]);
   }, [treatmentType, image]);
 
   const getSyringeOptions = partKey => {
@@ -385,8 +401,71 @@ const ImageView = ({route, navigation}) => {
                             ?.label
                         : 'Select Face Part'}
                     </Text>
+                    {currentFacePart === 'midface' && (
+                      <Dropdown
+                        style={[styles.dropdown, {width: '100%'}]}
+                        placeholderStyle={styles.placeholderStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
+                        inputSearchStyle={styles.inputSearchStyle}
+                        iconStyle={styles.iconStyle}
+                        data={midfaceSubAreas}
+                        maxHeight={300}
+                        labelField="label"
+                        valueField="value"
+                        placeholder="Select Midface Area"
+                        searchPlaceholder="Search..."
+                        value={selectedMidfaceSubArea}
+                        dropdownPosition="top"
+                        multiple={true}
+                        onChange={item => {
+                          setSelectedMidfaceSubArea(item);
+                        }}
+                      />
+                    )}
+                    {currentFacePart === 'lowerface' && (
+                      <Dropdown
+                        style={[styles.dropdown, {width: '100%'}]}
+                        placeholderStyle={styles.placeholderStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
+                        inputSearchStyle={styles.inputSearchStyle}
+                        iconStyle={styles.iconStyle}
+                        data={lowerfaceSubAreas}
+                        maxHeight={300}
+                        labelField="label"
+                        valueField="value"
+                        placeholder="Select Lowerface Area"
+                        searchPlaceholder="Search..."
+                        value={selectedLowerfaceSubArea}
+                        dropdownPosition="top"
+                        multiple={true}
+                        onChange={item => {
+                          setSelectedLowerfaceSubArea(item);
+                        }}
+                      />
+                    )}
+                    {currentFacePart === 'jawline_neck' && (
+                      <Dropdown
+                        style={[styles.dropdown, {width: '100%'}]}
+                        placeholderStyle={styles.placeholderStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
+                        inputSearchStyle={styles.inputSearchStyle}
+                        iconStyle={styles.iconStyle}
+                        data={neckSubAreas}
+                        maxHeight={300}
+                        labelField="label"
+                        valueField="value"
+                        placeholder="Select Neck Area"
+                        searchPlaceholder="Search..."
+                        value={selectedNeckSubArea}
+                        dropdownPosition="top"
+                        multiple={true}
+                        onChange={item => {
+                          setSelectedNeckSubArea(item);
+                        }}
+                      />
+                    )}
                     <Dropdown
-                      style={[styles.dropdown]}
+                      style={[styles.dropdown, {width: '100%'}]}
                       placeholderStyle={styles.placeholderStyle}
                       selectedTextStyle={styles.selectedTextStyle}
                       inputSearchStyle={styles.inputSearchStyle}
@@ -408,26 +487,6 @@ const ImageView = ({route, navigation}) => {
                         handleSyringeChange(item.value);
                       }}
                     />
-                    {currentFacePart === 'midface' && (
-                      <Dropdown
-                        style={[styles.dropdown]}
-                        placeholderStyle={styles.placeholderStyle}
-                        selectedTextStyle={styles.selectedTextStyle}
-                        inputSearchStyle={styles.inputSearchStyle}
-                        iconStyle={styles.iconStyle}
-                        data={midfaceSubAreas}
-                        maxHeight={300}
-                        labelField="label"
-                        valueField="value"
-                        placeholder="Select Midface Area"
-                        searchPlaceholder="Search..."
-                        value={selectedMidfaceSubArea}
-                        dropdownPosition="top"
-                        onChange={item => {
-                          setSelectedMidfaceSubArea(item.value);
-                        }}
-                      />
-                    )}
                   </View>
                   <Text
                     style={{
@@ -444,29 +503,24 @@ const ImageView = ({route, navigation}) => {
             </>
           ) : (
             <>
-              <DropDownPicker
-                open={open}
-                value={selectedArea}
-                items={dropdownItems}
-                setOpen={setOpen}
-                setValue={setSelectedArea}
-                setItems={setDropdownItems}
+              <MultiSelect
+                style={[styles.dropdown, {width: '100%'}]}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                inputSearchStyle={styles.inputSearchStyle}
+                iconStyle={styles.iconStyle}
+                data={dropdownItems}
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
                 placeholder="Select Area"
-                style={styles.dropdown}
-                containerStyle={{zIndex: 1000}}
-                dropDownContainerStyle={{zIndex: 1000}}
-                multiple={true}
-                min={0}
-                max={5}
+                searchPlaceholder="Search..."
+                value={selectedArea}
+                dropdownPosition="top"
+                onChange={item => {
+                  setSelectedArea(item);
+                }}
               />
-              {/* <View style={styles.infoBox}>
-                <Text style={styles.infoText}>
-                  Toggle disappears for this as we are using a general number of
-                  units. Area: Patient clicks on an area under a drop down menu
-                  of problem areas with the ability to select many areas at
-                  once.
-                </Text>
-              </View> */}
             </>
           )}
           <Button
