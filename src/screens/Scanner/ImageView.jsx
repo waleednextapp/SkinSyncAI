@@ -508,6 +508,7 @@ const ImageView = ({route, navigation}) => {
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
+                activeColor={Colors.lightPink}
                 iconStyle={styles.iconStyle}
                 data={dropdownItems}
                 maxHeight={300}
