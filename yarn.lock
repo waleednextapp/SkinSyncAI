@@ -4517,6 +4517,13 @@ react-native-animatable@^1.4.0:
 react-native-dropdown-picker@^5.4.6:
   version "5.4.6"
 
+react-native-element-dropdown@^2.12.4:
+  version "2.12.4"
+  resolved "https://registry.npmjs.org/react-native-element-dropdown/-/react-native-element-dropdown-2.12.4.tgz"
+  integrity sha512-abZc5SVji9FIt7fjojRYrbuvp03CoeZJrgvezQoDoSOrpiTqkX69ix5m+j06W2AVncA0VWvbT+vCMam8SoVadw==
+  dependencies:
+    lodash "^4.17.21"
+
 react-native-gesture-handler@^2.22.1, "react-native-gesture-handler@>= 2.0.0", react-native-gesture-handler@>=2.9.0:
   version "2.25.0"
   dependencies:
