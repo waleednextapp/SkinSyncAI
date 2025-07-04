@@ -42,7 +42,7 @@ const ARModalFaceScreen = ({navigation, route}) => {
 
   const screenWidth = Dimensions.get('window').width;
   const imageWidth = screenWidth * 0.9; // '90%' width of screen
-  const imageHeight = 250;
+  const imageHeight = 260;
 
   // Assuming contours are based on an original resolution
   const originalImageWidth = 1440; // or whatever the original image width is
@@ -52,7 +52,7 @@ const ARModalFaceScreen = ({navigation, route}) => {
   const scaleY = imageHeight / originalImageHeight;
 
   // Remove landmarks console.log and replace with contours
-  console.log('Contours data:', contours);
+  //console.log('Contours data:', contours);
 
   return (
     <SafeAreaView style={styles.safeContainer}>
@@ -74,7 +74,7 @@ const ARModalFaceScreen = ({navigation, route}) => {
           style={[styles.image]}
         />
         <View style={[styles.svgContainer]}>
-          <Svg
+          {/* <Svg
             style={[
               styles.svgOverlay,
               {
@@ -92,7 +92,7 @@ const ARModalFaceScreen = ({navigation, route}) => {
                 />
               ))
             ))}
-          </Svg>
+          </Svg> */}
         </View>
         <View
           style={{
@@ -290,10 +290,11 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 250,
+    height: 260,
     borderRadius: 10,
     resizeMode: 'center',
     alignSelf: 'center',
+    //marginTop: -30,
   },
   overlayText: {
     position: 'absolute',

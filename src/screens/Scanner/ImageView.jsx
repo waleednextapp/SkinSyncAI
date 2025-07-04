@@ -388,10 +388,10 @@ const ImageView = ({route, navigation}) => {
               </ScrollView>
               {selectedFaceParts.length > 0 && (
                 <>
-                  <View style={{width: '100%', marginBottom: 10}}>
+                  <View style={{width: '100%'}}>
                     <Text
                       style={{
-                        fontSize: 16,
+                        fontSize: 14,
                         color: Colors.black,
                         marginBottom: 5,
                         fontWeight: '600',
@@ -481,7 +481,7 @@ const ImageView = ({route, navigation}) => {
                       placeholder="Select Syringe Count"
                       searchPlaceholder="Search..."
                       value={selectedSyringe}
-                      dropdownPosition="top"
+                      dropdownPosition="bottom"
                       onChange={item => {
                         setSelectedSyringe(item.value);
                         handleSyringeChange(item.value);
@@ -490,9 +490,9 @@ const ImageView = ({route, navigation}) => {
                   </View>
                   <Text
                     style={{
-                      fontSize: 18,
+                      fontSize: 14,
                       color: Colors.black,
-                      marginBottom: 10,
+                      //marginBottom: 10,
                       fontWeight: 'bold',
                       alignSelf: 'center',
                     }}>
@@ -528,6 +528,7 @@ const ImageView = ({route, navigation}) => {
             title="PROCEED"
             style={styles.proceedBtn}
             onPress={() => {
+              navigation.navigate('ARModalFace', {photoPath: image, contours:faceData.contours});
               // Handle proceed action
             }}
           />
@@ -542,13 +543,14 @@ export default ImageView;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.black,
+    backgroundColor: '#ffffff',
   },
   imageBackground: {
     flex: 1,
     width: '100%',
-    height: '100%',
+    height: '85%',
     justifyContent: 'flex-end',
+    //
   },
   overlay: {
     position: 'absolute',
@@ -606,21 +608,21 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 20,
     paddingBottom: Platform.OS === 'android' ? 30 : 40,
-    backgroundColor: 'rgba(255,255,255,0.85)',
+    backgroundColor: 'rgb(255,255,255)',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     alignItems: 'center',
     zIndex: 100,
-    //height:280
+    //height:370
   },
   dropdown: {
-    height: 55,
+    height: 30,
     borderColor: Colors.bordeColor,
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: Colors.white,
     marginBottom: 18,
-    marginTop: 10,
+    marginTop: 5,
     paddingHorizontal: 8,
   },
   placeholderStyle: {
@@ -691,13 +693,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
+    //marginBottom: 10,
     paddingVertical: 8,
   },
   facePartItem: {
     alignItems: 'center',
-    marginHorizontal: 8,
-    padding: 6,
+    marginHorizontal: 6,
+    padding: 4,
     borderRadius: 12,
   },
   facePartItemSelected: {
@@ -706,10 +708,10 @@ const styles = StyleSheet.create({
     borderColor: Colors.black,
   },
   facePartIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    marginBottom: 4,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    marginBottom: 2,
     borderWidth: 2,
     borderColor: Colors.bordeColor,
     backgroundColor: Colors.white,
@@ -719,7 +721,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lightPink,
   },
   facePartLabel: {
-    fontSize: 13,
+    fontSize: 11,
     color: Colors.black,
     marginTop: 2,
   },
