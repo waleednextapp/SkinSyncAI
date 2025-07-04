@@ -108,7 +108,7 @@ export default function FaceAngleCapture() {
       const yaw = face.yawAngle;
       const contour = face.contours;
       runSetFaceData(face);
-      console.log('contour', contour);
+      //console.log('contour', contour);
 
       // Get face bounds from landmarks
       let faceCenterX, faceCenterY;

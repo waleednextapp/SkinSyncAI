@@ -45,8 +45,8 @@ const fillerFaceParts = [
   {key: 'undereyes', label: 'Undereyes'},
   {key: 'lips', label: 'Lips'},
   {key: 'cheeks', label: 'Cheeks'},
-  {key: 'forehead', label: 'Forehead'},
-  {key: 'eyebrows', label: 'Eyebrows'},
+  // {key: 'forehead', label: 'Forehead'},
+  // {key: 'eyebrows', label: 'Eyebrows'},
 ];
 
 const syringeOptions = [
@@ -97,121 +97,121 @@ const FacialFeature = ({points, color = Colors.pink}) => {
   );
 };
 
-const FaceOutline = ({faceData, selectedFaceParts}) => {
-  if (!faceData?.contours) return null;
+// const FaceOutline = ({faceData, selectedFaceParts}) => {
+//   if (!faceData?.contours) return null;
 
-  const {
-    FACE,
-    LEFT_EYE,
-    RIGHT_EYE,
-    LEFT_EYEBROW_TOP,
-    LEFT_EYEBROW_BOTTOM,
-    RIGHT_EYEBROW_TOP,
-    RIGHT_EYEBROW_BOTTOM,
-    UPPER_LIP_TOP,
-    UPPER_LIP_BOTTOM,
-    LOWER_LIP_TOP,
-    LOWER_LIP_BOTTOM,
-    NOSE_BRIDGE,
-    NOSE_BOTTOM,
-  } = faceData.contours;
+//   const {
+//     FACE,
+//     LEFT_EYE,
+//     RIGHT_EYE,
+//     LEFT_EYEBROW_TOP,
+//     LEFT_EYEBROW_BOTTOM,
+//     RIGHT_EYEBROW_TOP,
+//     RIGHT_EYEBROW_BOTTOM,
+//     UPPER_LIP_TOP,
+//     UPPER_LIP_BOTTOM,
+//     LOWER_LIP_TOP,
+//     LOWER_LIP_BOTTOM,
+//     NOSE_BRIDGE,
+//     NOSE_BOTTOM,
+//   } = faceData.contours;
 
-  const facePoints = FACE;
-  const pathData =
-    facePoints.reduce((acc, point, index) => {
-      const command = index === 0 ? 'M' : 'L';
-      return `${acc} ${command} ${point.x} ${point.y}`;
-    }, '') + ' Z';
+//   const facePoints = FACE;
+//   const pathData =
+//     facePoints.reduce((acc, point, index) => {
+//       const command = index === 0 ? 'M' : 'L';
+//       return `${acc} ${command} ${point.x} ${point.y}`;
+//     }, '') + ' Z';
 
-  // Calculate center point for rotation
-  const centerX = faceData.bounds.x + faceData.bounds.width / 2;
-  const centerY = faceData.bounds.y + faceData.bounds.height / 2;
+//   // Calculate center point for rotation
+//   const centerX = faceData.bounds.x + faceData.bounds.width / 2;
+//   const centerY = faceData.bounds.y + faceData.bounds.height / 2;
 
-  const renderSelectedFeatures = () => {
-    return selectedFaceParts.map(part => {
-      switch (part) {
-        case 'undereyes':
-          return (
-            <React.Fragment key="undereyes">
-              <FacialFeature points={LEFT_EYE} color={Colors.blue} />
-              <FacialFeature points={RIGHT_EYE} color={Colors.blue} />
-            </React.Fragment>
-          );
-        case 'lips' || 'lowerface' || 'jawline_neck':
-          return (
-            <React.Fragment key="lips">
-              <FacialFeature points={UPPER_LIP_TOP} color={Colors.red} />
-              <FacialFeature points={UPPER_LIP_BOTTOM} color={Colors.red} />
-              <FacialFeature points={LOWER_LIP_TOP} color={Colors.red} />
-              <FacialFeature points={LOWER_LIP_BOTTOM} color={Colors.red} />
-            </React.Fragment>
-          );
-        case 'cheeks':
-          return (
-            <React.Fragment key="cheeks">
-              <FacialFeature points={LEFT_EYE} color={Colors.blue} />
-              <FacialFeature points={RIGHT_EYE} color={Colors.blue} />
-            </React.Fragment>
-          );
-        case 'forehead':
-          return (
-            <React.Fragment key="forehead">
-              <FacialFeature points={LEFT_EYEBROW_TOP} color={Colors.green} />
-              <FacialFeature
-                points={LEFT_EYEBROW_BOTTOM}
-                color={Colors.green}
-              />
-              <FacialFeature points={RIGHT_EYEBROW_TOP} color={Colors.green} />
-              <FacialFeature
-                points={RIGHT_EYEBROW_BOTTOM}
-                color={Colors.green}
-              />
-            </React.Fragment>
-          );
-        case 'eyebrows':
-          return (
-            <React.Fragment key="eyebrows">
-              <FacialFeature points={LEFT_EYEBROW_TOP} color={Colors.green} />
-              <FacialFeature
-                points={LEFT_EYEBROW_BOTTOM}
-                color={Colors.green}
-              />
-              <FacialFeature points={RIGHT_EYEBROW_TOP} color={Colors.green} />
-              <FacialFeature
-                points={RIGHT_EYEBROW_BOTTOM}
-                color={Colors.green}
-              />
-            </React.Fragment>
-          );
-        default:
-          return null;
-      }
-    });
-  };
+//   // const renderSelectedFeatures = () => {
+//   //   return selectedFaceParts.map(part => {
+//   //     switch (part) {
+//   //       case 'undereyes':
+//   //         return (
+//   //           <React.Fragment key="undereyes">
+//   //             <FacialFeature points={LEFT_EYE} color={Colors.blue} />
+//   //             <FacialFeature points={RIGHT_EYE} color={Colors.blue} />
+//   //           </React.Fragment>
+//   //         );
+//   //       case 'lips' || 'lowerface' || 'jawline_neck':
+//   //         return (
+//   //           <React.Fragment key="lips">
+//   //             <FacialFeature points={UPPER_LIP_TOP} color={Colors.red} />
+//   //             <FacialFeature points={UPPER_LIP_BOTTOM} color={Colors.red} />
+//   //             <FacialFeature points={LOWER_LIP_TOP} color={Colors.red} />
+//   //             <FacialFeature points={LOWER_LIP_BOTTOM} color={Colors.red} />
+//   //           </React.Fragment>
+//   //         );
+//   //       case 'cheeks':
+//   //         return (
+//   //           <React.Fragment key="cheeks">
+//   //             <FacialFeature points={LEFT_EYE} color={Colors.blue} />
+//   //             <FacialFeature points={RIGHT_EYE} color={Colors.blue} />
+//   //           </React.Fragment>
+//   //         );
+//   //       case 'forehead':
+//   //         return (
+//   //           <React.Fragment key="forehead">
+//   //             <FacialFeature points={LEFT_EYEBROW_TOP} color={Colors.green} />
+//   //             <FacialFeature
+//   //               points={LEFT_EYEBROW_BOTTOM}
+//   //               color={Colors.green}
+//   //             />
+//   //             <FacialFeature points={RIGHT_EYEBROW_TOP} color={Colors.green} />
+//   //             <FacialFeature
+//   //               points={RIGHT_EYEBROW_BOTTOM}
+//   //               color={Colors.green}
+//   //             />
+//   //           </React.Fragment>
+//   //         );
+//   //       case 'eyebrows':
+//   //         return (
+//   //           <React.Fragment key="eyebrows">
+//   //             <FacialFeature points={LEFT_EYEBROW_TOP} color={Colors.green} />
+//   //             <FacialFeature
+//   //               points={LEFT_EYEBROW_BOTTOM}
+//   //               color={Colors.green}
+//   //             />
+//   //             <FacialFeature points={RIGHT_EYEBROW_TOP} color={Colors.green} />
+//   //             <FacialFeature
+//   //               points={RIGHT_EYEBROW_BOTTOM}
+//   //               color={Colors.green}
+//   //             />
+//   //           </React.Fragment>
+//   //         );
+//   //       default:
+//   //         return null;
+//   //     }
+//   //   });
+//   // };
 
-  return (
-    <Svg
-      width="70%"
-      height="70%"
-      style={{
-        position: 'absolute',
-        top: '40%',
-        left: '50%',
-        transform: [
-          {translateX: -faceData.bounds.width / 4},
-          {translateY: -faceData.bounds.height / 4},
-        ],
-      }}
-      viewBox={`${faceData.bounds.x} ${faceData.bounds.y} ${faceData.bounds.width} ${faceData.bounds.height}`}>
-      <G transform={`rotate(90, ${centerX}, ${centerY})`}>
-        {/* Face outline */}
-        <Path d={pathData} stroke={Colors.pink} strokeWidth="2" fill="none" />
-        <ContourPoints points={facePoints} />
-        {renderSelectedFeatures()}
-      </G>
-    </Svg>
-  );
-};
+//   return (
+//     <Svg
+//       width="70%"
+//       height="70%"
+//       style={{
+//         position: 'absolute',
+//         top: '40%',
+//         left: '50%',
+//         transform: [
+//           {translateX: -faceData.bounds.width / 4},
+//           {translateY: -faceData.bounds.height / 4},
+//         ],
+//       }}
+//       viewBox={`${faceData.bounds.x} ${faceData.bounds.y} ${faceData.bounds.width} ${faceData.bounds.height}`}>
+//       <G transform={`rotate(90, ${centerX}, ${centerY})`}>
+//         {/* Face outline */}
+//         <Path d={pathData} stroke={Colors.pink} strokeWidth="2" fill="none" />
+//         <ContourPoints points={facePoints} />
+//         {/*{renderSelectedFeatures()}*/}
+//       </G>
+//     </Svg>
+//   );
+// };
 
 const ImageView = ({route, navigation}) => {
   const {image, faceData} = route.params;
@@ -318,10 +318,10 @@ const ImageView = ({route, navigation}) => {
             bottom: 0,
             zIndex: 1000,
           }}>
-          <FaceOutline
+          {/* <FaceOutline
             faceData={faceData}
             selectedFaceParts={selectedFaceParts}
-          />
+          /> */}
         </View>
         <View style={styles.topButtonsAbsolute}>
           <Button
@@ -611,6 +611,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 24,
     alignItems: 'center',
     zIndex: 100,
+    //height:280
   },
   dropdown: {
     height: 55,
